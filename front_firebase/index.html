@@ -1,36 +1,523 @@
-<html lang="en">
-<head>
-    <script src="https://code.jquery.com/jquery-3.4.1.slim.min.js" integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n" crossorigin="anonymous"></script>
-<script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
-<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js" integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6" crossorigin="anonymous"></script>
-<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">    
-<meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Cover Page</title>
-        <!-- Custom styles for this template -->
-        <link href="cover.css" rel="stylesheet">
-</head>
-<body>
-    <body class="text-center"></body>
-        <div class="cover-container d-flex w-100 h-100 p-3 mx-auto flex-column">
-      <header class="masthead mb-auto">
-        <div class="inner">
-          <h3 class="masthead-brand">:)</h3>
+<!doctype html>
+<html class="no-js" lang="zxx">
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="x-ua-compatible" content="ie=edge">
+        <title>MaskSaver </title>
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <link rel="manifest" href="site.webmanifest">
+		<link rel="shortcut icon" type="image/x-icon" href="assets/img/favicon.ico">
+
+		<!-- CSS here -->
+            <link rel="stylesheet" href="assets/css/bootstrap.min.css">
+            <link rel="stylesheet" href="assets/css/owl.carousel.min.css">
+            <link rel="stylesheet" href="assets/css/flaticon.css">
+            <link rel="stylesheet" href="assets/css/slicknav.css">
+            <link rel="stylesheet" href="assets/css/animate.min.css">
+            <link rel="stylesheet" href="assets/css/magnific-popup.css">
+            <link rel="stylesheet" href="assets/css/fontawesome-all.min.css">
+            <link rel="stylesheet" href="assets/css/themify-icons.css">
+            <link rel="stylesheet" href="assets/css/slick.css">
+            <link rel="stylesheet" href="assets/css/nice-select.css">
+            <link rel="stylesheet" href="assets/css/style.css">
+   </head>
+
+   <body>
+       
+    <!-- Preloader Start -->
+    <div id="preloader-active">
+        <div class="preloader d-flex align-items-center justify-content-center">
+            <div class="preloader-inner position-relative">
+                <div class="preloader-circle"></div>
+                <div class="preloader-img pere-text">
+                    <img src="assets/img/logo/logo.png" alt="">
+                </div>
+            </div>
         </div>
-      </header>
-    
-      <main role="main" class="inner cover">
-        <h1 class="cover-heading"><p>세종대학교 캡스톤 프로젝트</p><p>마스크 수호자</p></h1>
-        <p class="lead"></p>
-        <p class="lead">
-          <a href="./login.html" class="btn btn-lg btn-secondary">로그인 페이지</a>
-        </p>
-      </main>
-    
-      <footer class="mastfoot mt-auto">
-        <div class="inner">
-          <p>Sejong University Mask Guardian</p>
+    </div>
+    <!-- Preloader Start -->
+
+    <header>
+        <!-- Header Start -->
+       <div class="header-area header-transparrent ">
+            <div class="main-header header-sticky">
+                <div class="container">
+                    <div class="row align-items-center">
+                        <!-- Logo -->
+                        <div class="col-xl-2 col-lg-2 col-md-2">
+                            <div class="logo">
+                                <a href="index.html"><img src="assets/img/logo/logo.png" alt=""></a>
+                            </div>
+                        </div>
+                        <div class="col-xl-10 col-lg-10 col-md-10">
+                            <!-- Main-menu -->
+                            <div class="main-menu f-right d-none d-lg-block">
+                                <nav>
+                                    <ul id="navigation">    
+                                        <li class="active"><a href="index.html"> Home</a></li>
+                                        <li><a href="https://etherscan.io/">Transaction</a></li>
+                                        <li><a href="#">Manage</a>
+                                            <ul class="submenu">
+                                                <li><a href="template.html">Manufacturer</a></li>
+                                                <li><a href="template.html">Distributor</a></li>
+                                                <li><a href="template.html">Seller</a></li>
+                                            </ul>
+                                        </li>
+                                        <li><a href="template.html">Contact</a></li>
+                                        <a data-animation="fadeInLeft" data-delay="1.0s" href="login.html" class="btn radius-btn" id="loginButton">Login</a>
+                                        <a data-animation="fadeInLeft" data-delay="1.0s" onclick="logOut()" class="btn radius-btn" id="logoutButton">Logout</a>
+                                    </ul>
+                                </nav>
+                            </div>
+                        </div>
+                        <!-- Mobile Menu -->
+                        <div class="col-12">
+                            <div class="mobile_menu d-block d-lg-none"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+       </div>
+        <!-- Header End -->
+    </header>
+
+    <main>
+
+        <!-- Slider Area Start-->
+        <div class="slider-area ">
+            <div class="slider-active">
+                <div class="single-slider slider-height slider-padding sky-blue d-flex align-items-center">
+                    <div class="container">
+                        <div class="row d-flex align-items-center">
+                            <div class="col-lg-6 col-md-9 ">
+                                <div class="hero__caption">
+                                    <span data-animation="fadeInUp" data-delay=".4s">MaskSaver - Blockchain</span>
+                                    <h1 data-animation="fadeInUp" data-delay=".6s">블록체인 마스크<br>유통 관리 시스템</h1>
+                                    <p data-animation="fadeInUp" data-delay=".8s">Ethereum 을 활용한 마스크 유통 관리 시스템</p>
+                                </div>
+                                <div class="slider-btns">
+                                    <!-- Hero-btn -->
+                                    <a data-animation="fadeInLeft" data-delay="1.0s" href="https://github.com/HanJaehee/blockchain_mask" class="btn radius-btn">Github</a>
+                                </div>
+                            </div>
+                            <div class="col-lg-6">
+                                <div class="hero__img d-none d-lg-block f-right" data-animation="fadeInRight" data-delay="1s">
+                                    <img src="assets/img/hero/hero_right.png" alt="">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div> 
+            </div>
         </div>
-      </footer>
-</body>
+        <!-- Slider Area End -->
+        <!-- Best Features Start -->
+        <section class="best-features-area section-padd4">
+            <div class="container">
+                <div class="row justify-content-end">
+                    <div class="col-xl-8 col-lg-10">
+                        <!-- Section Tittle -->
+                        <div class="row">
+                            <div class="col-lg-10 col-md-10">
+                                <div class="section-tittle">
+                                    <h2>블록체인이 가지는 강점?</h2>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- Section caption -->
+                        <div class="row">
+                            <div class="col-xl-6 col-lg-6 col-md-6">
+                                <div class="single-features mb-70">
+                                    <div class="features-icon">
+                                        <span class="flaticon-support"></span>
+                                    </div>
+                                    <div class="features-caption">
+                                        <h3>신뢰성</h3>
+                                        <p>블록체인은 모두가 참여하기 때문에 한 사람이 배신때려도 신뢰도가 높다.</p>
+                                    </div>
+                                </div>
+                            </div>
+                             <div class="col-xl-6 col-lg-6 col-md-6">
+                                <div class="single-features mb-70">
+                                    <div class="features-icon">
+                                        <span class="flaticon-support"></span>
+                                    </div>
+                                    <div class="features-caption">
+                                        <h3>조작 불가능</h3>
+                                        <p>공통된 거래내역을 모두가 가지고 있기 때문에 한명이 조작해도 티가 금방난다.</p>
+                                    </div>
+                                </div>
+                            </div> 
+                            <div class="col-xl-6 col-lg-6 col-md-6">
+                                <div class="single-features mb-70">
+                                    <div class="features-icon">
+                                        <span class="flaticon-support"></span>
+                                    </div>
+                                    <div class="features-caption">
+                                        <h3>투명성</h3>
+                                        <p>기존의 시스템과는 다르게 거래내역을 언제든 원할 때 누구나 열람할 수 있다.</p>
+                                    </div>
+                                </div>
+                            </div>
+                             <div class="col-xl-6 col-lg-6 col-md-6">
+                                <div class="single-features mb-70">
+                                    <div class="features-icon">
+                                        <span class="flaticon-support"></span>
+                                    </div>
+                                    <div class="features-caption">
+                                        <h3>편리함</h3>
+                                        <p>사용자들은 블록체인이 기저에 있다는 것을 알 필요가 없을만큼 편하다.</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- Shpe -->
+            <div class="features-shpae d-none d-lg-block">
+                <img src="assets/img/shape/best-features.png" alt="">
+            </div>
+        </section>
+        <!-- Best Features End -->
+        <!-- Services Area Start -->
+        <section class="service-area sky-blue section-padding2">
+            <div class="container">
+                <!-- Section Tittle -->
+                <div class="row d-flex justify-content-center">
+                    <div class="col-lg-6">
+                        <div class="section-tittle text-center">
+                            <h2>저희의<br>개발목적!</h2>
+                        </div>
+                    </div>
+                </div>
+                <!-- Section caption -->
+                <div class="row">
+                    <div class="col-xl-4 col-lg-4 col-md-6">
+                        <div class="services-caption text-center mb-30">
+                            <div class="service-icon">
+                                <span class="flaticon-businessman"></span>
+                            </div> 
+                            <div class="service-cap">
+                                <h4><a href="#">QUICK 조회</a></h4>
+                                <p>공개된 블록체인 장부를 이용해 빠르고 쉽게 거래내역을 조회합니다!</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-xl-4 col-lg-4 col-md-6">
+                        <div class="services-caption active text-center mb-30">
+                            <div class="service-icon">
+                                <span class="flaticon-pay"></span>
+                            </div> 
+                            <div class="service-cap">
+                                <h4><a href="#">EASY 관리</a></h4>
+                                <p>한두번의 클릭으로 쉽게 물량을 <br> 이동시키고 한 번에 전부를 관리합니다.</p>
+                            </div>
+                        </div>
+                    </div> 
+                    <div class="col-xl-4 col-lg-4 col-md-6">
+                        <div class="services-caption text-center mb-30">
+                            <div class="service-icon">
+                                <span class="flaticon-plane"></span>
+                            </div> 
+                            <div class="service-cap">
+                                <h4><a href="#">COOL 거래</a></h4>
+                                <p>빠르고 안전한 블록체인 스마트 컨트랙트를 사용해 쉽게 계약서를 작성합니다.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+        
+        <!-- Our Customer Start -->
+        <div class="our-customer section-padd-top30">
+            <div class="container-fluid">
+            <div class="our-customer-wrapper">
+                    <!-- Section Tittle -->
+                    <div class="row d-flex justify-content-center">
+                        <div class="col-xl-8">
+                            <div class="section-tittle text-center">
+                                <h2>변화 양상</h2>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-12">
+                            <div class="customar-active dot-style d-flex dot-style">
+                                <div class="single-customer mb-100">
+                                    <div class="what-img">
+                                        <img src="assets/img/shape/man1.png" alt="">
+                                    </div>
+                                    <div class="what-cap">
+                                        <h4><a href="#">제조사</a></h4>
+                                        <p>불법 여부를 자체적으로 체크하기도 귀찮았는데 이젠 대쉬보드에 들어가면 바로 보여요! 계약서 작성도 너무 쉬워졌습니다!</p>
+                                    </div>
+                                </div>
+                            
+                                <div class="single-customer mb-100">
+                                    <div class="what-img">
+                                        <img src="assets/img/shape/man2.png" alt="">
+                                    </div>
+                                    <div class="what-cap">
+                                        <h4><a href="#">유통사</a></h4>
+                                        <p>유통과정에서 필요했던 경쟁사의 정보도 투명하게 볼 수 있습니다! 조금 더 공정한 거래가 되겠네요!</p>
+                                    </div>
+                                </div>
+                            
+                                <div class="single-customer mb-100">
+                                    <div class="what-img">
+                                        <img src="assets/img/shape/man3.png" alt="">
+                                    </div>
+                                    <div class="what-cap">
+                                        <h4><a href="#">판매사</a></h4>
+                                        <p>판매점에서 이전과 같이 정해진 물량을 판매하고 그 내용을 공개하니 조금 더 투명하고 신뢰성있는 시장에 일조하는 것 같아 기분이 좋습니다!</p>
+                                    </div>
+                                </div>
+                            
+                                <div class="single-customer mb-100">
+                                    <div class="what-img">
+                                        <img src="assets/img/shape/man2.png" alt="">
+                                    </div>
+                                    <div class="what-cap">
+                                        <h4><a href="#">소비자</a></h4>
+                                        <p>제가 구매한 마스크가 어디에서 어디로 이동했는지 보기 쉬워서 만족스럽고 마스크 유통 과정에 대한 믿음이 가요!</p>
+                                    </div>
+                                </div>
+                            
+                            </div>
+                        </div>
+                    </div>
+            </div>
+            </div>
+        </div>           
+        <!-- Our Customer End -->
+        <!-- Available App  Start-->
+        <div class="available-app-area">
+            <div class="container">
+                <div class="row d-flex justify-content-between">
+                    <div class="col-xl-5 col-lg-5">
+                        <div class="app-caption">
+                            <div class="section-tittle section-tittle3">
+                                <h2>Our App Available Maybe..?</h2>
+                                <p>언젠가 준비해보도록 하겠습니다.</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-xl-6 col-lg-6">
+                        <div class="app-img">
+                            <img src="assets/img/shape/available-app.png" alt="">
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- Shape -->
+            <div class="app-shape">
+                <img src="assets/img/shape/app-shape-top.png" alt="" class="app-shape-top heartbeat d-none d-lg-block">
+                <img src="assets/img/shape/app-shape-left.png" alt="" class="app-shape-left d-none d-xl-block">
+                <!-- <img src="assets/img/shape/app-shape-right.png" alt="" class="app-shape-right bounce-animate "> -->
+            </div>
+        </div>
+        <!-- Available App End-->
+        <!-- Say Something Start -->
+        <div class="say-something-aera pt-90 pb-90 fix">
+            <div class="container">
+                <div class="row justify-content-between align-items-center">
+                    <div class="offset-xl-1 offset-lg-1 col-xl-5 col-lg-5">
+                        <div class="say-something-cap">
+                            <h2>언제든 연락주십쇼</h2>
+                        </div>
+                    </div>
+                    <div class="col-xl-2 col-lg-3">
+                        <div class="say-btn">
+                            <a href="https://github.com/HanJaehee/blockchain_mask" class="btn radius-btn">Contact Us</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- shape -->
+            <div class="say-shape">
+                <img src="assets/img/shape/say-shape-left.png" alt="" class="say-shape1 rotateme d-none d-xl-block">
+                <img src="assets/img/shape/say-shape-right.png" alt="" class="say-shape2 d-none d-lg-block">
+            </div>
+        </div>
+        <!-- Say Something End -->
+     
+    </main>
+   <footer>
+
+       <!-- Footer Start-->
+      <div class="footer-main">
+        <div class="footer-area footer-padding">
+            <div class="container">
+                <div class="row  justify-content-between">
+                    <div class="col-lg-3 col-md-4 col-sm-8">
+                         <div class="single-footer-caption mb-30">
+                              <!-- logo -->
+                             <div class="footer-logo">
+                                 <a href="index.html"><img src="assets/img/logo/logo2_footer.png" alt=""></a>
+                             </div>
+                             <div class="footer-tittle">
+                                 <div class="footer-pera">
+                                     <p class="info1">Ethereum blockchain <br> Mask management system</p>
+                                </div>
+                             </div>
+                         </div>
+                    </div>
+                    <div class="col-lg-2 col-md-4 col-sm-5">
+                        <div class="single-footer-caption mb-50">
+                            <div class="footer-tittle">
+                                <h4>Quick Links</h4>
+                                <ul>
+                                    <li><a href="#">Login</a></li>
+                                    <li><a href="#">필요기능</a></li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-lg-2 col-md-4 col-sm-7">
+                        <div class="single-footer-caption mb-50">
+                            <div class="footer-tittle">
+                                <h4>Support</h4>
+                                <ul>
+                                    <li><a href="#">여기 바꾸기</a></li>
+                                    <li><a href="#">Report a bug</a></li>
+                                    <li><a href="#">Privacy Policy</a></li>
+                                    <li><a href="#">Terms & Conditions</a></li>
+                                    <li><a href="#">Sitemap</a></li>
+                                    <li><a href="#">FAQs</a></li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-lg-3 col-md-6 col-sm-8">
+                        <div class="single-footer-caption mb-50">
+                            <div class="footer-tittle">
+                                <h4>Newsletter</h4>
+                                <div class="footer-pera footer-pera2">
+                                 <p>뉴스레터가 도착하기를 빌며.. </p>
+                             </div>
+                             <!-- Form -->
+                             <div class="footer-form">
+                                 <div id="mc_embed_signup">
+                                     <form target="_blank" action="https://spondonit.us12.list-manage.com/subscribe/post?u=1462626880ade1ac87bd9c93a&amp;id=92a4423d01" method="get" class="subscribe_form relative mail_part" novalidate="true">
+                                         <input type="email" name="EMAIL" id="newsletter-form-email" placeholder=" Email Address " class="placeholder hide-on-focus" onfocus="this.placeholder = ''" onblur="this.placeholder = ' Email Address '">
+                                         <div class="form-icon">
+                                             <button type="submit" name="submit" id="newsletter-submit" class="email_icon newsletter-submit button-contactForm"><img src="assets/img/shape/form_icon.png" alt=""></button>
+                                         </div>
+                                         <div class="mt-10 info"></div>
+                                     </form>
+                                 </div>
+                             </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- Copy-Right -->
+                <div class="row align-items-center">
+                    <div class="col-xl-12 ">
+                        <div class="footer-copy-right">
+                           <p><!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. -->
+  Copyright &copy;<script>document.write(new Date().getFullYear());</script> All rights reserved | This template is made with <i class="ti-heart" aria-hidden="true"></i> by <a href="https://colorlib.com" target="_blank">Colorlib</a>
+  <!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. --></p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+      </div>
+       <!-- Footer End-->
+
+   </footer>
+   
+	<!-- JS here -->
+	
+		<!-- All JS Custom Plugins Link Here here -->
+        <script src="./assets/js/vendor/modernizr-3.5.0.min.js"></script>
+		
+		<!-- Jquery, Popper, Bootstrap -->
+		<script src="./assets/js/vendor/jquery-1.12.4.min.js"></script>
+        <script src="./assets/js/popper.min.js"></script>
+        <script src="./assets/js/bootstrap.min.js"></script>
+	    <!-- Jquery Mobile Menu -->
+        <script src="./assets/js/jquery.slicknav.min.js"></script>
+
+		<!-- Jquery Slick , Owl-Carousel Plugins -->
+        <script src="./assets/js/owl.carousel.min.js"></script>
+        <script src="./assets/js/slick.min.js"></script>
+        <!-- Date Picker -->
+        <script src="./assets/js/gijgo.min.js"></script>
+		<!-- One Page, Animated-HeadLin -->
+        <script src="./assets/js/wow.min.js"></script>
+		<script src="./assets/js/animated.headline.js"></script>
+        <script src="./assets/js/jquery.magnific-popup.js"></script>
+
+		<!-- Scrollup, nice-select, sticky -->
+        <script src="./assets/js/jquery.scrollUp.min.js"></script>
+        <script src="./assets/js/jquery.nice-select.min.js"></script>
+		<script src="./assets/js/jquery.sticky.js"></script>
+        
+        <!-- contact js -->
+        <script src="./assets/js/contact.js"></script>
+        <script src="./assets/js/jquery.form.js"></script>
+        <script src="./assets/js/jquery.validate.min.js"></script>
+        <script src="./assets/js/mail-script.js"></script>
+        <script src="./assets/js/jquery.ajaxchimp.min.js"></script>
+        
+		<!-- Jquery Plugins, main Jquery -->	
+        <script src="./assets/js/plugins.js"></script>
+        <script src="./assets/js/main.js"></script>
+        
+        <!-- firebase init -->
+        	
+    <!-- 합쳐지고 최소화된 최신 자바스크립트 -->
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/js/bootstrap.min.js"></script>
+    <!-- The core Firebase JS SDK is always required and must be listed first -->
+    <script src="https://www.gstatic.com/firebasejs/7.14.0/firebase-app.js"></script>
+
+    <!-- TODO: Add SDKs for Firebase products that you want to use
+         https://firebase.google.com/docs/web/setup#available-libraries -->
+    <script src="https://www.gstatic.com/firebasejs/7.14.0/firebase-analytics.js"></script>
+<script src="https://www.gstatic.com/firebasejs/7.14.0/firebase-auth.js"></script>
+<script src="https://www.gstatic.com/firebasejs/7.14.0/firebase-database.js"></script>
+<script src="https://www.gstatic.com/firebasejs/7.14.0/firebase-firestore.js"></script>
+<script src="./assets/js/firebaseInit.js"></script>
+<script src="./assets/js/firebaseUserCheck.js"></script>
+<script src="./assets/js/myfunctions.js"></script>
+
+<script>
+    function logOut(){
+        firebase.auth().signOut().then(function() {
+  // Sign-out successful.
+            isUserLoggedIn();
+  console.log("로그아웃 성공");
+  alert("로그아웃 되었습니다!");
+}).catch(function(error) {
+    isUserLoggedIn();
+    console.log("로그아웃 실패");
+  // An error happened.
+});
+    }
+    function isUserLoggedIn(){
+        console.log("isUserLoggedIn() 실행");
+        firebase.auth().onAuthStateChanged(function(user) {
+  if (user) {
+    // User is signed in.
+    $('#loginButton').hide();
+    $('#logoutButton').show();
+    return true;
+  } else {
+    // No user is signed in.
+    $('#loginButton').show();
+    $('#logoutButton').hide();
+    return false;
+  }
+});
+    }
+</script>
+<script>
+    isUserLoggedIn();
+</script>
+    </body>
 </html>
