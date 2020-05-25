@@ -13,6 +13,7 @@
     "node": "10"
   },
   "dependencies": {
+    "cors": "^2.8.5",
     "date-utils": "^1.2.21",
     "firebase": "^7.14.3",
     "firebase-admin": "^8.10.0",
