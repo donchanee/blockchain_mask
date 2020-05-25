@@ -2,9 +2,12 @@
 
 const request = require('request');
 const util = require('util');
+const fb = require("./firebase");
 
 const myApi = 'DI2QYXMJ7U1UY4G8AAE175TC33B3V3SGSE';
 const contractaddress = "0x2727b026EdB116B20196a1abF32e0cA8311E93e2";
+
+let db = fb.firestore();
 
 exports.normalTx = ((req, res)=>{
     let url = util.format('http://api-ropsten.etherscan.io/api?module=account&action=txlist&address=%s&startblock=0&endblock=99999999&sort=asc&apikey=%s', req.params.address, myApi);
@@ -47,8 +50,29 @@ exports.getTokenInfofromWallet = ((req, res)=>{
     });
 });
 
-exports.getHistory = ((req, res)=>{ //제조사 생성내역, 거래내역 조회
-    let url = util.format('https://api-ropsten.etherscan.io/api?module=account&action=tokennfttx&contractaddress=%s&address=%s&page=1&offset=100&sort=asc&apikey=%s', contractaddress, req.params.address, myApi);
+async function getHistory(req, res){ //제조사 생성내역, 거래내역 조회
+    let address;
+    let userRef = db.collection("users").doc(req.params.uid);
+    
+    await userRef.get()
+        .then(doc => {
+            if(!doc.exists){
+                console.log('No such users');
+            }else{
+                address = doc.data().addr;
+                console.log(address);
+            }
+        }).catch(err => {
+            let data = {
+                estatus: "Fail",
+                errMsg: "Fail to get user address",
+                errDetail: err
+            }
+            res.send(JSON.stringify(data));
+        });
+
+
+    let url = util.format('https://api-ropsten.etherscan.io/api?module=account&action=tokennfttx&contractaddress=%s&address=%s&page=1&offset=100&sort=asc&apikey=%s', contractaddress, address, myApi);
     let data = new Object();
     request(url, (err, response, body) =>{
         if(!err && response.statusCode == 200){
@@ -68,7 +92,7 @@ exports.getHistory = ((req, res)=>{ //제조사 생성내역, 거래내역 조�
                     from: result[tmp]['from'],
                     to: result[tmp]['to']
                 }
-                if(result[tmp]['to'] == req.params.address.toLowerCase()){ //생성내역, 지금은 거래완료한 토큰도 보이는방식, 거래한토큰은 거르는식으로 구현해야함.
+                if(result[tmp]['to'] == address.toLowerCase()){ //생성내역, 지금은 거래완료한 토큰도 보이는방식, 거래한토큰은 거르는식으로 구현해야함.
                     entered.push(txInfo);
                 }else{ //거래내역
                     released.push(txInfo);
@@ -92,12 +116,30 @@ exports.getHistory = ((req, res)=>{ //제조사 생성내역, 거래내역 조�
                     }
                     if(chk == 0) stock.push(entered[e_idx]);
                 }
+
+                let warning = new Array(); //7일이상 경과시 경고 알림
+                let now = Math.floor(+new Date()/1000);
+
+                for(e_idx in stock){
+                    let time = stock[e_idx].time;
+                    //console.log(now - time);
+                    if((now - time) >= 604800){ //7일경과
+                        let tmp = {
+                            tokenId : stock[e_idx].tokenId,
+                            enteredTime : stock[e_idx].time,
+                            passedTime : (now-time)
+                        }
+                        warning.push(tmp);
+                    }
+                }
+
         
                 data = {
                     status: "Success",
                     enteredHistory: entered,
                     releasedHistory: released,
-                    stockList: stock
+                    stockList: stock,
+                    warning : warning
                 }
             }
 
@@ -111,8 +153,9 @@ exports.getHistory = ((req, res)=>{ //제조사 생성내역, 거래내역 조�
         res.send(JSON.stringify(data));
         
     });
-});
+};
 
+module.exports.getHistory = getHistory;
 /*
 #deprecated
 exports.checkwallet = function(req, res){

@@ -11,9 +11,10 @@ var firebaseConfig = {
 
 const Web3 = require('web3');
 const web3 = new Web3(new Web3.providers.WebsocketProvider('wss://ropsten.infura.io/ws/v3/df0ff335a16c463d96038903ff43987e'));
-const fb = require('firebase');
+//const fb = require('firebase');
+require('date-utils');
 
-fb.initializeApp(firebaseConfig);
+const fb = require("./firebase");
 
 let Tx = require('ethereumjs-tx').Transaction;
 
@@ -699,8 +700,35 @@ exports.getMaskInfo = ((req, res)=>{
 
 exports.MaskMaking = ((req, res)=>{ // param : uid
 	let uid = req.params.uid;
-	
 	let usersRef = db.collection("users").doc(uid);
+
+	let newDate = new Date();
+	let time = newDate.toFormat('YYYY-MM-DD');
+
+	let daily = () => {
+		let dailyRef = usersRef.collection("daily").doc(time);
+		dailyRef.get()
+		.then(doc => {
+            if(!doc.exists){
+                console.log('No such document!');
+                dailyRef.set({
+                    dailyMake:0,
+                    dailySell:0
+                }).then(()=>{
+                    daily();
+                });
+            }else{
+                let result = doc.data();
+                dailyRef.set({
+                    dailyMake : result['dailyMake'] +1,  
+                }, {merge: true});
+                
+            }
+        }).catch(err => {
+			console.log("Err in daily add", err);
+        })
+	};
+	
 	usersRef.get().then(doc => {
 		if(!doc.exists){
 			let result = {
@@ -744,6 +772,7 @@ exports.MaskMaking = ((req, res)=>{ // param : uid
 									result.status = 'Success'; //성공시
 									result.txUrl = 'https://ropsten.etherscan.io/tx/' + hash; //트랜잭션 조회 url
 									
+									daily();
 									res.send(JSON.stringify(result));
 								})
 								.on('error', (err) => {
@@ -777,10 +806,73 @@ exports.MaskMaking = ((req, res)=>{ // param : uid
 
 exports.dealMasks = ((req, res)=>{ //param: sender uid, receiver address, tokenId
 	let send_uid = req.params.send_uid; //보내는사람 uid
-	let recv_addr = req.params.recv_addr; //받는사람 지갑주소
+	let recv_uid = req.params.recv_uid; //받는사람 지갑주소
 	let token_Id = req.params.token_id; //보낼 토큰 ID
 
 	let usersRef = db.collection("users").doc(send_uid);
+	let recvRef = db.collection("users").doc(recv_uid);
+	let recv_addr;
+
+	recvRef.get()
+	.then(doc => {
+		if(!doc.exists){
+			console.log('No such receiver address');
+		}else{
+			let result = doc.data();
+			recv_addr = result.addr;
+		}
+	}).catch(err=> {
+		console.log('get receiver address Error : ', err);
+	});
+
+	let newDate = new Date();
+	let time = newDate.toFormat('YYYY-MM-DD');
+
+	let daily = () => {
+		let dailyRef1 = usersRef.collection("daily").doc(time);
+		let dailyRef2 = recvRef.collection("daily").doc(time);
+		
+		dailyRef1.get()
+		.then(doc => {
+            if(!doc.exists){
+                console.log('No such document!');
+                dailyRef1.set({
+                    dailyEnter:0,
+                    dailyRelease:0
+                }).then(()=>{
+                    daily();
+                });
+            }else{
+                let result = doc.data();
+                dailyRef1.set({
+                    dailyEnter : result['dailyEnter'] +1,  
+                }, {merge: true});
+			}
+        }).catch(err => {
+			console.log("Err in daily add", err);
+		});
+		
+		dailyRef2.get()
+		.then(doc => {
+			if(!doc.exists){
+				console.log('No suchdocument!');
+				dailyRef2.set({
+					dailyEnter : 0,
+					dailyRelease : 0
+				}).then(() => {
+					daily();
+				});
+			}else{
+				let result = doc.data();
+				dailyRef2.set({
+					dailyRelease : result['dailyRelease'] +1
+				}, {merge: true});
+			}
+		}).catch(err => {
+			console.log("Err in daily add", err);
+		});
+	};
+
 	usersRef.get().then(doc => {
 		let account = doc.data().addr;
 		let privatekey = doc.data().privateKey;
@@ -818,6 +910,7 @@ exports.dealMasks = ((req, res)=>{ //param: sender uid, receiver address, tokenI
 									status: "Success",
 									txUrl: "transactionHash: https://ropsten.etherscan.io/tx/" + hash
 								}
+								daily();
 								res.send(JSON.stringify(data));
 							})
 							.on('error', (err) =>{
@@ -852,7 +945,6 @@ exports.getStockList = ((req, res)=>{
 	let uid = req.params.uid;
 	
 	let usersRef = db.collection("users").doc(uid);
-
 	usersRef.get().then(doc => {
 		let account = doc.data().addr;
 

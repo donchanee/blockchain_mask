@@ -1,4 +1,5 @@
-require('date-utils');
+
+const firebase = require('firebase');
 var firebaseConfig = {
     apiKey: "AIzaSyBUFarAIUCHFdR-pIrYGaTNJC43CpFBZZA",
     authDomain: "maskproject-6e385.firebaseapp.com",
@@ -10,15 +11,4 @@ var firebaseConfig = {
     measurementId: "G-B4436TDC82"
   };
 
-const fb = require('firebase');
-
-fb.initializeApp(firebaseConfig);
-
-let newDate = new Date();
-let time = newDate.toFormat('YYYY-MM-DD');
-
-fb.database().ref('warning/15').set({
-    user : 'maker1',
-    passedTime : 712837,
-    enteredTime : 18127218
-});
+module.exports =  !firebase.apps.length ? firebase.initializeApp(firebaseConfig) : firebase.app();

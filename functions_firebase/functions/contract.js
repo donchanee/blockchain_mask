@@ -13,6 +13,7 @@ const Web3 = require('web3');
 const web3 = new Web3(new Web3.providers.WebsocketProvider('wss://ropsten.infura.io/ws/v3/df0ff335a16c463d96038903ff43987e'));
 const fb = require('firebase');
 const functions = require('firebase-functions');
+require('date-utils');
 
 fb.initializeApp(firebaseConfig);
 
@@ -712,6 +713,34 @@ exports.getMaskInfo = functions.https.onRequest((req, res) => {
 exports.MaskMaking = functions.https.onRequest((req, res) => { // param : uid
 	let uid = req.params.uid;
 	let usersRef = db.collection("users").doc(uid);
+	
+	let newDate = new Date();
+	let time = newDate.toFormat('YYYY-MM-DD');
+
+	let daily = () => {
+		let dailyRef = usersRef.collection("daily").doc(time);
+		dailyRef.get()
+		.then(doc => {
+            if(!doc.exists){
+                console.log('No such document!');
+                dailyRef.set({
+                    dailyEnter : 0,
+                    dailyRelease : 0
+                }).then(()=>{
+                    daily();
+                });
+            }else{
+                let result = doc.data();
+                dailyRef.set({
+                    dailyEnter : result['dailyEnter'] +1,
+                }, {merge: true});
+                
+            }
+        }).catch(err => {
+			console.log("Err in daily add", err);
+        })
+	};
+
 	usersRef.get().then(doc => {
 		if(!doc.exists){
 			let result = {
@@ -755,6 +784,7 @@ exports.MaskMaking = functions.https.onRequest((req, res) => { // param : uid
 											status: "Success",
 											txUrl: 'https://ropsten.etherscan.io/tx/' + hash//트랜잭션 조회 url
 										}
+										daily();
 										res.send(JSON.stringify(data));
 									})
 									.on('error', (err) => {
@@ -801,16 +831,78 @@ exports.MaskMaking = functions.https.onRequest((req, res) => { // param : uid
 
 exports.dealMasks = functions.https.onRequest((req, res) => { //param: sender uid, receiver address, tokenId
 	let send_uid = req.params.send_uid; //보내는사람 uid
-	let recv_addr = req.params.recv_addr; //받는사람 지갑주소
+	let recv_uid = req.params.recv_uid; //받는사람 지갑주소
 	let token_Id = req.params.token_id; //보낼 토큰 ID
 
 	let usersRef = db.collection("users").doc(send_uid);
+	let recvRef = db.collection("users").doc(recv_uid);
+	let recv_addr;
+
+	recvRef.get()
+	.then(doc => {
+		if(!doc.exists){
+			console.log('No such receiver address');
+		}else{
+			let result = doc.data();
+			recv_addr = result.addr;
+		}
+	}).catch(err=> {
+		console.log('get receiver address Error : ', err);
+	});
+
+	let newDate = new Date();
+	let time = newDate.toFormat('YYYY-MM-DD');
+
+	let daily = () => {
+		let dailyRef1 = usersRef.collection("daily").doc(time);
+		let dailyRef2 = recvRef.collection("daily").doc(time);
+		
+		dailyRef1.get()
+		.then(doc => {
+            if(!doc.exists){
+                console.log('No such document!');
+                dailyRef1.set({
+                    dailyEnter:0,
+                    dailyRelease:0
+                }).then(()=>{
+                    daily();
+                });
+            }else{
+                let result = doc.data();
+                dailyRef1.set({
+                    dailyRelease : result['dailyRelease'] +1,  
+                }, {merge: true});
+			}
+        }).catch(err => {
+			console.log("Err in daily add", err);
+		});
+		
+		dailyRef2.get()
+		.then(doc => {
+			if(!doc.exists){
+				console.log('No suchdocument!');
+				dailyRef2.set({
+					dailyEnter : 0,
+					dailyRelease : 0
+				}).then(() => {
+					daily();
+				});
+			}else{
+				let result = doc.data();
+				dailyRef2.set({
+					dailyEnter : result['dailyEnter'] +1
+				}, {merge: true});
+			}
+		}).catch(err => {
+			console.log("Err in daily add", err);
+		});
+	};
+
 	usersRef.get().then(doc => {
 		let account = doc.data().addr;
 		let privatekey = doc.data().privateKey;
 
 		const pk = Buffer.from(privatekey,'hex');
-		const data = contract.methods.dealMasks(recv_addr, token_Id); //컨트랙트에서 리턴값받아서 보낼수있는지없는지 체크 예정
 
 		let callObject = {
 			from: account,
@@ -819,48 +911,55 @@ exports.dealMasks = functions.https.onRequest((req, res) => { //param: sender ui
 	
 		contract.methods.dealMasks(recv_addr, token_Id).call(callObject)
 			.then((result) => {
-				if(result === true){
+				if(result == true){
 					web3.eth.getTransactionCount(account, (err, txCount) =>{
-						if(!err){
-							const txObject = {
-								nonce: web3.utils.toHex(txCount),
-								to: contractAddress,
-								//value: web3.utils.toHex(web3.utils.toWei('0', 'ether')),
-								gasLimit: web3.utils.toHex(2100000),
-								gasPrice: web3.utils.toHex(web3.utils.toWei('10', 'gwei')),
-								data: contract.methods.dealMasks(recv_addr, token_Id).encodeABI()
-							};
-							const tx = new Tx(txObject, {'chain':'ropsten'});
-							tx.sign(pk);
-						
-							const serializedTx = tx.serialize();
-							const raw = '0x' + serializedTx.toString('hex');
-						
-							web3.eth.sendSignedTransaction(raw)
-								.once('transactionHash', (hash) => {
-									let data = {
-										status: "Success",
-										txUrl: "transactionHash: https://ropsten.etherscan.io/tx/" + hash
-									}
-									res.send(JSON.stringify(data));
-								})
-								.on('error', (err) =>{
-									let data = {
-										status: "Fail",
-										errMsg: "Check your token in stock",
-										errDetail: err
-									}
-									res.send(JSON.stringify(data));
-								});
-						}else{
-							let data = {
-								status: "Fail",
-								errMsg: "Failed to send transaction",
-								errDetail: err
-							}
-							res.send(JSON.stringify(data));
+
+						const txObject = {
+							nonce: web3.utils.toHex(txCount),
+							to: contractAddress,
+							//value: web3.utils.toHex(web3.utils.toWei('0', 'ether')),
+							gasLimit: web3.utils.toHex(2100000),
+							gasPrice: web3.utils.toHex(web3.utils.toWei('10', 'gwei')),
+							data: contract.methods.dealMasks(recv_addr, token_Id).encodeABI()
+						};
+						const tx = new Tx(txObject, {'chain':'ropsten'});
+						tx.sign(pk);
+					
+						const serializedTx = tx.serialize();
+						const raw = '0x' + serializedTx.toString('hex');
+					
+						web3.eth.sendSignedTransaction(raw)
+							.once('transactionHash', (hash) => {
+								let data = {
+									status: "Success",
+									txUrl: "transactionHash: https://ropsten.etherscan.io/tx/" + hash
+								}
+								daily();
+								res.send(JSON.stringify(data));
+							})
+							.on('error', (err) =>{
+								let data = {
+									status: "Fail",
+									errMsg: "Check your token in stock",
+									errDetail: err
+								}
+								res.send(JSON.stringify(data));
+							}).catch(err => {
+								let data = {
+									status: "Fail",
+									errMsg: "Check your token in stock",
+									errDetail: err
+								}
+								res.send(JSON.stringify(data));
+							})
+					}).catch(err => {
+						let data = {
+							status: "Fail",
+							errMsg: "Check your token in stock",
+							errDetail: err
 						}
-					});
+						res.send(JSON.stringify(data));
+					})
 
 				}else{
 					let data = {
@@ -869,23 +968,19 @@ exports.dealMasks = functions.https.onRequest((req, res) => { //param: sender ui
 					}
 					res.send(JSON.stringify(data));
 				}
-				return null
-			})
-			.catch((err) => {
+			}).catch(err => {
 				let data = {
 					status: "Fail",
-					errMsg: "Failed to deal masks",
+					errMsg: "Check your token in stock",
 					errDetail: err
 				}
 				res.send(JSON.stringify(data));
-			});
-		return null
+			})
 	})
 	.catch((err) => {
 		let data = {
 			status: "Fail",
-			errMsg: "Failed to check UID",
-			errDetail: err
+			errMsg: "Failed to check UID"
 		};
 		res.send(JSON.stringify(data));
 	});
