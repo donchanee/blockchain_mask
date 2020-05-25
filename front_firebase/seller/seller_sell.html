@@ -1,0 +1,528 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+  <title>MaskSaver Dashboard</title>
+  <!-- Required meta tags -->
+  <meta charset="utf-8">
+  <meta content="width=device-width, initial-scale=1.0" name="viewport" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+  <!--     Fonts and icons     -->
+  <link rel="stylesheet" type="text/css"
+    href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700|Roboto+Slab:400,700|Material+Icons" />
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/latest/css/font-awesome.min.css">
+  <!-- Material Kit CSS -->
+  <link href="../assets/css/material-dashboard.css?v=2.1.2" rel="stylesheet" />
+</head>
+
+<body>
+  <div class="wrapper ">
+    <div class="sidebar" data-color="purple" data-background-color="white">
+      <!--
+      Tip 1: You can change the color of the sidebar using: data-color="purple | azure | green | orange | danger"
+
+      Tip 2: you can also add an image using data-image tag
+  -->
+      <div class="logo">
+        <a href="../index.html" class="simple-text logo-mini">
+          <img src="../assets/img/logo/logo.png" alt="">
+        </a>
+        <a class="simple-text logo-normal">
+          MaskSaver
+        </a>
+      </div>
+      <div class="sidebar-wrapper">
+        <ul class="nav">
+          <li class="nav-item  ">
+            <a class="nav-link" href="../seller/seller_dashboard.html">
+              <i class="material-icons">dashboard</i>
+              <p>Dashboard</p>
+            </a>
+          </li>
+          <li class="nav-item ">
+            <a class="nav-link" href="../seller/seller_inventory.html">
+              <i class="material-icons">content_paste</i>
+              <p>재고 내역</p>
+            </a>
+          </li>
+          <li class="nav-item ">
+            <a class="nav-link" href="../seller/seller_sold.html">
+              <i class="material-icons">bubble_chart</i>
+              <p>판매 내역</p>
+            </a>
+          </li>
+          <li class="nav-item ">
+            <a class="nav-link" href="../seller/seller_receipt.html">
+              <i class="material-icons">library_books</i>
+              <p>입고 내역</p>
+            </a>
+          </li>
+          <li class="nav-item active">
+            <a class="nav-link" href="../seller/seller_sell.html">
+              <i class="material-icons">library_books</i>
+              <p>판매하기</p>
+            </a>
+          </li>
+          <!-- your sidebar here -->
+        </ul>
+      </div>
+    </div>
+    <div class="main-panel">
+      <!-- Navbar -->
+      <nav class="navbar navbar-expand-lg navbar-transparent navbar-absolute fixed-top ">
+        <div class="container-fluid">
+          <div class="navbar-wrapper">
+            <a class="navbar-brand" href="javascript:;">Dashboard</a>
+            <p id="id">여기는 유저 정보가 표시될 공간입니다.</p>
+          </div>
+
+        </div>
+      </nav>
+      <!-- End Navbar -->
+      <div class="content">
+        <div class="container-fluid">
+          <!-- your content here -->
+          <div class="row">
+            <div class="col-md-12">
+              <div class="card">
+                <div class="card-header card-header-primary">
+                  <h4 class="card-title ">판매하기</h4>
+                </div>
+                <div class="card-body">
+
+                  <form>
+                    <div class="row">
+                      <div class="col">
+                        <input type="text" class="form-control" id="serialNumber3" placeholder="일련번호">
+                      </div>
+
+                      <div class="col">
+                        <input type="text" class="form-control" id="count3" placeholder="개수">
+                      </div>
+                    </div>
+                    <div class="row">
+                      <div class="col">
+                        <input type="text" class="form-control" id="name" placeholder="이름">
+                      </div>
+                      <div class="col">
+                        <input type="text" class="form-control" id="civilNumber" placeholder="주민번호"
+                          onkeyup="setCivilNumber(this)">
+                      </div>
+                    </div>
+                    <div class="row">
+                      <div class="col">
+                        <button type="button" class="btn btn-primary" id="checkSales" onclick="SendMask()">확인</button>
+                      </div>
+                  </form>
+                </div>
+              </div>
+            </div>
+        
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <footer class="footer">
+    <div class="container-fluid">
+      <nav class="float-left">
+        <ul>
+          <li>
+            <a href="../index.html">
+              MaskSaver
+            </a>
+          </li>
+        </ul>
+      </nav>
+    </div>
+  </footer>
+  </div>
+  </div>
+  <script src="../assets/vendor/jquery/jquery-3.2.1.min.js"></script>
+  <!-- 합쳐지고 최소화된 최신 자바스크립트 -->
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/js/bootstrap.min.js"></script>
+  <!-- The core Firebase JS SDK is always required and must be listed first -->
+  <script src="https://www.gstatic.com/firebasejs/7.14.0/firebase-app.js"></script>
+
+  <!-- TODO: Add SDKs for Firebase products that you want to use
+           https://firebase.google.com/docs/web/setup#available-libraries -->
+  <script src="https://www.gstatic.com/firebasejs/7.14.0/firebase-analytics.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/7.14.0/firebase-auth.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/7.14.0/firebase-database.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/7.14.0/firebase-firestore.js"></script>
+  <script src="../assets/js/firebaseInit.js"></script>
+  <script src="../assets/js/firebaseUserCheck.js"></script>
+  <script src="../assets/js/myfunctions.js"></script>
+
+  <script>
+    userSessionCheck();
+  </script>
+  <script type="text/javascript">
+    //재고내역 테이블 만드는 함수
+    function MakeInventoryTable() {
+      var myTbody = document.getElementById("salesHistoryTbody");
+      var ourRequest = new XMLHttpRequest();
+      ourRequest.open('GET', 'https://us-central1-maskproject-6e385.cloudfunctions.net/maskSaver/getHistory/' +
+        userAddr);
+      ourRequest.onload = function () {
+        var ourData = JSON.parse(ourRequest.responseText);
+        console.log(ourData);
+        renderInventoryHTML(ourData);
+      };
+      ourRequest.send();
+    }
+
+    function renderInventoryHTML(data) {
+      var htmlString = "";
+      sortByDate(data.stockList);
+      for (i = 0; i < data.stockList.length; i++) {
+        htmlString += "<tr><td>" + new Date(data.stockList[i].time * 1000).toLocaleString() + "</td>";
+        htmlString += "<td>" + data.stockList[i].tokenId + "</td>";
+        htmlString += "<td>" + data.stockList[i].num + "</td></tr>";
+      }
+      $("#inventoryTbody").append(htmlString);
+    }
+    //입고내역 테이블 만드는 함수
+    function MakeReceiptHistoryTable() {
+      var myTbody = document.getElementById("receiptHistoryTbody");
+      var ourRequest = new XMLHttpRequest();
+
+      ourRequest.open('GET', 'https://us-central1-maskproject-6e385.cloudfunctions.net/maskSaver/getHistory/' +
+        userAddr);
+      ourRequest.onload = function () {
+        var ourData = JSON.parse(ourRequest.responseText);
+        console.log(ourData);
+        renderReceiptHistoryHTML(ourData);
+      };
+      ourRequest.send();
+    }
+
+    function renderReceiptHistoryHTML(data) {
+      var htmlString = "";
+      sortByDate(data.enteredHistory);
+      for (i = 0; i < data.enteredHistory.length; i++) {
+        htmlString += "<tr><td>" + new Date(data.enteredHistory[i].time * 1000).toLocaleString() + "</td>";
+        htmlString += "<td>" + data.enteredHistory[i].tokenId + "</td>";
+        htmlString += "<td>" + data.enteredHistory[i].from + "</td>";
+        htmlString += "<td>" + data.enteredHistory[i].to + "</td>";
+        htmlString += "<td>" + data.enteredHistory[i].num + "</td></tr>";
+      }
+      $("#receiptHistoryTbody").append(htmlString);
+    }
+    //구매자 리스트 테이블 만드는 함수
+    function MakeBuyerListTable() {
+      //DB저장하는 함수
+      StoreBuyerListInDB();
+
+      //테이블 만들기
+      GetDataFromDB()
+    }
+
+
+    //구매자가 구매할 수 있는지 확인하는 함수
+    function CanPurchase() {
+
+      var name = document.getElementById('name').value;
+      var civilNumber = document.getElementById('civilNumber').value;
+
+      var canPurchase_query = db.collection("observer").doc("purchase_record").collection("record_set").where("name",
+        "==", name).where("civilNumber", "==", civilNumber);
+
+      var result = "";
+
+      return canPurchase_query
+        .get()
+        .then(function (querySnapshot) {
+          querySnapshot.forEach(function (doc) {
+            // doc.data() is never undefined for query doc snapshots
+            result += doc.data().time;
+          });
+          if (result) {
+            console.log("canPurchase", false);
+            alert(false);
+            return false;
+          } else {
+            alert(true);
+            console.log("canPurchase", true);
+            return true;
+          }
+        })
+        .catch(function (error) {
+          alert(false);
+          console.log("Error getting documents: ", error);
+          return false;
+        });
+
+
+
+    }
+
+
+    function StoreBuyerListInDB() {
+      var serialNumber = document.getElementById("serialNumber3").value;
+      var name = document.getElementById("name").value;
+      var count = document.getElementById("count3").value;
+      var civilNumber = document.getElementById("civilNumber").value;
+
+
+      //DB에 시리얼넘버, 이름, 개수, 주민번호 넣기
+      var docRef = db.collection("users").doc(firebaseEmailAuth.currentUser.uid);
+      var docRef2 = db.collection("users").doc(firebaseEmailAuth.currentUser.uid).collection("buyers");
+      var docRef3 = db.collection("observer").doc("purchase_record").collection("record_set");
+      //로그인된 사용자가 seller인지 확인
+      docRef.get().then(function (doc) {
+        if (doc.exists) {
+          if (doc.data().index != "seller") {
+            alert('seller가 아니라면 등록할 수 없습니다! 돌아가세요!');
+            return;
+          }
+          console.log("Document data:", doc.data());
+        } else {
+          // doc.data() will be undefined in this case
+          console.log("No such document!");
+          return;
+        }
+      }).catch(function (error) {
+        console.log("Error getting document:", error);
+      });
+
+      //어느 칸이라도 비어있으면 안됨
+      if (!serialNumber || !name || !count || !civilNumber) {
+        alert('제대로 입력해주세요!');
+        return;
+      }
+      //갯수가 0개이상 3개이해
+      else if (count < 0 || count >= 3) {
+        alert('1인당 3개 이하의 마스크만 구매 가능합니다! 다시 입력해주세요!');
+        return;
+      }
+      //주민번호 유효성
+      else if (!ValidateCivilNumber(civilNumber)) {
+        alert('주민번호가 유효하지 않습니다.');
+        return;
+      }
+
+      CanPurchase().then(function (result) {
+        if (!result) {
+          alert('이번주에 이미 구매하셨습니다.');
+          return;
+        } else {
+          //해당seller의 db에 저장
+          docRef2.add({
+              name: name,
+              serialNumber: serialNumber,
+              count: count,
+              civilNumber: civilNumber,
+              time: firebase.firestore.FieldValue.serverTimestamp()
+            })
+            .then(function (docRef) {
+              console.log("Document written with ID: ", docRef.id);
+              alert("seller 저장 완료!");
+              setTimeout(GetDataFromDB(), 3000);
+            })
+            .catch(function (error) {
+              console.error("Error adding document: ", error);
+              alert("seller 저장 실패!");
+            });
+          //감사자인 observer db에 저장
+          docRef3.add({
+              name: name,
+              serialNumber: serialNumber,
+              count: count,
+              civilNumber: civilNumber,
+              time: firebase.firestore.FieldValue.serverTimestamp()
+            })
+            .then(function (docRef) {
+              console.log("Document written with ID: ", docRef.id);
+              alert("observer 저장 완료!");
+              setTimeout(GetDataFromDB(), 3000);
+            })
+            .catch(function (error) {
+              console.error("Error adding document: ", error);
+              alert("observer 저장 실패!");
+            });
+
+        }
+      });
+
+
+    }
+    //마스크 판매
+    function SellMask() {
+      //결과가 ok라면 alert('ok') MakeBuyerListTable(serialNumber,  count,name,civilNumber) else alert('false') return
+      //트랜잭션 결과를 리턴받아 result에 저장해야함. 현재는 ok로 놔둠.
+      var result = "ok";
+      if (result == "ok") {
+        alert('트랜잭션 성공');
+        MakeBuyerListTable();
+      } else {
+        alert('트랜잭션 실패');
+      }
+    }
+    //DB로부터 데이터를 가지고옴
+    function GetDataFromDB() {
+      var docRef = db.collection("users").doc(firebaseEmailAuth.currentUser.uid).collection("buyers");
+      docRef.orderBy("time", "desc").get().then(function (querySnapshot) {
+        var rowItem = "";
+        $('#buyerListTableTBody').empty();
+        querySnapshot.forEach(function (doc) {
+          //console.log(doc.id, " => ", doc.data());
+          // doc.data() is never undefined for query doc snapshots
+          rowItem += "<tr><td>" + doc.data().time.toDate().toLocaleString() + "</td>"; /**/
+          rowItem += "<td>" + doc.data().serialNumber + "</td>";
+          rowItem += "<td>" + doc.data().name + "</td>";
+          rowItem += "<td>" + civilNumberEncode(doc.data().civilNumber + "") + "</td>";
+          rowItem += "<td>" + doc.data().count + "</td></tr>";
+
+        });
+        $('#buyerListTableTBody').append(rowItem);
+      });
+
+
+    }
+    function getUidFromAddr(addr) {
+                var recv_uid = "";
+                console.log("getUidFromAddr(addr) 실행");
+               return db.collection("users").where("addr", "==", addr)
+                    .get()
+                    .then(function (querySnapshot) {
+                        querySnapshot.forEach(function (doc) {
+                            // doc.data() is never undefined for query doc snapshots
+                            console.log(doc.id, " => ", doc.data());
+                           
+                            recv_uid = doc.id;
+                            console.log(doc.id, recv_uid);
+                          
+                        });
+                        return recv_uid;
+                    })
+                    .catch(function (error) {
+                        console.log("Error getting documents: ", error);
+                        return recv_uid;
+                    });
+            }
+            //마스크 보내기 함수
+            function SendMask() {
+                var toDistributor = document.getElementById("toSeller").value;//바꿔야됨 burn 마스크로
+                var serialNumber = document.getElementById("serialNumber3").value;
+
+                console.log(serialNumber, toDistributor, "SendMask()실행");
+                //위의 변수를 가지고 web3를 통해 컨트랙트 함수 실행
+                var ourRequest = new XMLHttpRequest();
+                getUidFromAddr(toSeller).then(function(data){
+                    console.log("recv_uid : " + data);
+                    ourRequest.open('GET', 'https://us-central1-maskproject-6e385.cloudfunctions.net/maskSaver/dealMasks/' +
+                    firebaseEmailAuth.currentUser.uid + '/' +
+                    data +
+                    '/' + serialNumber);
+                
+                ourRequest.onload = function () {
+                    var ourData = JSON.parse(ourRequest.responseText);
+                    console.log(ourData);
+                    IsSuccessOrFail(ourData);
+                    if(ourData.status === 'Success'){
+                      SellMask();
+                    }
+                    else if(ourData.status === 'Fail'){
+                      alert('판매 절차 실패!');
+                      return;
+                    }
+                };
+                ourRequest.send();
+                })
+              
+
+
+            }
+    function sleep(delay) {
+      var start = new Date().getTime();
+      while (new Date().getTime() < start + delay);
+    }
+  </script>
+  <script type="text/javascript">
+    //인증 시간 지연으로 인해 만듬
+    //인증 상태가 변화하면 GetDataFromDB() 함수 호출
+    firebase.auth().onAuthStateChanged(function (user) {
+      if (user) {
+        // User is signed in.
+        window.onload = GetDataFromDB();
+      } else {
+        // No user is signed in.
+      }
+    });
+  </script>
+  <script>
+    //주민번호 자동 하이픈 기능
+    function setCivilNumber(obj) {
+      ju = obj.value;
+      ju = ju.replace("-", "");
+      if (ju.length > 6) {
+        ju1 = ju.substring(0, 6);
+        ju2 = ju.substring(6, ju.length);
+
+        obj.value = ju1 + "-" + ju2;
+      }
+
+    }
+  </script>
+  <!-- httpRequest JSON parsing script -->
+  <script type="text/javascript">
+    firebaseEmailAuth.onAuthStateChanged(function (user) {
+
+      if (user) {
+        //로그인 성공한 유저 id 확인해 보기 - firebase database에 접근해서 데이터 조회 하는 함수
+        var docRef = db.collection("users").doc(firebaseEmailAuth.currentUser.uid);
+
+        docRef.get().then(function (doc) {
+          if (doc.exists) {
+            userAddr = doc.data().addr;
+            userName = doc.data().name;
+            userEmail = user.email;
+            console.log(user.email + " 님이 로그인했습니다." + " 계좌 : " + userAddr + " 이름 :" + userName);
+            MakeReceiptHistoryTable();
+            MakeInventoryTable();
+          } else {
+            // doc.data() will be undefined in this case
+            console.log("No such document!");
+          }
+        }).catch(function (error) {
+          console.log("Error getting document:", error);
+        });
+
+
+
+        //자바스크립트 dom 선택자를 통해서 네비게이션 메뉴의 엘리먼트 변경해주기
+
+
+        //alert(userInfo.userid);  //uid는 db에서 user 테이블의 각 개체들의 pk 인데, 이 값은 인증에서 생성된 아이디의 pk 값과 같다. *중요!
+
+        return true;
+      }
+    });
+  </script>
+
+  <script>
+    //마스크 토큰 없애는 함수. 판매완료됬을때 실행
+    function BurnMask() {
+      var serialNumber = document.getElementById("serialNumber2").value;
+      var toDistributor = document.getElementById("toDistributor").value;
+      console.log(serialNumber, toDistributor);
+      //위의 변수를 가지고 web3를 통해 컨트랙트 함수 실행
+      var ourRequest = new XMLHttpRequest();
+      ourRequest.open('GET', 'https://us-central1-maskproject-6e385.cloudfunctions.net/maskSaver/getHistory/' +
+        firebaseEmailAuth.currentUser.uid + '/' +
+        toDistributor +
+        '/' + serialNumber);
+      ourRequest.onload = function () {
+        var ourData = JSON.parse(ourRequest.responseText);
+        console.log(ourData);
+        IsSuccessOrFail(ourData);
+      };
+      ourRequest.send();
+
+    }
+  </script>
+  </script>
+</body>
+
+</html>

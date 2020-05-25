@@ -1,0 +1,402 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+    <title>MaskSaver Dashboard</title>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta content="width=device-width, initial-scale=1.0" name="viewport" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+    <!--     Fonts and icons     -->
+    <link rel="stylesheet" type="text/css"
+        href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700|Roboto+Slab:400,700|Material+Icons" />
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/latest/css/font-awesome.min.css">
+    <!-- Material Kit CSS -->
+    <link href="../assets/css/material-dashboard.css?v=2.1.2" rel="stylesheet" />
+</head>
+
+<body>
+    <div class="wrapper ">
+        <div class="sidebar" data-color="purple" data-background-color="white">
+            <!--
+      Tip 1: You can change the color of the sidebar using: data-color="purple | azure | green | orange | danger"
+
+      Tip 2: you can also add an image using data-image tag
+  -->
+            <div class="logo">
+                <a href="../index.html" class="simple-text logo-mini">
+                    <img src="../assets/img/logo/logo.png" alt="">
+                </a>
+                <a class="simple-text logo-normal">
+                    MaskSaver
+                </a>
+            </div>
+            <div class="sidebar-wrapper">
+                <ul class="nav">
+                    <li class="nav-item">
+                        <a class="nav-link" href="../manufacturer/manufacturer_dashboard.html">
+                            <i class="material-icons">dashboard</i>
+                            <p>Dashboard</p>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="../manufacturer/manufacturer_inventory.html">
+                            <i class="material-icons">content_paste</i>
+                            <p>재고 내역</p>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="../manufacturer/manufacturer_makemask.html">
+                            <i class="material-icons">bubble_chart</i>
+                            <p>생성 내역</p>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="../manufacturer/manufacturer_transaction.html">
+                            <i class="material-icons">library_books</i>
+                            <p>거래 내역</p>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="../manufacturer/manufacturer_addmask.html">
+                            <i class="material-icons">library_books</i>
+                            <p>마스크 생성</p>
+                        </a>
+                    </li>
+                    <li class="nav-item active">
+                        <a class="nav-link" href="../manufacturer/manufacturer_sendmask.html">
+                            <i class="material-icons">library_books</i>
+                            <p>마스크 보내기</p>
+                        </a>
+                    </li>
+                    <!-- your sidebar here -->
+                </ul>
+            </div>
+        </div>
+        <div class="main-panel">
+            <!-- Navbar -->
+            <nav class="navbar navbar-expand-lg navbar-transparent navbar-absolute fixed-top ">
+                <div class="container-fluid">
+                    <div class="navbar-wrapper">
+                        <a class="navbar-brand" href="javascript:;">Dashboard</a>
+                        <p id="id">여기는 유저 정보가 표시될 공간입니다.</p>
+                    </div>
+
+                    <button class="navbar-toggler" type="button" data-toggle="collapse" aria-controls="navigation-index"
+                        aria-expanded="false" aria-label="Toggle navigation">
+                        <span class="sr-only">Toggle navigation</span>
+                        <span class="navbar-toggler-icon icon-bar"></span>
+                        <span class="navbar-toggler-icon icon-bar"></span>
+                        <span class="navbar-toggler-icon icon-bar"></span>
+                    </button>
+                    <div class="collapse navbar-collapse justify-content-end">
+                        <form class="navbar-form">
+                            <div class="input-group no-border">
+
+                            </div>
+            </nav>
+            <!-- End Navbar -->
+            <div class="content">
+                <div class="container-fluid">
+                    <!-- your content here -->
+                    <div class="card text-center">
+                        <div class="card-body">
+                            <h4 class="card-title">마스크 보내기</h4>
+                            <p class="card-text">
+                                <form>
+                                    <div class="row">
+                                        <div class="col">
+                                            <input type="text" class="form-control" id="serialNumber2"
+                                                placeholder="일련번호">
+                                        </div>
+                                        <div class="col">
+                                            <input type="text" class="form-control" id="toDistributor"
+                                                placeholder="대상업체">
+                                        </div>
+                                    </div>
+                                </form>
+
+
+                            </p>
+                            <button class="btn btn-primary" id="sendMask" onclick="SendMask()">보내기</button>
+                        </div>
+                    </div>
+                </div>
+                <footer class="footer">
+                    <div class="container-fluid">
+                        <nav class="float-left">
+                            <ul>
+                                <li>
+                                    <a href="../index.html">
+                                        MaskSaver
+                                    </a>
+                                </li>
+                            </ul>
+                        </nav>
+                    </div>
+                </footer>
+            </div>
+        </div>
+        <script src="../assets/vendor/jquery/jquery-3.2.1.min.js"></script>
+        <!-- 합쳐지고 최소화된 최신 자바스크립트 -->
+        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/js/bootstrap.min.js"></script>
+        <!-- The core Firebase JS SDK is always required and must be listed first -->
+        <script src="https://www.gstatic.com/firebasejs/7.14.0/firebase-app.js"></script>
+
+        <!-- TODO: Add SDKs for Firebase products that you want to use
+           https://firebase.google.com/docs/web/setup#available-libraries -->
+        <script src="https://www.gstatic.com/firebasejs/7.14.0/firebase-analytics.js"></script>
+        <script src="https://www.gstatic.com/firebasejs/7.14.0/firebase-auth.js"></script>
+        <script src="https://www.gstatic.com/firebasejs/7.14.0/firebase-database.js"></script>
+        <script src="https://www.gstatic.com/firebasejs/7.14.0/firebase-firestore.js"></script>
+        <script src="../assets/js/firebaseInit.js"></script>
+        <script src="../assets/js/firebaseUserCheck.js"></script>
+        <script src="../assets/js/myfunctions.js"></script>
+        <script src="../assets/js/material-dashboard.js"></script>
+        <script src="../assets/js/material-dashboard.js.map"></script>
+        <script src="../assets/js/material-dashboard.min.js"></script>
+        <script>
+            userSessionCheck();
+        </script>
+        <script>
+          
+        </script>
+        <script>
+            //마스크 추가 함수
+            function AddMask() {
+                var ourRequest = new XMLHttpRequest();
+
+                //위의 변수를 가지고 web3를 통해 컨트랙트 함수 실행
+                ourRequest.open('GET',
+                    'https://us-central1-maskproject-6e385.cloudfunctions.net/maskSaver/maskMaking/' +
+                    firebaseEmailAuth.currentUser.uid);
+                ourRequest.onload = function () {
+                    var ourData = JSON.parse(ourRequest.responseText);
+                    console.log(ourData);
+                    IsSuccessOrFail(ourData);
+                };
+                ourRequest.send();
+
+            }
+            function getUidFromAddr(addr) {
+                var recv_uid = "";
+                console.log("getUidFromAddr(addr) 실행");
+               return db.collection("users").where("addr", "==", addr)
+                    .get()
+                    .then(function (querySnapshot) {
+                        querySnapshot.forEach(function (doc) {
+                            // doc.data() is never undefined for query doc snapshots
+                            console.log(doc.id, " => ", doc.data());
+                           
+                            recv_uid = doc.id;
+                            console.log(doc.id, recv_uid);
+                          
+                        });
+                        return recv_uid;
+                    })
+                    .catch(function (error) {
+                        console.log("Error getting documents: ", error);
+                        return recv_uid;
+                    });
+            }
+            //마스크 보내기 함수
+            function SendMask() {
+                var toDistributor = document.getElementById("toDistributor").value;
+                var serialNumber = document.getElementById("serialNumber2").value;
+
+                console.log(serialNumber, toDistributor, "SendMask()실행");
+                //위의 변수를 가지고 web3를 통해 컨트랙트 함수 실행
+                var ourRequest = new XMLHttpRequest();
+                getUidFromAddr(toDistributor).then(function(data){
+                    console.log("recv_uid : " + data);
+                    ourRequest.open('GET', 'https://us-central1-maskproject-6e385.cloudfunctions.net/maskSaver/dealMasks/' +
+                    firebaseEmailAuth.currentUser.uid + '/' +
+                    data +
+                    '/' + serialNumber);
+                
+                ourRequest.onload = function () {
+                    var ourData = JSON.parse(ourRequest.responseText);
+                    console.log(ourData);
+                    IsSuccessOrFail(ourData);
+                };
+                ourRequest.send();
+                })
+              
+
+
+            }
+
+            //마스크 생성내역 테이블 만드는 함수
+            function MakeAddedMaskListTable() {
+                var myTbody = document.getElementById("maskListTbody");
+                var ourRequest = new XMLHttpRequest();
+                var exampleInfo = document.getElementById("exampleInfo");
+
+                ourRequest.open('GET',
+                    'https://us-central1-maskproject-6e385.cloudfunctions.net/maskSaver/getHistory/' +
+                    userAddr);
+                ourRequest.onload = function () {
+                    var ourData = JSON.parse(ourRequest.responseText);
+                    console.log(ourData);
+                    renderMakeTransactionHTML(ourData);
+
+                    //테이블 행 클릭시 해당 정보 가져오는 JQuery  
+                    $("#inventoryTable tr").click(function () {
+
+                        var str = "";
+                        var tdArr = new Array(); // 배열 선언
+
+                        // 현재 클릭된 Row(<tr>)
+                        var tr = $(this);
+                        var td = tr.children();
+
+                        // tr.text()는 클릭된 Row 즉 tr에 있는 모든 값을 가져온다.
+                        console.log("클릭한 Row의 모든 데이터 : " + tr.text());
+
+                        // 반복문을 이용해서 배열에 값을 담아 사용할 수 도 있다.
+                        td.each(function (i) {
+                            tdArr.push(td.eq(i).text());
+                        });
+
+                        $('#serialNumber2').val(tdArr[1]);
+
+
+                    });
+                };
+                ourRequest.send();
+            }
+            //거래내역 테이블 만드는 함수
+            function MakeTransactionListTable() {
+                var myTbody = document.getElementById("maskListTbody");
+                var ourRequest = new XMLHttpRequest();
+                var exampleInfo = document.getElementById("exampleInfo");
+
+                ourRequest.open('GET',
+                    'https://us-central1-maskproject-6e385.cloudfunctions.net/maskSaver/getHistory/' +
+                    userAddr);
+                ourRequest.onload = function () {
+                    var ourData = JSON.parse(ourRequest.responseText);
+                    console.log(ourData);
+                    renderMakeAddedMaskHTML(ourData);
+                };
+                ourRequest.send();
+            }
+            //재고내역 테이블 만드는 함수
+            function MakeInventoryTable() {
+                var myTbody = document.getElementById("salesHistoryTbody");
+                var ourRequest = new XMLHttpRequest();
+                ourRequest.open('GET',
+                    'https://us-central1-maskproject-6e385.cloudfunctions.net/maskSaver/getHistory/' +
+                    userAddr);
+                ourRequest.onload = function () {
+                    var ourData = JSON.parse(ourRequest.responseText);
+                    console.log(ourData);
+                    renderInventoryHTML(ourData);
+                    getTokenIdFromStock(ourData);
+                };
+                ourRequest.send();
+            }
+
+            function renderInventoryHTML(data) {
+                var htmlString = "";
+                sortByDate(data.stockList);
+                for (i = 0; i < data.stockList.length; i++) {
+                    console.log("renderInventoryHTML");
+                    htmlString += "<tr><td>" + new Date(data.stockList[i].time * 1000).toLocaleString() + "</td>";
+                    htmlString += "<td>" + data.stockList[i].tokenId + "</td>";
+                    htmlString += "<td>" + data.stockList[i].num + "</td></tr>";
+                }
+                $("#inventoryTbody").append(htmlString);
+            }
+
+            function renderMakeAddedMaskHTML(data) {
+                var htmlString = "";
+                sortByDate(data.enteredHistory);
+                for (i = 0; i < data.enteredHistory.length; i++) {
+                    htmlString += "<tr><td>" + new Date(data.enteredHistory[i].time * 1000).toLocaleString() + "</td>";
+                    htmlString += "<td>" + data.enteredHistory[i].tokenId + "</td>";
+                    htmlString += "<td>" + data.enteredHistory[i].num + "</td></tr>";
+                }
+                $("#maskListTbody").append(htmlString);
+            }
+
+
+            function renderMakeTransactionHTML(data) {
+                var htmlString = "";
+                sortByDate(data.releasedHistory);
+                for (i = 0; i < data.releasedHistory.length; i++) {
+                    htmlString += "<tr><td>" + new Date(data.releasedHistory[i].time * 1000).toLocaleString() + "</td>";
+                    htmlString += "<td>" + data.releasedHistory[i].tokenId + "</td>";
+                    htmlString += "<td>" + data.releasedHistory[i].num + "</td>";
+                    htmlString += "<td>" + data.releasedHistory[i].from + "</td>";
+                    htmlString += "<td>" + data.releasedHistory[i].to + "</td></tr>";
+                }
+                $("#transactionListTbody").append(htmlString);
+            }
+        </script>
+
+        <!-- httpRequest JSON parsing script -->
+        <script type="text/javascript">
+            firebaseEmailAuth.onAuthStateChanged(function (user) {
+
+                if (user) {
+                    //로그인 성공한 유저 id 확인해 보기 - firebase database에 접근해서 데이터 조회 하는 함수
+                    var docRef = db.collection("users").doc(firebaseEmailAuth.currentUser.uid);
+
+                    docRef.get().then(function (doc) {
+                        if (doc.exists) {
+                            userAddr = doc.data().addr;
+                            userName = doc.data().name;
+                            userEmail = user.email;
+                            console.log(user.email + " 님이 로그인했습니다." + " 계좌 : " + userAddr + " 이름 :" +
+                                userName);
+                            MakeTransactionListTable();
+                            MakeAddedMaskListTable();
+                            MakeInventoryTable();
+                        } else {
+                            // doc.data() will be undefined in this case
+                            console.log("No such document!");
+                        }
+                    }).catch(function (error) {
+                        console.log("Error getting document:", error);
+                    });
+
+
+
+                    //자바스크립트 dom 선택자를 통해서 네비게이션 메뉴의 엘리먼트 변경해주기
+
+
+                    //alert(userInfo.userid);  //uid는 db에서 user 테이블의 각 개체들의 pk 인데, 이 값은 인증에서 생성된 아이디의 pk 값과 같다. *중요!
+
+                    return true;
+                }
+            });
+        </script>
+        <!-- <script>
+  //테이블 행 클릭시 해당 정보 가져오는 JQuery  
+    $("#addedMaskListTable tr").click(function(){     
+ 
+ var str = "";
+ var tdArr = new Array();    // 배열 선언
+     
+ // 현재 클릭된 Row(<tr>)
+ var tr = $(this);
+ var td = tr.children();
+
+ // tr.text()는 클릭된 Row 즉 tr에 있는 모든 값을 가져온다.
+ console.log("클릭한 Row의 모든 데이터 : "+tr.text());
+            
+            // 반복문을 이용해서 배열에 값을 담아 사용할 수 도 있다.
+            td.each(function(i){
+                tdArr.push(td.eq(i).text());
+            });
+                    
+            $('#serialNumber2').val(tdArr[1]);
+        
+      
+ });
+ 
+</script> -->
+</body>
+
+</html>
