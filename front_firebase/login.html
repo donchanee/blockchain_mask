@@ -1,70 +1,103 @@
 <!DOCTYPE html>
-<html lang="en" dir="ltr" style=" height: 100%;">
-    <meta charset="utf-8">
-    <head>
-      <style> 
-      body{
-        height: 100%;
-    color: #111;
-    box-shadow: inset 0 0 5rem rgba(0, 0, 0, .5);
-  }</style>
-            <script src="./MyFunctions.js"></script>
-      <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
-      <!-- 합쳐지고 최소화된 최신 CSS -->
-<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap.min.css">
+<html lang="en">
+<head>
+	<title>MaskSaver Login</title>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+<!--===============================================================================================-->
+	<link rel="stylesheet" type="text/css" href="assets/vendor/bootstrap/css/bootstrap.min.css">
+<!--===============================================================================================-->
+	<link rel="stylesheet" type="text/css" href="assets/fonts/font-awesome-4.7.0/css/font-awesome.min.css">
+<!--===============================================================================================-->
+	<link rel="stylesheet" type="text/css" href="assets/fonts/iconic/css/material-design-iconic-font.min.css">
+<!--===============================================================================================-->
+	<link rel="stylesheet" type="text/css" href="assets/vendor/animate/animate.css">
+<!--===============================================================================================-->	
+	<link rel="stylesheet" type="text/css" href="assets/vendor/css-hamburgers/hamburgers.min.css">
+<!--===============================================================================================-->
+	<link rel="stylesheet" type="text/css" href="assets/vendor/animsition/css/animsition.min.css">
+<!--===============================================================================================-->
+	<link rel="stylesheet" type="text/css" href="assets/vendor/select2/select2.min.css">
+<!--===============================================================================================-->	
+	<link rel="stylesheet" type="text/css" href="assets/vendor/daterangepicker/daterangepicker.css">
+<!--===============================================================================================-->
+	<link rel="stylesheet" type="text/css" href="assets/css/util.css">
+	<link rel="stylesheet" type="text/css" href="assets/css/main.css">
+<!--===============================================================================================-->
+</head>
+<body>
+	
+	<div class="limiter">
+		<div class="container-login100">
+			<div class="wrap-login100">
+				<form class="login100-form validate-form">
+					<span class="login100-form-title p-b-26">
+						Log-In
+					</span>
+					<span class="login100-form-title p-b-48">
+						<img src="assets/img/logo/logo.png" alt="">
+					</span>
+					<div class="text-left p-t-1">
+						<span class="txt1">
+							Email 
+						</span>
+					</div>
+					<div class="wrap-input100 validate-input" data-validate = "Valid email is: a@b.c">
+						<input class="input100" type="text" name="email" id="email">
+						<span class="focus-input100" data-placeholder=""></span>
+					</div>
+					<div class="text-left p-t-1">
+						<span class="txt1">
+							Password 
+						</span>
+					</div>
+					<div class="wrap-input100 validate-input" data-validate="Enter password">
+						<input class="input100" type="password" name="pass" id="pwd">
+						<span class="focus-input100" data-placeholder=""></span>
+					</div>
 
-<!-- 부가적인 테마 -->
-<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap-theme.min.css">
-    <title>로그인 페이지</title>
-   
-   
-  </head>
-  <!-- 로그인폼 -->
-<body >
-    <!-- <div class="row">
-  <div class="col-md-offset-3">
-    <form class="form-inline">
-<div class="form-group">
-  <label class="sr-only" for="email">Email address</label>
-  <input type="email" class="form-control" id="email" placeholder="Enter email">
-</div>
-<div class="form-group">
-  <label class="sr-only" for="password">Password</label>
-  <input type="password" class="form-control" id="password" placeholder="Password">
-</div>
-<button type="submit" class="btn btn-default login">Sign in</button>
-</form>
-  </div>
-</div> -->
-<!-- 가입 폼 시작 -->
+					<div class="container-login100-form-btn">
+						<div class="wrap-login100-form-btn">
+							<div class="login100-form-bgbtn"></div>
+							<button type="button" class="login100-form-btn login">
+								Login
+							</button>
+						</div>
+					</div>
 
-<div class="container" style="align-items: center ;padding-top: 5em;">
-        <h1>마스크 관리 시스템 통합 로그인 페이지</h1>
+					<div class="text-center p-t-115">
+						<span class="txt1">
+							Don’t have an account? 
+							<br> 
+							Email to MaskSaver!
+						</span>
+					</div>
+				</form>
+			</div>
+		</div>
+	</div>
+	
 
-        <div class="form-group">
-          <label for="email">Email address:</label>
-          <input type="email" class="form-control" id="email">
-        </div>
+	<div id="dropDownSelect1"></div>
+	
+<!--===============================================================================================-->
+	<script src="assets/vendor/jquery/jquery-3.2.1.min.js"></script>
+<!--===============================================================================================-->
+	<script src="assets/vendor/animsition/js/animsition.min.js"></script>
+<!--===============================================================================================-->
+	<script src="assets/vendor/bootstrap/js/popper.js"></script>
+	<script src="assets/vendor/bootstrap/js/bootstrap.min.js"></script>
+<!--===============================================================================================-->
+	<script src="assets/vendor/select2/select2.min.js"></script>
+<!--===============================================================================================-->
+	<script src="assets/vendor/daterangepicker/moment.min.js"></script>
+	<script src="assets/vendor/daterangepicker/daterangepicker.js"></script>
+<!--===============================================================================================-->
+	<script src="assets/vendor/countdowntime/countdowntime.js"></script>
+<!--===============================================================================================-->
+	<script src="assets/js/main.js"></script>
 
-        <div class="form-group">
-          <label for="pwd">Password:</label>
-          <input type="password" class="form-control" id="pwd">
-        </div>
-
-        <button type="button" class="btn btn-default login">로그인</button>
-
-        <p>제조사A : test1@test.com</p>
-        <p>판매사A : test2@test.com</p>
-        <p>유통사A : test3@test.com</p>
-        <p>제조사B : test4@test.com</p>
-        <p>유통사B : test5@test.com</p>
-        <p>유통사C : test6@test.com</p>
-        <p>판매사B : test7@test.com</p>
-        <p>비밀번호 : 111111</p>
-    </div>
-
-<!-- 로그인폼 끝 -->
-
+	
     <!-- 합쳐지고 최소화된 최신 자바스크립트 -->
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/js/bootstrap.min.js"></script>
     <!-- The core Firebase JS SDK is always required and must be listed first -->
@@ -76,7 +109,9 @@
 <script src="https://www.gstatic.com/firebasejs/7.14.0/firebase-auth.js"></script>
 <script src="https://www.gstatic.com/firebasejs/7.14.0/firebase-database.js"></script>
 <script src="https://www.gstatic.com/firebasejs/7.14.0/firebase-firestore.js"></script>
-<script src="./firebaseInit.js"></script>
+<script src="./assets/js/firebaseInit.js"></script>
+<script src="./assets/js/firebaseUserCheck.js"></script>
+<script src="./assets/js/myfunctions.js"></script>
     <script>
       var firebaseEmailAuth; //파이어베이스 email 인증 모듈 전역변수
    var firebaseDatabase; //파이어베이스 db 모듈 전역변수
@@ -127,13 +162,13 @@
       if (doc.exists) {
         alert(doc.data().index);
           if(doc.data().index == "seller"){
-            window.location.href = "/seller.html";
+            window.location.href = "../seller/seller_dashboard.html";
           }
           else if (doc.data().index == "manufacturer") {
-            window.location.href = "/manufacturer.html"
+            window.location.href = "../manufacturer/manufacturer_dashboard.html"
           }
           else if(doc.data().index == "distributor"){
-            window.location.href = "/distributor.html"
+            window.location.href = "../distributor/distributor_dashboard.html"
           }
           else{
             alert("불가!")
@@ -152,6 +187,5 @@
 
 
     </script>
-
-  </body>
+</body>
 </html>
