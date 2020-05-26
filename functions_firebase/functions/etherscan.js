@@ -53,14 +53,14 @@ exports.getTokenInfofromWallet = ((req, res)=>{
 async function getHistory(req, res){ //제조사 생성내역, 거래내역 조회
     let address;
     let userRef = db.collection("users").doc(req.params.uid);
-    
+    let warningRef = db.collection("administrator").doc("warning").collection("warning"); // 관리자 db에 warning 삽입
     await userRef.get()
         .then(doc => {
             if(!doc.exists){
                 console.log('No such users');
             }else{
                 address = doc.data().addr;
-                console.log(address);
+                //console.log(address);
             }
             return null;
         }).catch(err => {
@@ -128,9 +128,15 @@ async function getHistory(req, res){ //제조사 생성내역, 거래내역 조�
                         let tmp = {
                             tokenId : stock[e_idx].tokenId,
                             enteredTime : stock[e_idx].time,
-                            passedTime : (now-time)
+                            passedTime : (now-time),
+                            checkedTime : now
                         }
                         warning.push(tmp);
+
+                        let warningRef2 = warningRef.doc(stock[e_idx].tokenId);
+                        tmp.uid = req.params.uid;
+                        //console.log(tmp);
+                        warningRef2.set(tmp,{merge: true});
                     }
                 }
 

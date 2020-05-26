@@ -5,10 +5,18 @@ const express = require('express');
 const app = express();
 const bodyParser = require('body-parser');
 //contract_api_api
-const cors = require('cors')({origin: true});
+const cors = require('cors');
 
 app.use(bodyParser.urlencoded({extended:true}));
 app.use(bodyParser.json());
+app.use(cors({origin: true}));
+/*
+app.all('/*', (req, res, next)=>{
+    res.header("Access-Control-Allow-Origin", "*");
+    res.header("Access-Control-Allow-Headers", "X-Requested-With");
+    next();
+});
+*/
 /*
 성공
 status: "Success",
