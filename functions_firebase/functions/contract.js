@@ -984,46 +984,42 @@ exports.dealMasks = ((req, res)=>{ //param: sender uid, receiver address, tokenI
 		res.send(JSON.stringify(data));
 	});
 });
-/*
-exports.getStockList = ((req, res)=>{
+
+function getStockList(req, res){
+	async function stock(item){ // 재고 db에넣기
+		await countRef.doc(item).get()
+		.then(doc => {
+			if(!doc.exists)
+				countRef.doc(item).set({count:500},{merge: true});
+			return null;
+		})
+		.catch(err =>{
+			console.log(err);
+		});
+	}
 	let uid = req.params.uid;
 	
 	let usersRef = db.collection("users").doc(uid);
+	let countRef = usersRef.collection("inventory");
 	usersRef.get().then(doc => {
 		let account = doc.data().addr;
 
-		const pk = Buffer.from(admin_pk,'hex');
+		//const pk = Buffer.from(admin_pk,'hex');
 		let callObject = {
 			from: admin_account,
 			gas: web3.utils.toHex(web3.utils.toWei('20', 'gwei'))
 		};
-		let arr = new Array();
+		let data = {
+			status: "Success to make DB"
+		}
 		contract.methods.tokenByList(account).call(callObject)
-			.then(async (result)=> {
-				const promise = result.map(async (val, index)=>{
-					let hi = await contract.methods.Masks(val).call(callObject);
-					let tmp = {
-						timeStamp: hi,
-						tokenId: val,
-						num: '1',
-					}
-					arr.push(tmp); 
-				});
-				Promise.all(promise).then(() => {
-					let data = {
-						status: "Success",
-						stock: arr
-					}
-					res.send(JSON.stringify(data));
-					return null;
-				}).catch(err=>{
-					let data = {
-						status: "Fail",
-						errMsg: "Error to tokenByList",
-						errDetail: err
-					}
-					console.log(JSON.stringify(data));
-				})
+			.then(result=> {
+				data.result = result;
+				for(idx in result){
+					stock(result[idx]);
+				}
+				
+				res.send(JSON.stringify(data));
 				return null;
 			})
 			.catch((err) => {
@@ -1044,8 +1040,9 @@ exports.getStockList = ((req, res)=>{
 		};
 		console.log(JSON.stringify(data));
 	});
-});
-*/
+}
+module.exports.getStockList= getStockList;
+
 
 //MaskMaking('maker A', '0xc2988556Ae24daF3A20B16d3EB4D970E43e3546D', '7D88DB82FA83B7A1418FEB4A291496E0D72DDD08E8D15162B666A12043EC6F67');
 //dealMasks('0xc2988556Ae24daF3A20B16d3EB4D970E43e3546D', '7D88DB82FA83B7A1418FEB4A291496E0D72DDD08E8D15162B666A12043EC6F67', '0xb93428830a28aD774DB9A3937fC8962fb4429785', '2')

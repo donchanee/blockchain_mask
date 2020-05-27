@@ -1,4 +1,4 @@
-require('date-utils');
+
 var firebaseConfig = {
     apiKey: "AIzaSyBUFarAIUCHFdR-pIrYGaTNJC43CpFBZZA",
     authDomain: "maskproject-6e385.firebaseapp.com",
@@ -14,11 +14,20 @@ const fb = require('firebase');
 
 fb.initializeApp(firebaseConfig);
 
-let newDate = new Date();
-let time = newDate.toFormat('YYYY-MM-DD');
-
-fb.database().ref('warning/15').set({
-    user : 'maker1',
-    passedTime : 712837,
-    enteredTime : 18127218
-});
+let db = fb.firestore();
+let list = [1,2,3,4,5];
+let chk=0;
+let dbRef = db.collection("users").doc("lof5P4jV8IMm1fNUoTDcRKpsuvq1").collection("inventory")
+dbRef.get()
+  .then(snapshot => {
+    snapshot.forEach(doc => {
+      for(idx in list){
+        if(list[idx] == doc.id) chk++;
+        if(chk == 0){
+          dbRef.doc(String(list[idx])).set({count: 500}, {merge: true});
+        }
+      }
+    });
+  }).catch(err=>{
+    console.log(err);
+  })

@@ -2,7 +2,7 @@
 
 const request = require('request');
 const util = require('util');
-const fb = require("./firebase");
+const fb = require("./firebase_init");
 
 const myApi = 'DI2QYXMJ7U1UY4G8AAE175TC33B3V3SGSE';
 const contractaddress = "0x2727b026EdB116B20196a1abF32e0cA8311E93e2";
@@ -74,16 +74,15 @@ async function getHistory(req, res){ //제조사 생성내역, 거래내역 조�
 
     let url = util.format('https://api-ropsten.etherscan.io/api?module=account&action=tokennfttx&contractaddress=%s&address=%s&page=1&offset=100&sort=asc&apikey=%s', contractaddress, address, myApi);
     let data = new Object();
-    request(url, (err, response, body) =>{
+    request(url, function(err, response, body){
         if(!err && response.statusCode == 200){
             let json = JSON.parse(body);
             let result = json['result'];
 
-            let entered = new Array();
-            let released = new Array();
-            let stock = new Array();
+            let create = new Array();
+            let deal = new Array();
 
-            for(tmp in result){
+            for(let tmp in result){
                 //console.log('now : ' + tmp + ', ' + result[tmp]['to']);
                 let txInfo = {
                     time: result[tmp]['timeStamp'],
@@ -142,7 +141,11 @@ async function getHistory(req, res){ //제조사 생성내역, 거래내역 조�
                     warning : warning
                 }
             }
-
+            data = {
+                status: "Success",
+                createHistory: create,
+                dealHistory: deal
+            };
         }else{
             data = {
                 status: "Fail",
@@ -151,7 +154,6 @@ async function getHistory(req, res){ //제조사 생성내역, 거래내역 조�
             };
         };
         res.send(JSON.stringify(data));
-        
     });
 };
 

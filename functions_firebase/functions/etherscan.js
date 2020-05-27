@@ -135,11 +135,11 @@ async function getHistory(req, res){ //제조사 생성내역, 거래내역 조�
 
                         let warningRef2 = warningRef.doc(stock[e_idx].tokenId);
                         tmp.uid = req.params.uid;
-                        //console.log(tmp);
                         warningRef2.set(tmp,{merge: true});
                     }
                 }
 
+                
                 data = {
                     status: "Success",
                     enteredHistory: entered,
@@ -148,7 +148,7 @@ async function getHistory(req, res){ //제조사 생성내역, 거래내역 조�
                     warning : warning
                 }
             }
-
+            
         }else{
             data = {
                 status: "Fail",
