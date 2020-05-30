@@ -50,7 +50,7 @@ exports.getTokenInfofromWallet = ((req, res)=>{
     });
 });
 
-function getHistory(req, res){ //제조사 생성내역, 거래내역 조회
+async function getHistory(req, res){ //제조사 생성내역, 거래내역 조회
     let address;
     let userRef = db.collection("users").doc(req.params.uid);
     let warningRef = db.collection("administrator").doc("warning").collection("warning"); // 관리자 db에 warning 삽입
@@ -159,7 +159,7 @@ function getHistory(req, res){ //제조사 생성내역, 거래내역 조회
         res.send(JSON.stringify(data));
         
     });
-};
+}
 
 function getTokenHistory(req, res){ //관리자가 조회할때 쓸 함수 
     let tokenId = req.params.tokenId;
@@ -198,7 +198,7 @@ function getTokenHistory(req, res){ //관리자가 조회할때 쓸 함수
         }
         res.send(JSON.stringify(result));
     });
-};
+}
 
 module.exports.getTokenHistory = getTokenHistory;
 module.exports.getHistory = getHistory;
