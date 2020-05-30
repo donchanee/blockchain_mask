@@ -45,10 +45,50 @@ exports.getTokenInfofromWallet = ((req, res)=>{
                 errMsg: "Fail to inquery tx",
                 errDetail: JSON.parse(body)
             }
-        };
+        }
         res.send(JSON.stringify(data));
     });
 });
+
+function getTokenHistory(req, res){ //관리자가 조회할때 쓸 함수 
+    let tokenId = req.params.tokenId;
+    let url = util.format('https://api-ropsten.etherscan.io/api?module=account&action=tokennfttx&contractaddress=%s&page=1&offset=100&sort=asc&apikey=%s', contractaddress, myApi);
+
+    request(url, (err, response, body) => {
+        let result = new Object();
+        if(!err && response.statusCode === 200){
+            result = JSON.parse(body);
+            result = result['result'];
+
+            let tokenTxArr = new Array();
+            for(let e_idx in result){ //result 중 tokenId에 해당하는 값만 리턴
+                if(tokenId === result[e_idx]['tokenID']){
+                    let txInfo = {
+                        time: result[e_idx]['timeStamp'],
+                        tokenId: result[e_idx]['tokenID'],
+                        num: '1',
+                        from: result[e_idx]['from'],
+                        to: result[e_idx]['to']
+                    }
+                    tokenTxArr.push(txInfo);
+                }
+                //console.log(e_idx + " : " + result[e_idx]['tokenID']);
+            }
+            result = {
+                status: "Success",
+                tokenTx: tokenTxArr
+            }
+        }else{
+            result = {
+                status: "Fail",
+                errMsg: "Fail to getTx in getTokenHistory",
+                errDetail: err
+            }
+        }
+        res.send(JSON.stringify(result));
+    });
+};
+
 
 async function getHistory(req, res){ //제조사 생성내역, 거래내역 조회
     let address;
@@ -157,6 +197,7 @@ async function getHistory(req, res){ //제조사 생성내역, 거래내역 조�
     });
 };
 
+module.exports.getTokenHistory = getTokenHistory;
 module.exports.getHistory = getHistory;
 /*
 #deprecated
@@ -172,18 +213,6 @@ exports.checkwallet = function(req, res){
             //console.log(body);
             res.send('err' + body);
         }
-    });
-};
-
-exports.internalTx = function(req, res){//지금작동안함싸발
-    let url = util.format('http://api-ropsten.etherscan.io/api?module=account&action=txlistinternal&address=%s&startblock=0&endblock=2702578&sort=asc&apikey=%s', req.params.address, myApi);
-    console.log('start internalTx');
-    request(url, function(err, response, body){
-        if(!err && response.statusCode == 200){
-            res.send('good' + body);
-        }else{
-            res.send('err' + body);
-        };
     });
 };
 */

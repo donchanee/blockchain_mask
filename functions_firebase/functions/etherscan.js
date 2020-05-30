@@ -31,7 +31,7 @@ exports.normalTx = ((req, res)=>{
 });
 
 exports.getTokenInfofromWallet = ((req, res)=>{
-    let url = util.format('https://api-ropsten.etherscan.io/api?module=account&action=tokennfttx&contractaddress=%s&address=%s&page=1&offset=100&sort=asc&apikey=%s', contractaddress, req.params.address, myApi);
+    let url = util.format('https://api-ropsten.etherscan.io/api?module=account&action=tokennfttx&contractaddress=%s&page=1&offset=100&sort=asc&apikey=%s', contractaddress, myApi);
     request(url, (err, response, body)=>{
         let data = new Object();
         if(!err && response.statusCode === 200){
@@ -50,7 +50,7 @@ exports.getTokenInfofromWallet = ((req, res)=>{
     });
 });
 
-async function getHistory(req, res){ //제조사 생성내역, 거래내역 조회
+function getHistory(req, res){ //제조사 생성내역, 거래내역 조회
     let address;
     let userRef = db.collection("users").doc(req.params.uid);
     let warningRef = db.collection("administrator").doc("warning").collection("warning"); // 관리자 db에 warning 삽입
@@ -159,6 +159,46 @@ async function getHistory(req, res){ //제조사 생성내역, 거래내역 조�
         res.send(JSON.stringify(data));
         
     });
-}
+};
 
+function getTokenHistory(req, res){ //관리자가 조회할때 쓸 함수 
+    let tokenId = req.params.tokenId;
+    let url = util.format('https://api-ropsten.etherscan.io/api?module=account&action=tokennfttx&contractaddress=%s&page=1&offset=100&sort=asc&apikey=%s', contractaddress, myApi);
+
+    request(url, (err, response, body) => {
+        let result = new Object();
+        if(!err && response.statusCode === 200){
+            result = JSON.parse(body);
+            result = result['result'];
+
+            let tokenTxArr = new Array();
+            for(let e_idx in result){ //result 중 tokenId에 해당하는 값만 리턴
+                if(tokenId === result[e_idx]['tokenID']){
+                    let txInfo = {
+                        time: result[e_idx]['timeStamp'],
+                        tokenId: result[e_idx]['tokenID'],
+                        num: '1',
+                        from: result[e_idx]['from'],
+                        to: result[e_idx]['to']
+                    }
+                    tokenTxArr.push(txInfo);
+                }
+                //console.log(e_idx + " : " + result[e_idx]['tokenID']);
+            }
+            result = {
+                status: "Success",
+                tokenTx: tokenTxArr
+            }
+        }else{
+            result = {
+                status: "Fail",
+                errMsg: "Fail to getTx in getTokenHistory",
+                errDetail: err
+            }
+        }
+        res.send(JSON.stringify(result));
+    });
+};
+
+module.exports.getTokenHistory = getTokenHistory;
 module.exports.getHistory = getHistory;
