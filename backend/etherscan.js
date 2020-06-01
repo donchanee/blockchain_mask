@@ -119,9 +119,10 @@ async function getHistory(req, res){ //제조사 생성내역, 거래내역 조�
             let json = JSON.parse(body);
             let result = json['result'];
 
-            let create = new Array();
-            let deal = new Array();
-
+            let entered = new Array();
+            let released = new Array();
+            let stock = new Array();
+            
             for(let tmp in result){
                 //console.log('now : ' + tmp + ', ' + result[tmp]['to']);
                 let txInfo = {
@@ -197,6 +198,32 @@ async function getHistory(req, res){ //제조사 생성내역, 거래내역 조�
     });
 };
 
+function searchHistory(req, res){ // 미완
+    let address;
+    let userRef = db.collection("users").doc(req.params.uid);
+    
+    await userRef.get()
+        .then(doc => {
+            if(!doc.exists){
+                console.log('No such users');
+            }else{
+                address = doc.data().addr;
+                console.log(address);
+            }
+        }).catch(err => {
+            let data = {
+                estatus: "Fail",
+                errMsg: "Fail to get user address",
+                errDetail: err
+            }
+            res.send(JSON.stringify(data));
+        });
+
+    let url = util.format('https://api-ropsten.etherscan.io/api?module=account&action=tokennfttx&contractaddress=%s&address=%s&page=1&offset=100&sort=asc&apikey=%s', contractaddress, address, myApi);
+    let data = new Object();
+    request(url, function(err, response, body){
+
+}
 module.exports.getTokenHistory = getTokenHistory;
 module.exports.getHistory = getHistory;
 /*

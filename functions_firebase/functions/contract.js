@@ -1041,7 +1041,74 @@ function getStockList(req, res){
 		console.log(JSON.stringify(data));
 	});
 }
-module.exports.getStockList= getStockList;
+
+function burnToken(req, res){ //토큰소멸
+	let tokenId = req.params.tokenId;
+
+	let callObject = {
+		from: admin_account,
+		gas: web3.utils.toHex(web3.utils.toWei('10', 'gwei'))
+	};
+	const pk = Buffer.from(admin_pk,'hex');
+
+	contract.methods.burnToken(tokenId).call(callObject)
+			.then(result => {
+				
+				web3.eth.getTransactionCount(admin_account, (err, txCount) =>{
+					if(!err){
+						const txObject = {
+							nonce: web3.utils.toHex(txCount),
+							to: contractAddress,
+							//value: web3.utils.toHex(web3.utils.toWei('0', 'ether')),
+							gasLimit: web3.utils.toHex(2100000),
+							gasPrice: web3.utils.toHex(web3.utils.toWei('10', 'gwei')),
+							data: contract.methods.burnToken(tokenId).encodeABI()
+						};
+						const tx = new Tx(txObject, {'chain':'ropsten'});
+						tx.sign(pk);
+					
+						const serializedTx = tx.serialize();
+						const raw = '0x' + serializedTx.toString('hex');
+					
+						web3.eth.sendSignedTransaction(raw)
+							.once('transactionHash', (hash) => {
+								let data = {
+									status: "Success",
+									txUrl: "transactionHash: https://ropsten.etherscan.io/tx/" + hash
+								}
+								res.send(JSON.stringify(data));
+							})
+							.on('error', (err) =>{
+								let data = {
+									status: "Fail",
+									errMsg: "Check your token in stock",
+									errDetail: err
+								}
+								res.send(JSON.stringify(data));
+							});
+					}else{
+						let data = {
+							status: "Fail",
+							errMsg: "Error to getTrasactionCount",
+							errDetail: err
+						}
+						res.send(JSON.stringify(data));
+					}
+					
+				});
+				return null;
+			}).catch(err=>{
+				let data = {
+					status: "Fail",
+					errMsg: "Return to revert from burnToken in contract",
+					errDeatil : err
+				}
+				res.send(JSON.stringify(data)); 
+			});
+}
+
+module.exports.burnToken = burnToken;
+module.exports.getStockList = getStockList;
 
 
 //MaskMaking('maker A', '0xc2988556Ae24daF3A20B16d3EB4D970E43e3546D', '7D88DB82FA83B7A1418FEB4A291496E0D72DDD08E8D15162B666A12043EC6F67');

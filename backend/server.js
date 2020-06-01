@@ -28,6 +28,7 @@ app.get('/maskMaking/:uid', contract.MaskMaking); //마스크 생산, json retur
 app.get('/getMaskInfo/:tokenId', contract.getMaskInfo); //마스크 일련번호 내 datetime 가져오기
 app.get('/dealMasks/:send_uid/:recv_uid/:token_id', contract.dealMasks); //마스크 토큰 전송 
 app.get('/stockList/:uid', contract.getStockList); //재고확인, 
+app.get('/burnToken/:tokenId', contract.burnToken);
 
 //etherscan.js
 app.get('/normalTx/:address', etherscan.normalTx); //트랜잭션조회
