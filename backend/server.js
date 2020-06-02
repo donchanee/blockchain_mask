@@ -33,7 +33,7 @@ app.get('/burnToken/:tokenId', contract.burnToken);
 //etherscan.js
 app.get('/normalTx/:address', etherscan.normalTx); //트랜잭션조회
 app.get('/tokenInfo/:address', etherscan.getTokenInfofromWallet);//지갑주소의 토큰거래내역 조회
-app.get('/getHistory/:uid', etherscan.getHistory); // 제조사 생성내역, 거래내역조회, json return
+app.get('/getHistory/:uid/:time', etherscan.getHistory); // 제조사 생성내역, 거래내역조회, json return
 app.get('/getTokenHistory/:tokenId', etherscan.getTokenHistory);
 //app.get('/getTxHistory/:address', etherscan.getTxHistory);
 

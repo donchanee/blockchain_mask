@@ -54,6 +54,14 @@ async function getHistory(req, res){ //제조사 생성내역, 거래내역 조�
     let address;
     let userRef = db.collection("users").doc(req.params.uid);
     let warningRef = db.collection("administrator").doc("warning").collection("warning"); // 관리자 db에 warning 삽입
+    let time = req.params.time;
+    let timechk = 0;
+    let ts;
+    if(time !== 0){
+        timechk = 1;
+        let date = new Date(time);
+        ts = Math.floor(date.getTime()/1000);
+    }
     await userRef.get()
         .then(doc => {
             if(!doc.exists){
@@ -77,26 +85,49 @@ async function getHistory(req, res){ //제조사 생성내역, 거래내역 조�
     let data = new Object();
     request(url, (err, response, body) =>{
         if(!err && response.statusCode === 200){
+            
             let json = JSON.parse(body);
             let result = json['result'];
 
             let entered = new Array();
             let released = new Array();
             let stock = new Array();
+            let txInfo = new Object();
 
-            for(tmp in result){
-                //console.log('now : ' + tmp + ', ' + result[tmp]['to']);
-                let txInfo = {
-                    time: result[tmp]['timeStamp'],
-                    tokenId: result[tmp]['tokenID'],
-                    num: '1',
-                    from: result[tmp]['from'],
-                    to: result[tmp]['to']
+            if(timechk === 1){
+                for(tmp in result){
+                    if(result[tmp]['timeStamp'] >= ts && result[tmp]['timeStamp'] <= (ts + 3600*24)){
+                        txInfo = {
+                            time: result[tmp]['timeStamp'],
+                            tokenId: result[tmp]['tokenID'],
+                            num: '1',
+                            from: result[tmp]['from'],
+                            to: result[tmp]['to']
+                        }
+    
+                        if(result[tmp]['to'] === address.toLowerCase()){ //생성내역, 지금은 거래완료한 토큰도 보이는방식, 거래한토큰은 거르는식으로 구현해야함.
+                            entered.push(txInfo);
+                        }else{ //거래내역
+                            released.push(txInfo);
+                        }
+                    }
                 }
-                if(result[tmp]['to'] === address.toLowerCase()){ //생성내역, 지금은 거래완료한 토큰도 보이는방식, 거래한토큰은 거르는식으로 구현해야함.
-                    entered.push(txInfo);
-                }else{ //거래내역
-                    released.push(txInfo);
+            }else{
+                for(tmp in result){
+                    //console.log('now : ' + tmp + ', ' + result[tmp]['to']);
+                    txInfo = {
+                        time: result[tmp]['timeStamp'],
+                        tokenId: result[tmp]['tokenID'],
+                        num: '1',
+                        from: result[tmp]['from'],
+                        to: result[tmp]['to']
+                    }
+
+                    if(result[tmp]['to'] === address.toLowerCase()){ //생성내역, 지금은 거래완료한 토큰도 보이는방식, 거래한토큰은 거르는식으로 구현해야함.
+                        entered.push(txInfo);
+                    }else{ //거래내역
+                        released.push(txInfo);
+                    }
                 }
             }
 
