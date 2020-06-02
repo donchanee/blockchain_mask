@@ -15,19 +15,63 @@
 			width: 70%;
       		margin-left: auto;
 		}
+
+		#container {
+			height: 400px;
+		}
+
+		.highcharts-figure, .highcharts-data-table table {
+			min-width: 310px;
+			max-width: 800px;
+			margin: 1em auto;
+		}
+
+		#datatable {
+			font-family: Verdana, sans-serif;
+			border-collapse: collapse;
+			border: 1px solid #EBEBEB;
+			margin: 10px auto;
+			text-align: center;
+			width: 100%;
+			max-width: 500px;
+		}
+		#datatable caption {
+			padding: 1em 0;
+			font-size: 1.2em;
+			color: #555;
+		}
+		#datatable th {
+			font-weight: 600;
+			padding: 0.5em;
+		}
+		#datatable td, #datatable th, #datatable caption {
+			padding: 0.5em;
+		}
+		#datatable thead tr, #datatable tr:nth-child(even) {
+			background: #f8f8f8;
+		}
+		#datatable tr:hover {
+			background: #f1f7ff;
+		}
 	</style>
  <!-- CSS here -->
-   <link rel="stylesheet" href="assets/css/bootstrap.min.css">
-   <link rel="stylesheet" href="assets/css/owl.carousel.min.css">
-   <link rel="stylesheet" href="assets/css/slicknav.css">
-   <link rel="stylesheet" href="assets/css/animate.min.css">
-   <link rel="stylesheet" href="assets/css/magnific-popup.css">
-   <link rel="stylesheet" href="assets/css/fontawesome-all.min.css">
-   <link rel="stylesheet" href="assets/css/themify-icons.css">
-   <link rel="stylesheet" href="assets/css/slick.css">
-   <link rel="stylesheet" href="assets/css/nice-select.css">
-   <link rel="stylesheet" href="assets/css/style.css">
-   <link rel="stylesheet" href="assets/css/responsive.css">
+	<link rel="stylesheet" href="assets/css/bootstrap.min.css">
+	<link rel="stylesheet" href="assets/css/owl.carousel.min.css">
+	<link rel="stylesheet" href="assets/css/slicknav.css">
+	<link rel="stylesheet" href="assets/css/animate.min.css">
+	<link rel="stylesheet" href="assets/css/magnific-popup.css">
+	<link rel="stylesheet" href="assets/css/fontawesome-all.min.css">
+	<link rel="stylesheet" href="assets/css/themify-icons.css">
+	<link rel="stylesheet" href="assets/css/slick.css">
+	<link rel="stylesheet" href="assets/css/nice-select.css">
+	<link rel="stylesheet" href="assets/css/style.css">
+	<link rel="stylesheet" href="assets/css/responsive.css">
+	<script src="https://code.highcharts.com/highcharts.js"></script>
+	<script src="https://code.highcharts.com/modules/data.js"></script>
+	<script src="https://code.highcharts.com/modules/sankey.js"></script>
+	<script src="https://code.highcharts.com/modules/exporting.js"></script>
+	<script src="https://code.highcharts.com/modules/export-data.js"></script>
+	<script src="https://code.highcharts.com/modules/accessibility.js"></script>
 </head>
 
 <body>
@@ -133,6 +177,11 @@
 		<div class="container box_1170">
 			<div class="section-top-border">
 				<h3 class="mb-30">마스크 이동 내역</h3>
+
+				<figure class="highcharts-figure">
+					<div id="container" style="min-width: 350px; max-width: 760px; height: 400px; margin: 0 auto"></div>
+				</figure>
+
 				<div class="progress-table-wrap">
 					<div class="progress-table">
 						<div class="table-head">
@@ -331,7 +380,75 @@
         
 		<!-- Jquery Plugins, main Jquery -->	
         <script src="./assets/js/plugins.js"></script>
-        <script src="./assets/js/main.js"></script>
+		<script src="./assets/js/main.js"></script>
+		
+		<script>
+			Highcharts.chart('container', {
+		
+			title: {
+				text: 'Highcharts Sankey Diagram'
+			},
+			accessibility: {
+				point: {
+					valueDescriptionFormat: '{index}. {point.from} to {point.to}, {point.weight}.'
+				}
+			},
+			series: [{
+				keys: ['from', 'to', 'weight'],
+				data: [
+					['Brazil', 'Portugal', 5],
+					['Brazil', 'France', 1],
+					['Brazil', 'Spain', 1],
+					['Brazil', 'England', 1],
+					['Canada', 'Portugal', 1],
+					['Canada', 'France', 5],
+					['Canada', 'England', 1],
+					['Mexico', 'Portugal', 1],
+					['Mexico', 'France', 1],
+					['Mexico', 'Spain', 5],
+					['Mexico', 'England', 1],
+					['USA', 'Portugal', 1],
+					['USA', 'France', 1],
+					['USA', 'Spain', 1],
+					['USA', 'England', 5],
+					['Portugal', 'Angola', 2],
+					['Portugal', 'Senegal', 1],
+					['Portugal', 'Morocco', 1],
+					['Portugal', 'South Africa', 3],
+					['France', 'Angola', 1],
+					['France', 'Senegal', 3],
+					['France', 'Mali', 3],
+					['France', 'Morocco', 3],
+					['France', 'South Africa', 1],
+					['Spain', 'Senegal', 1],
+					['Spain', 'Morocco', 3],
+					['Spain', 'South Africa', 1],
+					['England', 'Angola', 1],
+					['England', 'Senegal', 1],
+					['England', 'Morocco', 2],
+					['England', 'South Africa', 7],
+					['South Africa', 'China', 5],
+					['South Africa', 'India', 1],
+					['South Africa', 'Japan', 3],
+					['Angola', 'China', 5],
+					['Angola', 'India', 1],
+					['Angola', 'Japan', 3],
+					['Senegal', 'China', 5],
+					['Senegal', 'India', 1],
+					['Senegal', 'Japan', 3],
+					['Mali', 'China', 5],
+					['Mali', 'India', 1],
+					['Mali', 'Japan', 3],
+					['Morocco', 'China', 5],
+					['Morocco', 'India', 1],
+					['Morocco', 'Japan', 3]
+				],
+				type: 'sankey',
+				name: 'Sankey demo series'
+			}]
+		
+		});
+		</script>
         
 </body>
 </html>
