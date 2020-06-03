@@ -695,7 +695,7 @@ exports.MaskMaking = ((req, res)=>{ // param : uid
 	let uid = req.params.uid;
 	let usersRef = db.collection("users").doc(uid);
 
-	let newDate = new Date();
+	let newDate = new Date() + 9;
 	let time = newDate.toFormat('YYYY-MM-DD');
 
 	let daily = () => {
@@ -705,8 +705,8 @@ exports.MaskMaking = ((req, res)=>{ // param : uid
             if(!doc.exists){
                 console.log('No such document!');
                 dailyRef.set({
-                    dailyMake:0,
-                    dailySell:0
+                    dailyEnter:0,
+                    dailyRelease:0
                 }).then(()=>{
 					daily();
 					return null;
@@ -716,7 +716,7 @@ exports.MaskMaking = ((req, res)=>{ // param : uid
             }else{
                 let result = doc.data();
                 dailyRef.set({
-                    dailyMake : result['dailyMake'] +1,  
+                    dailyEnter : result['dailyEnter'] +1,  
                 }, {merge: true});
                 
 			}
@@ -841,7 +841,7 @@ exports.dealMasks = ((req, res)=>{ //param: sender uid, receiver address, tokenI
 		console.log('get receiver address Error : ', err);
 	});
 
-	let newDate = new Date();
+	let newDate = new Date() + 9;
 	let time = newDate.toFormat('YYYY-MM-DD');
 
 	let daily = () => {
@@ -875,7 +875,7 @@ exports.dealMasks = ((req, res)=>{ //param: sender uid, receiver address, tokenI
 		dailyRef2.get()
 		.then(doc => {
 			if(!doc.exists){
-				console.log('No suchdocument!');
+				console.log('No such document!');
 				dailyRef2.set({
 					dailyEnter : 0,
 					dailyRelease : 0

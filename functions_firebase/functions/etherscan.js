@@ -31,7 +31,7 @@ exports.normalTx = ((req, res)=>{
 });
 
 exports.getTokenInfofromWallet = ((req, res)=>{
-    let url = util.format('https://api-ropsten.etherscan.io/api?module=account&action=tokennfttx&contractaddress=%s&page=1&offset=100&sort=asc&apikey=%s', contractaddress, myApi);
+    let url = util.format('https://api-ropsten.etherscan.io/api?module=account&action=tokennfttx&contractaddress=%s&page=1&offset=1000&sort=asc&apikey=%s', contractaddress, myApi);
     request(url, (err, response, body)=>{
         let data = new Object();
         if(!err && response.statusCode === 200){
@@ -54,14 +54,7 @@ async function getHistory(req, res){ //제조사 생성내역, 거래내역 조�
     let address;
     let userRef = db.collection("users").doc(req.params.uid);
     let warningRef = db.collection("administrator").doc("warning").collection("warning"); // 관리자 db에 warning 삽입
-    let time = req.params.time;
-    let timechk = 0;
-    let ts;
-    if(time !== 0){
-        timechk = 1;
-        let date = new Date(time);
-        ts = Math.floor(date.getTime()/1000);
-    }
+
     await userRef.get()
         .then(doc => {
             if(!doc.exists){
@@ -81,7 +74,7 @@ async function getHistory(req, res){ //제조사 생성내역, 거래내역 조�
         });
 
 
-    let url = util.format('https://api-ropsten.etherscan.io/api?module=account&action=tokennfttx&contractaddress=%s&address=%s&page=1&offset=100&sort=asc&apikey=%s', contractaddress, address, myApi);
+    let url = util.format('https://api-ropsten.etherscan.io/api?module=account&action=tokennfttx&contractaddress=%s&address=%s&page=1&offset=1000&sort=asc&apikey=%s', contractaddress, address, myApi);
     let data = new Object();
     request(url, (err, response, body) =>{
         if(!err && response.statusCode === 200){
@@ -94,27 +87,126 @@ async function getHistory(req, res){ //제조사 생성내역, 거래내역 조�
             let stock = new Array();
             let txInfo = new Object();
 
-            if(timechk === 1){
-                for(tmp in result){
-                    if(result[tmp]['timeStamp'] >= ts && result[tmp]['timeStamp'] <= (ts + 3600*24)){
-                        txInfo = {
-                            time: result[tmp]['timeStamp'],
-                            tokenId: result[tmp]['tokenID'],
-                            num: '1',
-                            from: result[tmp]['from'],
-                            to: result[tmp]['to']
-                        }
-    
-                        if(result[tmp]['to'] === address.toLowerCase()){ //생성내역, 지금은 거래완료한 토큰도 보이는방식, 거래한토큰은 거르는식으로 구현해야함.
-                            entered.push(txInfo);
-                        }else{ //거래내역
-                            released.push(txInfo);
-                        }
-                    }
+            for(tmp in result){
+                //console.log('now : ' + tmp + ', ' + result[tmp]['to']);
+                txInfo = {
+                    time: result[tmp]['timeStamp'],
+                    tokenId: result[tmp]['tokenID'],
+                    num: '1',
+                    from: result[tmp]['from'],
+                    to: result[tmp]['to']
+                }
+
+                if(result[tmp]['to'] === address.toLowerCase()){ //생성내역, 지금은 거래완료한 토큰도 보이는방식, 거래한토큰은 거르는식으로 구현해야함.
+                    entered.push(txInfo);
+                }else{ //거래내역
+                    released.push(txInfo);
+                }
+            }
+
+            if(!released || !entered){ // 입고, 출고내역이 없을 수도 있음
+                stock = entered;
+                data = {
+                    status: "Success",
+                    enteredHistory: entered,
+                    releasedHistory: released,
+                    stockList: stock
                 }
             }else{
-                for(tmp in result){
-                    //console.log('now : ' + tmp + ', ' + result[tmp]['to']);
+                for(e_idx in entered){
+                    let token = entered[e_idx].tokenId;
+                    let chk = 0;
+                    for(r_idx in released){
+                        if(token === released[r_idx].tokenId) chk++;
+                    }
+                    if(chk === 0) stock.push(entered[e_idx]);
+                }
+
+                let warning = new Array(); //7일이상 경과시 경고 알림
+                let now = Math.floor((new Date()+9)/1000);
+
+                for(e_idx in stock){
+                    let time = stock[e_idx].time;
+                    //console.log(now - time);
+                    if((now - time) >= 604800){ //7일경과
+                        let tmp = {
+                            tokenId : stock[e_idx].tokenId,
+                            enteredTime : stock[e_idx].time,
+                            passedTime : (now-time),
+                            checkedTime : now
+                        }
+                        warning.push(tmp);
+
+                        let warningRef2 = warningRef.doc(stock[e_idx].tokenId);
+                        tmp.uid = req.params.uid;
+                        warningRef2.set(tmp,{merge: true});
+                    }
+                }
+
+                
+                data = {
+                    status: "Success",
+                    enteredHistory: entered,
+                    releasedHistory: released,
+                    stockList: stock,
+                    warning : warning
+                }
+            }
+            
+        }else{
+            data = {
+                status: "Fail",
+                errMsg: "Fail to access API",
+                errDetail: err
+            };
+        }
+        res.send(JSON.stringify(data));
+        
+    });
+}
+
+async function searchHistory(req, res){ //제조사 생성내역, 거래내역 조회
+    let address;
+    let userRef = db.collection("users").doc(req.params.uid);
+    let warningRef = db.collection("administrator").doc("warning").collection("warning"); // 관리자 db에 warning 삽입
+    
+    let date = new Date(req.params.time);
+    let ts = Math.floor(date.getTime()/1000);
+
+    await userRef.get()
+        .then(doc => {
+            if(!doc.exists){
+                console.log('No such users');
+            }else{
+                address = doc.data().addr;
+                //console.log(address);
+            }
+            return null;
+        }).catch(err => {
+            let data = {
+                estatus: "Fail",
+                errMsg: "Fail to get user address",
+                errDetail: err
+            }
+            res.send(JSON.stringify(data));
+        });
+
+
+    let url = util.format('https://api-ropsten.etherscan.io/api?module=account&action=tokennfttx&contractaddress=%s&address=%s&page=1&offset=1000&sort=asc&apikey=%s', contractaddress, address, myApi);
+    let data = new Object();
+    request(url, (err, response, body) =>{
+        if(!err && response.statusCode === 200){
+            
+            let json = JSON.parse(body);
+            let result = json['result'];
+
+            let entered = new Array();
+            let released = new Array();
+            let stock = new Array();
+            let txInfo = new Object();
+
+            for(tmp in result){
+                if(result[tmp]['timeStamp'] >= ts && result[tmp]['timeStamp'] <= (ts + 3600*24)){
                     txInfo = {
                         time: result[tmp]['timeStamp'],
                         tokenId: result[tmp]['tokenID'],
@@ -150,7 +242,7 @@ async function getHistory(req, res){ //제조사 생성내역, 거래내역 조�
                 }
 
                 let warning = new Array(); //7일이상 경과시 경고 알림
-                let now = Math.floor(+new Date()/1000);
+                let now = Math.floor((new Date()+9)/1000);
 
                 for(e_idx in stock){
                     let time = stock[e_idx].time;
@@ -194,7 +286,7 @@ async function getHistory(req, res){ //제조사 생성내역, 거래내역 조�
 
 function getTokenHistory(req, res){ //관리자가 조회할때 쓸 함수 
     let tokenId = req.params.tokenId;
-    let url = util.format('https://api-ropsten.etherscan.io/api?module=account&action=tokennfttx&contractaddress=%s&page=1&offset=100&sort=asc&apikey=%s', contractaddress, myApi);
+    let url = util.format('https://api-ropsten.etherscan.io/api?module=account&action=tokennfttx&contractaddress=%s&page=1&offset=1000&sort=asc&apikey=%s', contractaddress, myApi);
 
     request(url, (err, response, body) => {
         let result = new Object();
@@ -233,3 +325,4 @@ function getTokenHistory(req, res){ //관리자가 조회할때 쓸 함수
 
 module.exports.getTokenHistory = getTokenHistory;
 module.exports.getHistory = getHistory;
+module.exports.searchHistory = searchHistory;
