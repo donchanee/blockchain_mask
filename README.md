@@ -2,13 +2,10 @@
 
 ## 이더리움 스마트컨트랙트를 활용한 신뢰받는 마스크 관리 시스템 구축
 
-##https://maskproject-6e385.web.app/
 
-  
-  
-  
-  
-요기 곧 채울 예정!  
+https://maskproject-6e385.web.app/
+
+
 
 
 
