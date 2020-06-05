@@ -696,6 +696,7 @@ exports.MaskMaking = ((req, res)=>{ // param : uid
 	let usersRef = db.collection("users").doc(uid);
 
 	let newDate = new Date();
+	newDate.addHours(9);
 	let time = newDate.toFormat('YYYY-MM-DD');
 
 	let daily = () => {

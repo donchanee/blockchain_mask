@@ -695,7 +695,8 @@ exports.MaskMaking = ((req, res)=>{ // param : uid
 	let uid = req.params.uid;
 	let usersRef = db.collection("users").doc(uid);
 
-	let newDate = new Date() + 9;
+	let newDate = new Date();
+	newDate.addHours(9); //set Timezone
 	let time = newDate.toFormat('YYYY-MM-DD');
 
 	let daily = () => {
@@ -841,7 +842,8 @@ exports.dealMasks = ((req, res)=>{ //param: sender uid, receiver address, tokenI
 		console.log('get receiver address Error : ', err);
 	});
 
-	let newDate = new Date() + 9;
+	let newDate = new Date();
+	newDate.addHours(9); //set Timezone
 	let time = newDate.toFormat('YYYY-MM-DD');
 
 	let daily = () => {
