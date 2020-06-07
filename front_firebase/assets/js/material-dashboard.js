@@ -313,9 +313,9 @@ md = {
       /* ----------==========     Daily Sales Chart initialization    ==========---------- */
 
       dataDailySalesChart = {
-        labels: ['M', 'T', 'W', 'T', 'F', 'S', 'S'],
+        labels: ['6-3', '6-4', '6-5', '6-6', '6-7', '6-8', '6-9'],
         series: [
-          [12, 17, 7, 17, 23, 18, 38]
+          [96, 85, 74, 59, 54, 72, 90]
         ]
       };
 
@@ -324,7 +324,7 @@ md = {
           tension: 0
         }),
         low: 0,
-        high: 50, // creative tim: we recommend you to set the high sa the biggest value + something for a better look
+        high: 120, // creative tim: we recommend you to set the high sa the biggest value + something for a better look
         chartPadding: {
           top: 0,
           right: 0,
@@ -342,9 +342,9 @@ md = {
       /* ----------==========     Completed Tasks Chart initialization    ==========---------- */
 
       dataCompletedTasksChart = {
-        labels: ['12', '3d2', '6p', '9p', '12p', '3a', '6a', '9a'],
+        labels: ['6-3', '6-4', '6-5', '6-6', '6-7', '6-8', '6-9'],
         series: [
-          [230, 750, 450, 300, 280, 240, 200, 190]
+          [30, 28, 36, 50, 48, 52, 56]
         ]
       };
 
@@ -353,7 +353,7 @@ md = {
           tension: 0
         }),
         low: 0,
-        high: 1000, // creative tim: we recommend you to set the high sa the biggest value + something for a better look
+        high: 80, // creative tim: we recommend you to set the high sa the biggest value + something for a better look
         chartPadding: {
           top: 0,
           right: 0,
@@ -371,9 +371,9 @@ md = {
       /* ----------==========     Emails Subscription Chart initialization    ==========---------- */
 
       var dataWebsiteViewsChart = {
-        labels: ['J', 'F', 'M', 'A', 'M', 'J', 'J', 'A', 'S', 'O', 'N', 'D'],
+        labels: ['6-3', '6-4', '6-5', '6-6', '6-7', '6-8', '6-9'],
         series: [
-          [542, 443, 320, 780, 553, 453, 326, 434, 568, 610, 756, 895]
+          [60, 56, 36, 30, 60, 56, 36]
 
         ]
       };
@@ -382,7 +382,7 @@ md = {
           showGrid: false
         },
         low: 0,
-        high: 1000,
+        high: 80,
         chartPadding: {
           top: 0,
           right: 5,
