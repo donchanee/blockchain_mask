@@ -123,16 +123,26 @@
       <nav class="navbar navbar-expand-lg navbar-transparent navbar-absolute fixed-top ">
         <div class="container-fluid">
           <div class="navbar-wrapper">
-            <a class="navbar-brand" href="javascript:;">Dashboard</a>
+              <div class="btn-group">
+                  <button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    Dashboard
+                  </button>
+                  <div class="dropdown-menu">
+                    <a class="dropdown-item" href="#">Dashboard</a>
+                    <a class="dropdown-item" href="../index.html">Home</a>
+                  </div>
+              </div>
           </div>
-          <div class="alert alert-primary" role="alert">
-            <a id="id">여기는 유저 정보가 표시될 공간입니다.</a>
-          </div>
+
           <div class="alert alert-warning alert-dismissible fade show" role="alert">
-            <strong>주의사항!</strong> 당신의 마스크가 곧 위법으로 바뀝니다.
-            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-              <span aria-hidden="true">&times;</span>
-            </button>
+              <strong>주의사항!</strong> 귀하의 재고마스크가 곧 위법이 됩니다.
+              <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+              </button>
+          </div>
+
+          <div class="alert alert-primary" role="alert">
+              <a id="id">여기는 유저 정보가 표시될 공간입니다.</a>
           </div>
         </div>
       </nav>
@@ -448,13 +458,13 @@
         yAxis: {
             min: 0,
             title: {
-                text: 'Quantity (box)'
+                text: 'Quantity (piece)'
             }
         },
         tooltip: {
             headerFormat: '<span style="font-size:10px">{point.key}</span><table>',
             pointFormat: '<tr><td style="color:{series.color};padding:0">{series.name}: </td>' +
-                '<td style="padding:0"><b>{point.y:.1f} mm</b></td></tr>',
+                '<td style="padding:0"><b>{point.y:.1f} piece</b></td></tr>',
             footerFormat: '</table>',
             shared: true,
             useHTML: true
