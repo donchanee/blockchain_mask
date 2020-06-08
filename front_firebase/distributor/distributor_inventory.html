@@ -152,7 +152,7 @@
       var myTbody = document.getElementById("salesHistoryTbody");
       var ourRequest = new XMLHttpRequest();
       ourRequest.open('GET', 'https://us-central1-maskproject-6e385.cloudfunctions.net/maskSaver/getHistory/' +
-        userAddr);
+      firebaseEmailAuth.currentUser.uid);
       ourRequest.onload = function () {
         var ourData = JSON.parse(ourRequest.responseText);
         console.log(ourData);
@@ -182,74 +182,6 @@
       };
       ourRequest.send();
     }
-    //거래내역 - 입고 테이블 만드는 함수
-    function MakeReceiptHistoryTable() {
-      var myTbody = document.getElementById("salesHistoryTbody");
-      var ourRequest = new XMLHttpRequest();
-      ourRequest.open('GET', 'https://us-central1-maskproject-6e385.cloudfunctions.net/maskSaver/getHistory/' +
-        userAddr);
-      ourRequest.onload = function () {
-        var ourData = JSON.parse(ourRequest.responseText);
-        console.log(ourData);
-        renderReceiptHistoryHTML(ourData);
-      };
-      ourRequest.send();
-    }
-    //거래내역 - 판매 테이블 만드는 함수
-    function MakeSalesHistoryTable() {
-      var myTbody = document.getElementById("salesHistoryTbody");
-      var ourRequest = new XMLHttpRequest();
-
-      ourRequest.open('GET', 'https://us-central1-maskproject-6e385.cloudfunctions.net/maskSaver/getHistory/' +
-        userAddr);
-      ourRequest.onload = function () {
-        var ourData = JSON.parse(ourRequest.responseText);
-        console.log(ourData);
-        renderSalesHistoryHTML(ourData);
-      };
-      ourRequest.send();
-    }
-  </script>
-  <script>
-
-  </script>
-
-  <script>
-    //마스크 보내기 함수
-    function SendMask() {
-      var serialNumber = document.getElementById("serialNumber1").value;
-      var toSeller = document.getElementById("toSeller").value;
-      console.log(serialNumber, toSeller);
-      //위의 변수를 가지고 web3를 통해 컨트랙트 함수 실행
-      var ourRequest = new XMLHttpRequest();
-      ourRequest.open('GET', 'https://us-central1-maskproject-6e385.cloudfunctions.net/maskSaver/sendMasks/' +
-        firebaseEmailAuth.currentUser.uid + '/' +
-        toSeller +
-        '/' + serialNumber);
-      ourRequest.onload = function () {
-        var ourData = JSON.parse(ourRequest.responseText);
-        console.log(ourData);
-        IsSuccessOrFail(ourData);
-      };
-      ourRequest.send();
-
-    }
-
-
-    function renderReceiptHistoryHTML(data) {
-      console.log("rednerReceiptHistoryHTML 실행");
-      var htmlString = "";
-      sortByDate(data.enteredHistory);
-      for (i = 0; i < data.enteredHistory.length; i++) {
-        htmlString += "<tr><td>" + new Date(data.enteredHistory[i].time * 1000).toLocaleString() + "</td>";
-        htmlString += "<td>" + data.enteredHistory[i].tokenId + "</td>";
-        htmlString += "<td>" + data.enteredHistory[i].from + "</td>";
-        htmlString += "<td>" + data.enteredHistory[i].to + "</td>";
-        htmlString += "<td>" + data.enteredHistory[i].num + "</td></tr>";
-      }
-      $("#receiptHistoryTbody").append(htmlString);
-    }
-
     function renderInventoryHTML(data) {
       console.log("renderInventoryHTML 실행");
       var htmlString = "";
@@ -262,19 +194,6 @@
       $("#inventoryTbody").append(htmlString);
     }
 
-    function renderSalesHistoryHTML(data) {
-      console.log("renderSalesHistoryHTML 실행");
-      var htmlString = "";
-      sortByDate(data.releasedHistory);
-      for (i = 0; i < data.releasedHistory.length; i++) {
-        htmlString += "<tr><td>" + new Date(data.releasedHistory[i].time * 1000).toLocaleString() + "</td>";
-        htmlString += "<td>" + data.releasedHistory[i].tokenId + "</td>";
-        htmlString += "<td>" + data.releasedHistory[i].from + "</td>";
-        htmlString += "<td>" + data.releasedHistory[i].to + "</td>";
-        htmlString += "<td>" + data.releasedHistory[i].num + "</td></tr>";
-      }
-      $("#salesHistoryTbody").append(htmlString);
-    }
   </script>
 
 
@@ -292,8 +211,6 @@
             userName = doc.data().name;
             userEmail = user.email;
             console.log(user.email + " 님이 로그인했습니다." + " 계좌 : " + userAddr + " 이름 :" + userName);
-            MakeSalesHistoryTable();
-            MakeReceiptHistoryTable();
             MakeInventoryTable();
           } else {
             // doc.data() will be undefined in this case
@@ -302,14 +219,6 @@
         }).catch(function (error) {
           console.log("Error getting document:", error);
         });
-
-
-
-        //자바스크립트 dom 선택자를 통해서 네비게이션 메뉴의 엘리먼트 변경해주기
-
-
-        //alert(userInfo.userid);  //uid는 db에서 user 테이블의 각 개체들의 pk 인데, 이 값은 인증에서 생성된 아이디의 pk 값과 같다. *중요!
-
         return true;
       }
     });

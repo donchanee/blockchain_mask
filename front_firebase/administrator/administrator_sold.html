@@ -1,0 +1,321 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+    <title>MaskSaver Dashboard</title>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta content="width=device-width, initial-scale=1.0" name="viewport" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+    <!--     Fonts and icons     -->
+    <link rel="stylesheet" type="text/css"
+        href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700|Roboto+Slab:400,700|Material+Icons" />
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/latest/css/font-awesome.min.css">
+    <!-- Material Kit CSS -->
+    <link href="../assets/css/material-dashboard.css?v=2.1.2" rel="stylesheet" />
+</head>
+
+<body>
+    <div class="wrapper ">
+        <div class="sidebar" data-color="purple" data-background-color="white">
+            <!--
+      Tip 1: You can change the color of the sidebar using: data-color="purple | azure | green | orange | danger"
+
+      Tip 2: you can also add an image using data-image tag
+  -->
+            <div class="logo">
+                <a href="../index.html" class="simple-text logo-mini">
+                    <img src="../assets/img/logo/logo.png" alt="">
+                </a>
+                <a class="simple-text logo-normal">
+                    MaskSaver
+                </a>
+            </div>
+            <div class="sidebar-wrapper">
+                <ul class="nav">
+                    <li class="nav-item ">
+                        <a class="nav-link" href="../administrator/administrator_dashboard.html">
+                            <i class="material-icons">dashboard</i>
+                            <p>Dashboard</p>
+                        </a>
+                    </li>
+                    <li class="nav-item ">
+                        <a class="nav-link" href="../administrator/administrator_inventory.html">
+                            <i class="material-icons">content_paste</i>
+                            <p>업체별 재고 내역</p>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="../administrator/administrator_receipt.html">
+                            <i class="material-icons">content_paste</i>
+                            <p>업체별 입고 내역</p>
+                        </a>
+                    </li>
+                    <li class="nav-item active">
+                        <a class="nav-link " href="../administrator/administrator_sold.html">
+                            <i class="material-icons">content_paste</i>
+                            <p>업체별 판매 내역</p>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link " href="../administrator/administrator_traceToken.html">
+                            <i class="material-icons">content_paste</i>
+                            <p>토큰별 유통 내역</p>
+                        </a>
+                    </li>
+                    <!-- your sidebar here -->
+                </ul>
+            </div>
+        </div>
+        <div class="main-panel">
+            <!-- Navbar -->
+            <nav class="navbar navbar-expand-lg navbar-transparent navbar-absolute fixed-top ">
+                <div class="container-fluid">
+                    <div class="navbar-wrapper">
+                        <a class="navbar-brand" href="javascript:;">Dashboard</a>
+                        <p id="id">여기는 유저 정보가 표시될 공간입니다.</p>
+                    </div>
+                </div>
+            </nav>
+            <!-- End Navbar -->
+            <div class="content">
+                <div class="container-fluid">
+                    <!-- your content here -->
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div class="card">
+                                <div class="card-header card-header-primary">
+                                    <h4 class="card-title ">업체별 판매내역</h4>
+                                    <p class="card-category"> 현재 업체의 판매내역 입니다.</p>
+
+                                    <div class="dropdown">
+                                        <a class="btn btn-secondary dropdown-toggle" href="#" role="button"
+                                            id="dropdownMenuLink1" data-toggle="dropdown" aria-haspopup="true"
+                                            aria-expanded="false">
+                                            업종 선택
+                                        </a>
+
+                                        <div class="dropdown-menu index" aria-labelledby="dropdownMenuLink1"
+                                            id="name_indexDrops">
+                                            <a class="dropdown-item" href="#" id="manufacturer_indexDrop"
+                                                value="manufacturer">제조사</a>
+                                            <a class="dropdown-item" href="#" id="distributor_indexDrop"
+                                                value="distributor">유통사</a>
+                                            <a class="dropdown-item" href="#" id="seller_indexDrop"
+                                                value="seller">판매사</a>
+                                        </div>
+                                    </div>
+
+                                    <div class="dropdown">
+                                        <a class="btn btn-secondary dropdown-toggle" href="#" role="button"
+                                            id="dropdownMenuLink2" data-toggle="dropdown" aria-haspopup="true"
+                                            aria-expanded="false">
+                                            업체 선택
+                                        </a>
+
+                                        <div class="dropdown-menu name" aria-labelledby="dropdownMenuLink"
+                                            id="nameDrops">
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="card-body">
+                                    <div class="table-responsive">
+                                        <table class="table">
+                                            <thead class=" text-primary">
+                                                <th>
+                                                    시간
+                                                  </th>
+                                                  <th>
+                                                    일련번호
+                                                  </th>
+                                                  <th>
+                                                    현업체
+                                                  </th>
+                                                  <th>
+                                                    to
+                                                  </th>
+                                                  <th>
+                                                    개수
+                                                  </th>
+                                            </thead>
+                                            <tbody id="salesHistoryTbody">
+
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <footer class="footer">
+                    <div class="container-fluid">
+                        <nav class="float-left">
+                            <ul>
+                                <li>
+                                    <a href="../index.html">
+                                        MaskSaver
+                                    </a>
+                                </li>
+                            </ul>
+                        </nav>
+                    </div>
+                </footer>
+            </div>
+        </div>
+        <script src="../assets/vendor/jquery/jquery-3.2.1.min.js"></script>
+        <!-- 합쳐지고 최소화된 최신 자바스크립트 -->
+        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/js/bootstrap.min.js"></script>
+        <!-- The core Firebase JS SDK is always required and must be listed first -->
+        <script src="https://www.gstatic.com/firebasejs/7.14.0/firebase-app.js"></script>
+
+        <!-- TODO: Add SDKs for Firebase products that you want to use
+           https://firebase.google.com/docs/web/setup#available-libraries -->
+        <script src="https://www.gstatic.com/firebasejs/7.14.0/firebase-analytics.js"></script>
+        <script src="https://www.gstatic.com/firebasejs/7.14.0/firebase-auth.js"></script>
+        <script src="https://www.gstatic.com/firebasejs/7.14.0/firebase-database.js"></script>
+        <script src="https://www.gstatic.com/firebasejs/7.14.0/firebase-firestore.js"></script>
+        <script src="../assets/js/firebaseInit.js"></script>
+        <script src="../assets/js/firebaseUserCheck.js"></script>
+        <script src="../assets/js/myfunctions.js"></script>
+
+        <script>
+            userSessionCheck();
+        </script>
+
+        <!-- httpRequest JSON parsing script -->
+        <script type="text/javascript">
+            firebaseEmailAuth.onAuthStateChanged(function (user) {
+
+                if (user) {
+                    //로그인 성공한 유저 id 확인해 보기 - firebase database에 접근해서 데이터 조회 하는 함수
+                    var docRef = db.collection("users").doc(firebaseEmailAuth.currentUser.uid);
+
+                    docRef.get().then(function (doc) {
+                        if (doc.exists) {
+                            userAddr = doc.data().addr;
+                            userName = doc.data().name;
+                            userEmail = user.email;
+                            console.log(user.email + " 님이 로그인했습니다." + " 계좌 : " + userAddr + " 이름 :" +
+                                userName);
+                            //MakeReceiptHistoryTable();
+
+                        } else {
+                            // doc.data() will be undefined in this case
+                            console.log("No such document!");
+                        }
+                    }).catch(function (error) {
+                        console.log("Error getting document:", error);
+                    });
+
+
+                    return true;
+                }
+            });
+        </script>
+       <script type="text/javascript">
+        //거래내역 - 판매 테이블 만드는 함수
+        function MakeSalesHistoryTable(uid) {
+          var myTbody = document.getElementById("salesHistoryTbody");
+          var ourRequest = new XMLHttpRequest();
+  
+          ourRequest.open('GET', 'https://us-central1-maskproject-6e385.cloudfunctions.net/maskSaver/getHistory/' +
+          uid);
+          ourRequest.onload = function () {
+            var ourData = JSON.parse(ourRequest.responseText);
+            console.log(ourData);
+            renderSalesHistoryHTML(ourData);
+          };
+          ourRequest.send();
+        }
+  
+        function renderSalesHistoryHTML(data) {
+          console.log("renderSalesHistoryHTML 실행");
+          var htmlString = "";
+          sortByDate(data.releasedHistory);
+          for (i = 0; i < data.releasedHistory.length; i++) {
+            htmlString += "<tr><td>" + new Date(data.releasedHistory[i].time * 1000).toLocaleString() + "</td>";
+            htmlString += "<td>" + data.releasedHistory[i].tokenId + "</td>";
+            htmlString += "<td>" + data.releasedHistory[i].from + "</td>";
+            htmlString += "<td>" + data.releasedHistory[i].to + "</td>";
+            htmlString += "<td>" + data.releasedHistory[i].num + "</td></tr>";
+          }
+          $("#salesHistoryTbody").html(htmlString);
+        }
+      </script>
+
+        <script>
+            function renderSelectIndexButton(data, index) {
+
+                console.log("renderSelectIndexButton 실행");
+                console.log(data);
+                console.log(data[0].name);
+                var htmlString = "";
+                var tmp = index;
+                if (index === 0) {
+                    for (i = 0; i < data.length; i++) {
+                        htmlString += '<a class="dropdown-item" href="#" id="nameDrop"' + ' value=' + '"' + data[i]
+                            .uid +
+                            '">' + data[i].name + ' - ' + data[i].addr + '</a>';
+                    }
+                } else {
+                    for (i = 0; i < data.length; i++) {
+                        if (data[i].index === tmp) {
+                            htmlString += '<a class="dropdown-item" href="#" id="nameDrop"' + ' value=' + '"' + data[i]
+                                .uid +
+                                '">' + data[i].name + ' - ' + data[i].addr + '</a>';
+                        }
+                    }
+                }
+
+                console.log("htmlString = " + htmlString);
+                $("#nameDrops").html(htmlString);
+
+                $('#nameDrops > a').on('click', function () {
+                    // 버튼에 선택된 항목 텍스트 넣기 
+                    $('#dropdownMenuLink2').text($(this).text());
+                    name_drop = $(this).attr('value');
+                    console.log(name_drop);
+
+                    MakeSalesHistoryTable(name_drop);
+                    // // 선택된 항목 값(value) 얻기
+                    // alert($(this).attr('value'));
+                });
+            }
+        </script>
+        <script>
+            let index_drop = "";
+            let name_drop = "";
+            var dataArr = new Array();
+            $('#name_indexDrops > a').on('click', function () {
+                // 버튼에 선택된 항목 텍스트 넣기 
+                $('#dropdownMenuLink1').text($(this).text());
+                index_drop = $(this).attr('value');
+                console.log(index_drop);
+
+                renderSelectIndexButton(dataArr, index_drop);
+            });
+
+
+
+
+            //allUsers안에 모든 유저들의 정보를 가지고있음.
+            var allUsersDb = db.collectionGroup('users');
+            let allUsers = "";
+            allUsersDb.get().then(function (querySnapshot) {
+                querySnapshot.forEach(function (doc) {
+                    tmp = doc.data();
+                    tmp.uid = doc.id;
+                    // console.log(doc.id, ' => ', doc.data());
+                    if (doc.data().index !== "admin") {
+                        dataArr.push(tmp);
+                    }
+                })
+                return renderSelectIndexButton(dataArr, 0);
+            });
+        </script>
+
+</body>
+
+</html>

@@ -58,8 +58,8 @@
                                     <ul id="navigation">
                                         <li class="active"><a href="index.html"> Home</a></li>
                                         <li><a href="https://etherscan.io/">Transaction</a></li>
-                                        <li><a href="#">Dashboard</a></li>
-                                        <li><a href="user.html">User</a></li>
+                                        <li><a href="#" id="dashboardButton">Dashboard</a></li>
+                                        <li><a href="https://github.com/HanJaehee/blockchain_mask">Contact</a></li>
                                         <a data-animation="fadeInLeft" data-delay="1.0s" href="login.html"
                                             class="btn radius-btn" id="loginButton">Login</a>
                                         <a data-animation="fadeInLeft" data-delay="1.0s" onclick="logOut()"
@@ -372,8 +372,7 @@
                                     <h4>Quick Links</h4>
                                     <ul>
                                         <li><a href="#">Login</a></li>
-                                        <li><a href="#">User</a></li>
-                                        <li><a href="#">Transaction</a></li>
+                                        <li><a href="#">필요기능</a></li>
                                     </ul>
                                 </div>
                             </div>
@@ -383,10 +382,43 @@
                                 <div class="footer-tittle">
                                     <h4>Support</h4>
                                     <ul>
-                                        <li><a href="#">Contact us</a></li>
+                                        <li><a href="#">여기 바꾸기</a></li>
                                         <li><a href="#">Report a bug</a></li>
+                                        <li><a href="#">Privacy Policy</a></li>
+                                        <li><a href="#">Terms & Conditions</a></li>
                                         <li><a href="#">Sitemap</a></li>
+                                        <li><a href="#">FAQs</a></li>
                                     </ul>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-lg-3 col-md-6 col-sm-8">
+                            <div class="single-footer-caption mb-50">
+                                <div class="footer-tittle">
+                                    <h4>Newsletter</h4>
+                                    <div class="footer-pera footer-pera2">
+                                        <p>뉴스레터가 도착하기를 빌며.. </p>
+                                    </div>
+                                    <!-- Form -->
+                                    <div class="footer-form">
+                                        <div id="mc_embed_signup">
+                                            <form target="_blank"
+                                                action="https://spondonit.us12.list-manage.com/subscribe/post?u=1462626880ade1ac87bd9c93a&amp;id=92a4423d01"
+                                                method="get" class="subscribe_form relative mail_part"
+                                                novalidate="true">
+                                                <input type="email" name="EMAIL" id="newsletter-form-email"
+                                                    placeholder=" Email Address " class="placeholder hide-on-focus"
+                                                    onfocus="this.placeholder = ''"
+                                                    onblur="this.placeholder = ' Email Address '">
+                                                <div class="form-icon">
+                                                    <button type="submit" name="submit" id="newsletter-submit"
+                                                        class="email_icon newsletter-submit button-contactForm"><img
+                                                            src="assets/img/shape/form_icon.png" alt=""></button>
+                                                </div>
+                                                <div class="mt-10 info"></div>
+                                            </form>
+                                        </div>
+                                    </div>
                                 </div>
                             </div>
                         </div>
@@ -472,6 +504,36 @@
     userSessionCheck();
 </script>
     <script>
+        function setDashBoardButton(){
+             //로그인 성공한 유저 id 확인해 보기 - firebase database에 접근해서 데이터 조회 하는 함수
+    var docRef = db.collection("users").doc(firebaseEmailAuth.currentUser.uid);
+
+docRef.get().then(function(doc) {
+    if (doc.exists) {
+        if(doc.data().index == "seller"){
+            document.getElementById('dashboardButton').setAttribute('href', '../seller/seller_dashboard.html');
+        }
+        else if (doc.data().index == "manufacturer") {
+            document.getElementById('dashboardButton').setAttribute('href', '../manufacturer/manufacturer_dashboard.html');
+        }
+        else if(doc.data().index == "distributor"){
+            document.getElementById('dashboardButton').setAttribute('href', '../distributor/distributor_dashboard.html');
+        }
+        else{
+
+        }
+    } else {
+
+        // doc.data() will be undefined in this case
+        console.log("No such document!");
+    }
+}).catch(function(error) {
+    console.log("Error getting document:", error);
+});
+
+
+
+        }
         function logOut() {
             firebase.auth().signOut().then(function () {
                 // Sign-out successful.
@@ -492,11 +554,14 @@
                     // User is signed in.
                     $('#loginButton').hide();
                     $('#logoutButton').show();
+                    $('#dashboardButton').show();
+                    setDashBoardButton();
                     return true;
                 } else {
                     // No user is signed in.
                     $('#loginButton').show();
                     $('#logoutButton').hide();
+                    $('#dashboardButton').hide();
                     return false;
                 }
             });

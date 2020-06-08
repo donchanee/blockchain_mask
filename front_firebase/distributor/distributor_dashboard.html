@@ -8,7 +8,8 @@
   <meta content="width=device-width, initial-scale=1.0" name="viewport" />
   <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
   <!--     Fonts and icons     -->
-  <link rel="stylesheet" type="text/css" href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700|Roboto+Slab:400,700|Material+Icons" />
+  <link rel="stylesheet" type="text/css"
+    href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700|Roboto+Slab:400,700|Material+Icons" />
   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/latest/css/font-awesome.min.css">
   <!-- Material Kit CSS -->
   <link href="../assets/css/material-dashboard.css?v=2.1.2" rel="stylesheet" />
@@ -75,7 +76,8 @@
             <p id="id">여기는 유저 정보가 표시될 공간입니다.</p>
           </div>
 
-          <button class="navbar-toggler" type="button" data-toggle="collapse" aria-controls="navigation-index" aria-expanded="false" aria-label="Toggle navigation">
+          <button class="navbar-toggler" type="button" data-toggle="collapse" aria-controls="navigation-index"
+            aria-expanded="false" aria-label="Toggle navigation">
             <span class="sr-only">Toggle navigation</span>
             <span class="navbar-toggler-icon icon-bar"></span>
             <span class="navbar-toggler-icon icon-bar"></span>
@@ -84,24 +86,11 @@
           <div class="collapse navbar-collapse justify-content-end">
             <form class="navbar-form">
               <div class="input-group no-border">
-                  <div class="ripple-container"></div>
+                <div class="ripple-container"></div>
                 </button>
               </div>
             </form>
-            <ul class="navbar-nav">
-              <li class="nav-item dropdown">
-                <a class="nav-link" href="#0" id="navbarDropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                  <i class="material-icons">notifications</i> Notifications
-                </a>
-                <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdownMenuLink">
-                  <a class="dropdown-item" href="#">A</a>
-                  <a class="dropdown-item" href="#">B</a> <!-- 이거 왜 안대니... -->
-                  <a class="dropdown-item" href="#">C</a>
-                  <a class="dropdown-item" href="#">D</a>
-                </div>
-              </li>
-              <!-- your navbar here -->
-            </ul>
+
           </div>
         </div>
       </nav>
@@ -109,36 +98,89 @@
       <div class="content">
         <div class="container-fluid">
           <!-- your content here -->
+          <figure class="highcharts-figure">
+            <div id="container"></div>
+          </figure>
+
           <div class="row">
-            <div class="col-md-12">
-              <div class="card">
-                <div class="card-header card-header-primary">
-                  <h4 class="card-title ">재고내역</h4>
-                  <p class="card-category"> 현재 귀하가 가지고 있는 재고입니다.</p>
+            <div class="col-md-4">
+              <div class="card card-chart">
+                <div class="card-header card-header-success">
+                  <div class="ct-chart" id="dailySalesChart"></div>
                 </div>
                 <div class="card-body">
-                  <div class="table-responsive">
-                    <table class="table">
-                      <thead class=" text-primary">
-                        <th>
-                          시간
-                        </th>
-                        <th>
-                          일련번호
-                        </th>
-                        <th>
-                          개수
-                        </th>
-                     
-                      </thead>
-                      <tbody id="inventoryTbody">
-                       
-                      </tbody>
-                    </table>
+                  <h4 class="card-title">일별 재고량</h4>
+                  <p class="card-category"> 매일 생산된 재고량을 나타냅니다.</p>
+                </div>
+                <div class="card-footer">
+                  <div class="stats">
+                    <i class="material-icons">access_time</i> updated 4 minutes ago
                   </div>
                 </div>
               </div>
             </div>
+            <div class="col-md-4">
+              <div class="card card-chart">
+                <div class="card-header card-header-warning">
+                  <div class="ct-chart" id="websiteViewsChart"></div>
+                </div>
+                <div class="card-body">
+                  <h4 class="card-title">일별 생산량</h4>
+                  <p class="card-category">매일 생산된 생산량을 나타냅니다.</p>
+                </div>
+                <div class="card-footer">
+                  <div class="stats">
+                    <i class="material-icons">access_time</i> updated 4 minutes ago
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="col-md-4">
+              <div class="card card-chart">
+                <div class="card-header card-header-danger">
+                  <div class="ct-chart" id="completedTasksChart"></div>
+                </div>
+                <div class="card-body">
+                  <h4 class="card-title">일별 거래량</h4>
+                  <p class="card-category">매일 거래된 거래량을 나타냅니다.</p>
+                </div>
+                <div class="card-footer">
+                  <div class="stats">
+                    <i class="material-icons">access_time</i> updated 4 minutes ago
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="row">
+          <div class="col-lg-3 col-md-6 col-sm-6">
+            <div class="card">
+              <div class="card-header card-header-text card-header-primary">
+                <div class="card-text">
+                  <h4 class="card-title">재고</h4>
+                </div>
+              </div>
+              <div class="card-body" id="inventory_cardbody" style="font-weight: bold; font-size: 40sp;">
+
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="row">
+
+          <div class="col-md-6">
+            <div class="card">
+              <div class="card-header card-header-danger">
+                <h4 class="card-title">Notification</h4>
+                <p class="category" id="notification_subtitle">Category subtitle</p>
+              </div>
+              <div class="card-body" id="notification_cardbody">
+
+              </div>
+            </div>
+          </div>
         </div>
       </div>
       <footer class="footer">
@@ -146,7 +188,7 @@
           <nav class="float-left">
             <ul>
               <li>
-                <a href="index.html">
+                <a href="../index.html">
                   MaskSaver
                 </a>
               </li>
@@ -156,176 +198,50 @@
       </footer>
     </div>
   </div>
+
   <script src="../assets/vendor/jquery/jquery-3.2.1.min.js"></script>
-      <!-- 합쳐지고 최소화된 최신 자바스크립트 -->
-      <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/js/bootstrap.min.js"></script>
-      <!-- The core Firebase JS SDK is always required and must be listed first -->
-      <script src="https://www.gstatic.com/firebasejs/7.14.0/firebase-app.js"></script>
-  
-      <!-- TODO: Add SDKs for Firebase products that you want to use
+  <!-- 합쳐지고 최소화된 최신 자바스크립트 -->
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/js/bootstrap.min.js"></script>
+  <!-- The core Firebase JS SDK is always required and must be listed first -->
+  <script src="https://www.gstatic.com/firebasejs/7.14.0/firebase-app.js"></script>
+
+  <!-- TODO: Add SDKs for Firebase products that you want to use
            https://firebase.google.com/docs/web/setup#available-libraries -->
-      <script src="https://www.gstatic.com/firebasejs/7.14.0/firebase-analytics.js"></script>
+
+  <script src="https://www.gstatic.com/firebasejs/7.14.0/firebase-analytics.js"></script>
   <script src="https://www.gstatic.com/firebasejs/7.14.0/firebase-auth.js"></script>
   <script src="https://www.gstatic.com/firebasejs/7.14.0/firebase-database.js"></script>
   <script src="https://www.gstatic.com/firebasejs/7.14.0/firebase-firestore.js"></script>
   <script src="../assets/js/firebaseInit.js"></script>
   <script src="../assets/js/firebaseUserCheck.js"></script>
   <script src="../assets/js/myfunctions.js"></script>
-
+  <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.24.0/moment.min.js"></script>
   <script>
     userSessionCheck();
   </script>
-  <script type="text/javascript">
-    //재고내역 테이블 만드는 함수
-    function MakeInventoryTable() {
-      var myTbody = document.getElementById("salesHistoryTbody");
-      var ourRequest = new XMLHttpRequest();
-      ourRequest.open('GET', 'https://us-central1-maskproject-6e385.cloudfunctions.net/maskSaver/getHistory/' +
-        userAddr);
-      ourRequest.onload = function () {
-        var ourData = JSON.parse(ourRequest.responseText);
-        console.log(ourData);
-        renderInventoryHTML(ourData);
-        //테이블 행 클릭시 해당 정보 가져오는 JQuery  
-        $("#inventoryTable tr").click(function () {
-
-          var str = "";
-          var tdArr = new Array(); // 배열 선언
-
-          // 현재 클릭된 Row(<tr>)
-          var tr = $(this);
-          var td = tr.children();
-
-          // tr.text()는 클릭된 Row 즉 tr에 있는 모든 값을 가져온다.
-          console.log("클릭한 Row의 모든 데이터 : " + tr.text());
-
-          // 반복문을 이용해서 배열에 값을 담아 사용할 수 도 있다.
-          td.each(function (i) {
-            tdArr.push(td.eq(i).text());
-          });
-
-          $('#serialNumber1').val(tdArr[1]);
-
-
-        });
-      };
-      ourRequest.send();
-    }
-    //거래내역 - 입고 테이블 만드는 함수
-    function MakeReceiptHistoryTable() {
-      var myTbody = document.getElementById("salesHistoryTbody");
-      var ourRequest = new XMLHttpRequest();
-      ourRequest.open('GET', 'https://us-central1-maskproject-6e385.cloudfunctions.net/maskSaver/getHistory/' +
-        userAddr);
-      ourRequest.onload = function () {
-        var ourData = JSON.parse(ourRequest.responseText);
-        console.log(ourData);
-        renderReceiptHistoryHTML(ourData);
-      };
-      ourRequest.send();
-    }
-    //거래내역 - 판매 테이블 만드는 함수
-    function MakeSalesHistoryTable() {
-      var myTbody = document.getElementById("salesHistoryTbody");
-      var ourRequest = new XMLHttpRequest();
-
-      ourRequest.open('GET', 'https://us-central1-maskproject-6e385.cloudfunctions.net/maskSaver/getHistory/' +
-        userAddr);
-      ourRequest.onload = function () {
-        var ourData = JSON.parse(ourRequest.responseText);
-        console.log(ourData);
-        renderSalesHistoryHTML(ourData);
-      };
-      ourRequest.send();
-    }
-  </script>
   <script>
+    //일일 입고량 판매량 가져오는 함수
+    function getDaily() {
+      var today = new Date();
+      today = moment(today).format('YYYY-MM-DD');
+      var docRef4 = db.collection("users").doc(firebaseEmailAuth.currentUser.uid).collection('daily').doc(
+        today);
 
-  </script>
-
-  <script>
-    //마스크 보내기 함수
-    function SendMask() {
-      var serialNumber = document.getElementById("serialNumber1").value;
-      var toSeller = document.getElementById("toSeller").value;
-      console.log(serialNumber, toSeller);
-      //위의 변수를 가지고 web3를 통해 컨트랙트 함수 실행
-      var ourRequest = new XMLHttpRequest();
-      ourRequest.open('GET', 'https://us-central1-maskproject-6e385.cloudfunctions.net/maskSaver/sendMasks/' +
-        firebaseEmailAuth.currentUser.uid + '/' +
-        toSeller +
-        '/' + serialNumber);
-      ourRequest.onload = function () {
-        var ourData = JSON.parse(ourRequest.responseText);
-        console.log(ourData);
-        IsSuccessOrFail(ourData);
-      };
-      ourRequest.send();
-
+      console.log("today = ", today);
+      var result = "";
+      docRef4.get().then(function (doc) {
+        if (doc.exists) {
+          result = doc.data()
+          console.log("Document data:", doc.data());
+        } else {
+          // doc.data() will be undefined in this case
+          console.log("No such document!");
+          return;
+        }
+      }).catch(function (error) {
+        console.log("Error getting document:", error);
+      });
     }
-
-
-    function renderReceiptHistoryHTML(data) {
-      console.log("rednerReceiptHistoryHTML 실행");
-      var htmlString = "";
-      sortByDate(data.enteredHistory);
-      for (i = 0; i < data.enteredHistory.length; i++) {
-        htmlString += "<tr><td>" + new Date(data.enteredHistory[i].time * 1000).toLocaleString() + "</td>";
-        htmlString += "<td>" + data.enteredHistory[i].tokenId + "</td>";
-        htmlString += "<td>" + data.enteredHistory[i].from + "</td>";
-        htmlString += "<td>" + data.enteredHistory[i].to + "</td>";
-        htmlString += "<td>" + data.enteredHistory[i].num + "</td></tr>";
-      }
-      $("#receiptHistoryTbody").append(htmlString);
-    }
-
-    function renderInventoryHTML(data) {
-      console.log("renderInventoryHTML 실행");
-      var htmlString = "";
-      sortByDate(data.stockList);
-      for (i = 0; i < data.stockList.length; i++) {
-        htmlString += "<tr><td>" + new Date(data.stockList[i].time * 1000).toLocaleString() + "</td>";
-        htmlString += "<td>" + data.stockList[i].tokenId + "</td>";
-        htmlString += "<td>" + data.stockList[i].num + "</td></tr>";
-      }
-      $("#inventoryTbody").append(htmlString);
-    }
-
-    function renderSalesHistoryHTML(data) {
-      console.log("renderSalesHistoryHTML 실행");
-      var htmlString = "";
-      sortByDate(data.releasedHistory);
-      for (i = 0; i < data.releasedHistory.length; i++) {
-        htmlString += "<tr><td>" + new Date(data.releasedHistory[i].time * 1000).toLocaleString() + "</td>";
-        htmlString += "<td>" + data.releasedHistory[i].tokenId + "</td>";
-        htmlString += "<td>" + data.releasedHistory[i].from + "</td>";
-        htmlString += "<td>" + data.releasedHistory[i].to + "</td>";
-        htmlString += "<td>" + data.releasedHistory[i].num + "</td></tr>";
-      }
-      $("#salesHistoryTbody").append(htmlString);
-    }
-     //일일 입고량 판매량 가져오는 함수
-     function getDaily() {
-                    var today = new Date();
-                    today = moment(today).format('YYYY-MM-DD');
-                    var docRef4 = db.collection("users").doc(firebaseEmailAuth.currentUser.uid).collection('daily').doc(
-                        today);
-
-                    console.log("today = ", today);
-                    var result = "";
-                    docRef4.get().then(function (doc) {
-                        if (doc.exists) {
-                            result = doc.data()
-                            console.log("Document data:", doc.data());
-                        } else {
-                            // doc.data() will be undefined in this case
-                            console.log("No such document!");
-                            return;
-                        }
-                    }).catch(function (error) {
-                        console.log("Error getting document:", error);
-                    });
-                }
   </script>
 
 
@@ -343,12 +259,9 @@
             userName = doc.data().name;
             userEmail = user.email;
             console.log(user.email + " 님이 로그인했습니다." + " 계좌 : " + userAddr + " 이름 :" + userName);
-            MakeSalesHistoryTable();
-            MakeReceiptHistoryTable();
-            MakeInventoryTable();
             getDaily();
             getWarningList();
-            foo();
+            getInventorySize();
           } else {
             // doc.data() will be undefined in this case
             console.log("No such document!");
@@ -356,33 +269,91 @@
         }).catch(function (error) {
           console.log("Error getting document:", error);
         });
-
-
-
-        //자바스크립트 dom 선택자를 통해서 네비게이션 메뉴의 엘리먼트 변경해주기
-
-
-        //alert(userInfo.userid);  //uid는 db에서 user 테이블의 각 개체들의 pk 인데, 이 값은 인증에서 생성된 아이디의 pk 값과 같다. *중요!
-
         return true;
       }
     });
   </script>
-  <script>
-    function foo(){
-      db.collection("users").where("addr", "==", "0x05d38ee2b27615843961719541b3d84d63c58621")
-    .get()
-    .then(function(querySnapshot) {
-        querySnapshot.forEach(function(doc) {
-            // doc.data() is never undefined for query doc snapshots
-            console.log(doc.id, " => ", doc.data());
-        });
-    })
-    .catch(function(error) {
-        console.log("Error getting documents: ", error);
-    });
-    }
-  </script>
+
+<script>
+  Highcharts.chart('container', {
+      credits: {
+          enabled: false
+      },
+      chart: {
+          type: 'column'
+      },
+      title: {
+          text: '생산량, 재고량, 거래량 추이'
+      },
+      subtitle: {
+          text: 'from MaskSaver'
+      },
+      xAxis: {
+          categories: [
+              '2020-05-29',
+              '2020-05-30',
+              '2020-05-31',
+              '2020-06-01',
+              '2020-06-02',
+              '2020-06-03',
+              '2020-06-04',
+              '2020-06-05',
+              '2020-06-06',
+              '2020-06-07',
+              '2020-06-08',
+              '2020-06-09'
+          ],
+          crosshair: true
+      },
+      yAxis: {
+          min: 0,
+          title: {
+              text: 'Quantity (piece)'
+          }
+      },
+      tooltip: {
+          headerFormat: '<span style="font-size:10px">{point.key}</span><table>',
+          pointFormat: '<tr><td style="color:{series.color};padding:0">{series.name}: </td>' +
+              '<td style="padding:0"><b>{point.y:.1f} piece</b></td></tr>',
+          footerFormat: '</table>',
+          shared: true,
+          useHTML: true
+      },
+      plotOptions: {
+          column: {
+              pointPadding: 0.2,
+              borderWidth: 0
+          }
+      },
+      series: [{
+          name: '재고량',
+          data: [20000, 36000, 41000, 28000, 33000, 48000, 42000, 37000, 29000, 27000, 36000,
+              45000
+          ]
+
+      }, {
+          name: '생산량',
+          data: [16000, 10000, 13000, 18000, 22000, 15000, 14000, 17000, 25000, 24000, 26000,
+              28000
+          ]
+
+      }, {
+          name: '거래량',
+          data: [15000, 30000, 28000, 18000, 15000, 30000, 28000, 18000, 15000, 30000, 28000,
+              18000
+          ]
+
+      }]
+  });
+</script>
+<script>
+  $(document).ready(function () {
+      // Javascript method's body can be found in assets/js/demos.js
+      md.initDashboardPageCharts();
+
+  });
+</script>
+
 </body>
 
 </html>
