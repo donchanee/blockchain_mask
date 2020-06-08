@@ -657,6 +657,7 @@ let contractAddress = "0x2727b026EdB116B20196a1abF32e0cA8311E93e2";
 
 const contract = new web3.eth.Contract(contractAbi, contractAddress);
 
+
 let db = fb.firestore();
 
 	db.collection("users").doc('administrator').get().then(doc => {
@@ -668,6 +669,7 @@ let db = fb.firestore();
 	}).catch(err=> {
 		console.log(err);
 	});
+
 
 exports.getMaskInfo = ((req, res)=>{
 	let maskNum = req.params.tokenId;
@@ -739,11 +741,12 @@ exports.MaskMaking = ((req, res)=>{ // param : uid
 			let maker_account = doc.data().addr;
 
 			const pk = Buffer.from(admin_pk,'hex');
-
+			
 			let callObject = {
 				from: admin_account,
-				gas: web3.utils.toHex(web3.utils.toWei('10', 'gwei'))
+				gas: web3.utils.toHex(web3.utils.toWei('900000', 'gwei'))
 			}
+			
 			contract.methods.maskMaking(maker_account).call(callObject)
 				.then((result) => {
 					if(result === true){
@@ -906,12 +909,12 @@ exports.dealMasks = ((req, res)=>{ //param: sender uid, receiver address, tokenI
 
 		const pk = Buffer.from(privatekey,'hex');
 		const data = contract.methods.dealMasks(recv_addr, token_Id); //컨트랙트에서 리턴값받아서 보낼수있는지없는지 체크 예정
-
+		
 		let callObject = {
 			from: account,
-			gas: web3.utils.toHex(web3.utils.toWei('10', 'gwei'))
+			gas: web3.utils.toHex(web3.utils.toWei('900000', 'gwei'))
 		};
-	
+
 		contract.methods.dealMasks(recv_addr, token_Id).call(callObject)
 			.then((result) => {
 				if(result === true){
@@ -1009,7 +1012,7 @@ function getStockList(req, res){
 		//const pk = Buffer.from(admin_pk,'hex');
 		let callObject = {
 			from: admin_account,
-			gas: web3.utils.toHex(web3.utils.toWei('20', 'gwei'))
+			gas: web3.utils.toHex(web3.utils.toWei('900000', 'gwei'))
 		};
 		let data = {
 			status: "Success to make DB"
@@ -1049,7 +1052,7 @@ function burnToken(req, res){ //토큰소멸
 
 	let callObject = {
 		from: admin_account,
-		gas: web3.utils.toHex(web3.utils.toWei('10', 'gwei'))
+		gas: web3.utils.toHex(web3.utils.toWei('900000', 'gwei'))
 	};
 	const pk = Buffer.from(admin_pk,'hex');
 

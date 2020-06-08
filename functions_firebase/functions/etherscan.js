@@ -3,11 +3,51 @@
 const request = require('request');
 const util = require('util');
 const fb = require("./firebase_init");
-
+require('date-utils');
 const myApi = 'DI2QYXMJ7U1UY4G8AAE175TC33B3V3SGSE';
 const contractaddress = "0x2727b026EdB116B20196a1abF32e0cA8311E93e2";
 
 let db = fb.firestore();
+
+function getName(){ //회사 이름 가져오는 함수 지갑주소기준으로 매핑
+    let arr = new Array();
+
+    let userRef = db.collection("users");
+
+    return new Promise(resolve => {
+        userRef.get().then(snapshot => {
+            snapshot.forEach(doc => {
+                let result = doc.data();
+                let tmp = {
+                    addr : result['addr'].toLowerCase(),
+                    name : result['name']
+                }
+                arr.push(tmp);
+            }); 
+            resolve(arr);
+            return null;
+        }).catch(err => {
+            let data = {
+                status : "Fail",
+                errMsg : "Failed to get Company Names",
+                errDetail : err
+            }
+            res.send(JSON.stringify(data));
+        })
+    });
+}
+
+let nameList = new Object();
+async function nameL(){
+    await getName().then(result => {
+        nameList = result;
+        //console.log(nameList);
+        return null;
+    }).catch(err => {
+        console.log(err);
+    });
+}
+nameL();
 
 exports.normalTx = ((req, res)=>{
     let url = util.format('http://api-ropsten.etherscan.io/api?module=account&action=txlist&address=%s&startblock=0&endblock=99999999&sort=asc&apikey=%s', req.params.address, myApi);
@@ -88,13 +128,22 @@ async function getHistory(req, res){ //제조사 생성내역, 거래내역 조�
             let txInfo = new Object();
 
             for(tmp in result){
-                //console.log('now : ' + tmp + ', ' + result[tmp]['to']);
+                let fromName = "";
+                let toName = "";
+                for(tmp2 in nameList){
+                    if(nameList[tmp2]['addr'] === result[tmp]['from']){
+                        fromName = nameList[tmp2]['name'];
+                    }
+                    if(nameList[tmp2]['addr'] === result[tmp]['to']){
+                        toName = nameList[tmp2]['name'];
+                    }
+                }
                 txInfo = {
                     time: result[tmp]['timeStamp'],
                     tokenId: result[tmp]['tokenID'],
-                    num: '1',
-                    from: result[tmp]['from'],
-                    to: result[tmp]['to']
+                    num: '500',
+                    from: fromName,
+                    to: toName
                 }
 
                 if(result[tmp]['to'] === address.toLowerCase()){ //생성내역, 지금은 거래완료한 토큰도 보이는방식, 거래한토큰은 거르는식으로 구현해야함.
@@ -123,7 +172,9 @@ async function getHistory(req, res){ //제조사 생성내역, 거래내역 조�
                 }
 
                 let warning = new Array(); //7일이상 경과시 경고 알림
-                let now = Math.floor((new Date()+9)/1000);
+                let now = new Date();
+                now.addHours(9);
+                now = Math.floor(now/1000);
 
                 for(e_idx in stock){
                     let time = stock[e_idx].time;
