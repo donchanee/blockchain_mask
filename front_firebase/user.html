@@ -3,24 +3,25 @@
 
 <head>
 	<meta charset="utf-8">
-    <meta http-equiv="x-ua-compatible" content="ie=edge">
-    <title>MaskSaver </title>
-    <meta name="description" content="">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <link rel="manifest" href="site.webmanifest">
-    <link rel="shortcut icon" type="image/x-icon" href="assets/img/favicon.ico">
+	<meta http-equiv="x-ua-compatible" content="ie=edge">
+	<title>MaskSaver </title>
+	<meta name="description" content="">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<link rel="manifest" href="site.webmanifest">
+	<link rel="shortcut icon" type="image/x-icon" href="assets/img/favicon.ico">
 
 	<style>
 		.content {
 			width: 70%;
-      		margin-left: auto;
+			margin-left: auto;
 		}
 
 		#container {
 			height: 400px;
 		}
 
-		.highcharts-figure, .highcharts-data-table table {
+		.highcharts-figure,
+		.highcharts-data-table table {
 			min-width: 310px;
 			max-width: 800px;
 			margin: 1em auto;
@@ -35,26 +36,34 @@
 			width: 100%;
 			max-width: 500px;
 		}
+
 		#datatable caption {
 			padding: 1em 0;
 			font-size: 1.2em;
 			color: #555;
 		}
+
 		#datatable th {
 			font-weight: 600;
 			padding: 0.5em;
 		}
-		#datatable td, #datatable th, #datatable caption {
+
+		#datatable td,
+		#datatable th,
+		#datatable caption {
 			padding: 0.5em;
 		}
-		#datatable thead tr, #datatable tr:nth-child(even) {
+
+		#datatable thead tr,
+		#datatable tr:nth-child(even) {
 			background: #f8f8f8;
 		}
+
 		#datatable tr:hover {
 			background: #f1f7ff;
 		}
 	</style>
- <!-- CSS here -->
+	<!-- CSS here -->
 	<link rel="stylesheet" href="assets/css/bootstrap.min.css">
 	<link rel="stylesheet" href="assets/css/owl.carousel.min.css">
 	<link rel="stylesheet" href="assets/css/slicknav.css">
@@ -75,54 +84,54 @@
 </head>
 
 <body>
-	
-    <!-- Preloader Start -->
-    <div id="preloader-active">
-        <div class="preloader d-flex align-items-center justify-content-center">
-            <div class="preloader-inner position-relative">
-                <div class="preloader-circle"></div>
-                <div class="preloader-img pere-text">
-                    <img src="assets/img/logo/logo.png" alt="">
-                </div>
-            </div>
-        </div>
-    </div>
+
 	<!-- Preloader Start -->
-	
-    <header>
-        <!-- Header Start -->
-       <div class="header-area header-transparrent ">
-            <div class="main-header header-sticky">
-                <div class="container">
-                    <div class="row align-items-center">
-                        <!-- Logo -->
-                        <div class="col-xl-2 col-lg-2 col-md-2">
-                            <div class="logo">
-                                <a href="index.html"><img src="assets/img/logo/logo.png" alt=""></a>
-                            </div>
-                        </div>
-                        <div class="col-xl-10 col-lg-10 col-md-10">
-                            <!-- Main-menu -->
-                            <div class="main-menu f-right d-none d-lg-block">
-                                <nav>
-                                    <ul id="navigation">    
-                                        <li class="active"><a href="index.html"> Home</a></li>
-                                        <li><a href="https://ropsten.etherscan.io/">Transaction</a></li>
-                                        <li><a href="user.html">User</a></li>
-                                    </ul>
-                                </nav>
-                            </div>
-                        </div>
-                        <!-- Mobile Menu -->
-                        <div class="col-12">
-                            <div class="mobile_menu d-block d-lg-none"></div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-       </div>
-        <!-- Header End -->
-    </header>
+	<div id="preloader-active">
+		<div class="preloader d-flex align-items-center justify-content-center">
+			<div class="preloader-inner position-relative">
+				<div class="preloader-circle"></div>
+				<div class="preloader-img pere-text">
+					<img src="assets/img/logo/logo.png" alt="">
+				</div>
+			</div>
+		</div>
+	</div>
+	<!-- Preloader Start -->
+
+	<header>
+		<!-- Header Start -->
+		<div class="header-area header-transparrent ">
+			<div class="main-header header-sticky">
+				<div class="container">
+					<div class="row align-items-center">
+						<!-- Logo -->
+						<div class="col-xl-2 col-lg-2 col-md-2">
+							<div class="logo">
+								<a href="index.html"><img src="assets/img/logo/logo.png" alt=""></a>
+							</div>
+						</div>
+						<div class="col-xl-10 col-lg-10 col-md-10">
+							<!-- Main-menu -->
+							<div class="main-menu f-right d-none d-lg-block">
+								<nav>
+									<ul id="navigation">
+										<li class="active"><a href="index.html"> Home</a></li>
+										<li><a href="https://ropsten.etherscan.io/">Transaction</a></li>
+										<li><a href="user.html">User</a></li>
+									</ul>
+								</nav>
+							</div>
+						</div>
+						<!-- Mobile Menu -->
+						<div class="col-12">
+							<div class="mobile_menu d-block d-lg-none"></div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+		<!-- Header End -->
+	</header>
 	<!-- Slider Area Start-->
 
 	<div class="services-area">
@@ -142,26 +151,28 @@
 	<!-- Start Sample Area -->
 	<section class="sample-text-area">
 		<div class="container box_1170">
-			<h3 class="text-center">마스크 조회</h3> <p></p>
+			<h3 class="text-center">마스크 조회</h3>
+			<p></p>
 			<p class="text-center">
 				마스크ID를 입력한 뒤 당신의 <b>마스크</b> 이력을 조회하세요! <p></p>
 
-				
+
 				<div class="content">
 					<div class="col-lg-4 col-md-4">
 						<form action="#">
 							<div class="col-12">
 								<div class="form-group">
-								   <input class="form-control" name="name" id="name" type="text" placeholder="마스크 ID">
+									<input class="form-control" name="name" id="tokenId" type="text" placeholder="마스크 ID">
 								</div>
-							 </div>
+							</div>
 						</form>
 					</div>
 				</div>
 
 				<div class="button-group-area mt-40 text-center">
-					<a href="https://ropsten.etherscan.io/token/0x2727b026edb116b20196a1abf32e0ca8311e93e2?a=" class="genric-btn info radius">이더스캔에서 조회하기</a>
-					<a href="#" class="genric-btn primary radius">아래 테이블에서 조회하기</a>
+					<a href="https://ropsten.etherscan.io/token/0x2727b026edb116b20196a1abf32e0ca8311e93e2?a="
+						class="genric-btn info radius">이더스캔에서 조회하기</a>
+					<a onclick="makeMaskVenue()" href="#" class="genric-btn primary radius">아래 테이블에서 조회하기</a>
 				</div>
 			</p>
 		</div>
@@ -169,112 +180,194 @@
 
 	<!-- Start Align Area -->
 	<div class="whole-wrap">
-		<div class="container box_1170">
+		<div class="container box_1170" style="text-align: center;">
 			<div class="section-top-border">
 				<h3 class="mb-30">마스크 이동 내역</h3>
+				<div class="row" id="maskTransactionVenue">
+					<!-- 마스크 이동 경로 -->
 
-				<img src="assets/img/process.png" alt="">
+				</div>
+
 			</div>
 		</div>
 	</div>
 	<!-- End Align Area -->
-	
+
 	<footer>
 		<!-- Footer Start-->
-	   <div class="footer-main">
-		 <div class="footer-area footer-padding2">
-			 <div class="container">
-				<div class="row  justify-content-between">
-					<div class="col-lg-3 col-md-4 col-sm-8">
-						<div class="single-footer-caption mb-30">
-							<!-- logo -->
-							<div class="footer-logo">
-								<a href="index.html"><img src="assets/img/logo/logo2_footer.png" alt=""></a>
+		<div class="footer-main">
+			<div class="footer-area footer-padding2">
+				<div class="container">
+					<div class="row  justify-content-between">
+						<div class="col-lg-3 col-md-4 col-sm-8">
+							<div class="single-footer-caption mb-30">
+								<!-- logo -->
+								<div class="footer-logo">
+									<a href="index.html"><img src="assets/img/logo/logo2_footer.png" alt=""></a>
+								</div>
+								<div class="footer-tittle">
+									<div class="footer-pera">
+										<p class="info1">Ethereum blockchain <br> Mask management system</p>
+									</div>
+								</div>
 							</div>
-							<div class="footer-tittle">
-								<div class="footer-pera">
-									<p class="info1">Ethereum blockchain <br> Mask management system</p>
+						</div>
+						<div class="col-lg-2 col-md-4 col-sm-5">
+							<div class="single-footer-caption mb-50">
+								<div class="footer-tittle">
+									<h4>Quick Links</h4>
+									<ul>
+										<li><a href="#">Login</a></li>
+										<li><a href="#">User</a></li>
+										<li><a href="#">Transaction</a></li>
+									</ul>
+								</div>
+							</div>
+						</div>
+						<div class="col-lg-2 col-md-4 col-sm-7">
+							<div class="single-footer-caption mb-50">
+								<div class="footer-tittle">
+									<h4>Support</h4>
+									<ul>
+										<li><a href="#">Contact us</a></li>
+										<li><a href="#">Report a bug</a></li>
+										<li><a href="#">Sitemap</a></li>
+									</ul>
 								</div>
 							</div>
 						</div>
 					</div>
-					<div class="col-lg-2 col-md-4 col-sm-5">
-						<div class="single-footer-caption mb-50">
-							<div class="footer-tittle">
-								<h4>Quick Links</h4>
-								<ul>
-									<li><a href="#">Login</a></li>
-									<li><a href="#">User</a></li>
-									<li><a href="#">Transaction</a></li>
-								</ul>
-							</div>
-						</div>
-					</div>
-					<div class="col-lg-2 col-md-4 col-sm-7">
-						<div class="single-footer-caption mb-50">
-							<div class="footer-tittle">
-								<h4>Support</h4>
-								<ul>
-									<li><a href="#">Contact us</a></li>
-									<li><a href="#">Report a bug</a></li>
-									<li><a href="#">Sitemap</a></li>
-								</ul>
+					<!-- Copy-Right -->
+					<div class="row align-items-center">
+						<div class="col-xl-12 ">
+							<div class="footer-copy-right">
+								<p>
+									<!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. -->
+									Copyright &copy;<script>
+										document.write(new Date().getFullYear());
+									</script> All rights reserved | This template is made with <i class="ti-heart"
+										aria-hidden="true"></i> by <a href="https://colorlib.com"
+										target="_blank">Colorlib</a>
+									<!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. -->
+								</p>
 							</div>
 						</div>
 					</div>
 				</div>
-				 <!-- Copy-Right -->
-				 <div class="row align-items-center">
-					 <div class="col-xl-12 ">
-						 <div class="footer-copy-right">
-							 <p><!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. -->
-  Copyright &copy;<script>document.write(new Date().getFullYear());</script> All rights reserved | This template is made with <i class="ti-heart" aria-hidden="true"></i> by <a href="https://colorlib.com" target="_blank">Colorlib</a>
-  <!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. --></p>
-						 </div>
-					 </div>
-				 </div>
-			 </div>
-		 </div>
-	   </div>
+			</div>
+		</div>
 		<!-- Footer End-->
- 
-	</footer>
-<!-- JS here -->
-	
-		<!-- All JS Custom Plugins Link Here here -->
-        <script src="./assets/js/vendor/modernizr-3.5.0.min.js"></script>
-		
-		<!-- Jquery, Popper, Bootstrap -->
-		<script src="./assets/js/vendor/jquery-1.12.4.min.js"></script>
-        <script src="./assets/js/popper.min.js"></script>
-        <script src="./assets/js/bootstrap.min.js"></script>
-	    <!-- Jquery Mobile Menu -->
-        <script src="./assets/js/jquery.slicknav.min.js"></script>
 
-		<!-- Jquery Slick , Owl-Carousel Plugins -->
-        <script src="./assets/js/owl.carousel.min.js"></script>
-		<script src="./assets/js/slick.min.js"></script>
+	</footer>
+	<!-- JS here -->
+
+	<!-- All JS Custom Plugins Link Here here -->
+	<script src="./assets/js/vendor/modernizr-3.5.0.min.js"></script>
+
+	<!-- Jquery, Popper, Bootstrap -->
+	<script src="./assets/js/vendor/jquery-1.12.4.min.js"></script>
+	<script src="./assets/js/popper.min.js"></script>
+	<script src="./assets/js/bootstrap.min.js"></script>
+	<!-- Jquery Mobile Menu -->
+	<script src="./assets/js/jquery.slicknav.min.js"></script>
+
+	<!-- Jquery Slick , Owl-Carousel Plugins -->
+	<script src="./assets/js/owl.carousel.min.js"></script>
+	<script src="./assets/js/slick.min.js"></script>
+
+	<!-- One Page, Animated-HeadLin -->
+	<script src="./assets/js/wow.min.js"></script>
+	<script src="./assets/js/animated.headline.js"></script>
+	<script src="./assets/js/jquery.magnific-popup.js"></script>
+
+	<!-- Scrollup, nice-select, sticky -->
+	<script src="./assets/js/jquery.scrollUp.min.js"></script>
+	<script src="./assets/js/jquery.nice-select.min.js"></script>
+	<script src="./assets/js/jquery.sticky.js"></script>
+
+	<!-- contact js -->
+	<script src="./assets/js/contact.js"></script>
+	<script src="./assets/js/jquery.form.js"></script>
+	<script src="./assets/js/jquery.validate.min.js"></script>
+	<script src="./assets/js/mail-script.js"></script>
+	<script src="./assets/js/jquery.ajaxchimp.min.js"></script>
+
+	<!-- Jquery Plugins, main Jquery -->
+	<script src="./assets/js/plugins.js"></script>
+	<script src="./assets/js/main.js"></script>
+
+	<script>
+		function makeMaskVenue() {
+			var ourRequest = new XMLHttpRequest();
+			var tokenNumber = document.getElementById('tokenId').value;
+			console.log('makeMaskVenue 실행', tokenNumber);
+			ourRequest.open('GET',
+				'https://us-central1-maskproject-6e385.cloudfunctions.net/maskSaver/getTokenHistory/' +
+				tokenNumber);
+			ourRequest.onload = function () {
+				var ourData = JSON.parse(ourRequest.responseText);
+				console.log(ourData);
+				renderMaskVenue(ourData);
+			};
+			ourRequest.send();
+		}
+
+		function renderMaskVenue(data) {
+			console.log('renderMaskVenue 실행');
+			var length = data.tokenTx.length;
+			console.log(length);
+			var htmlString = 
+				'<div class="col">' +
+					'<div class="row">'+
+					'<img src="./assets/img/box.png">' +
+					'</div>'+
+					'<div class="row">'+
+				'' +
+				data.tokenTx[0].to+
+				'</div>'+
+				'</div>';
+				if(data.tokenTx.length <= 1){
+					$("#maskTransactionVenue").html(htmlString);
+						return;
+					}
+				htmlString +='<div class="col">' +
+					'<img src="./assets/img/arrow.png">' +
+					'</div>';
+					
+			for (i = 1; i < data.tokenTx.length; i++) {
+				if(i == data.tokenTx.length -1 && i != 1){
+					console.log('if 실행');
+					htmlString += 	'<div class="col">' +
+					'<div class="row">'+
+					'<img src="./assets/img/box.png">' +
+					'</div>'+
+					'<div class="row">'+
+				'' +
+				data.tokenTx[i].to+
+				'</div>'+
+				'</div>';
+					continue;
+				}
+
+				htmlString += 	'<div class="col">' +
+					'<div class="row">'+
+					'<img src="./assets/img/box.png">' +
+					'</div>'+
+					'<div class="row">'+
+				'' +
+				data.tokenTx[i].to+
+				'</div>'+
+				'</div>';
+				htmlString +='<div class="col">' +
+					'<img src="./assets/img/arrow.png">' +
+					'</div>';
+				
+			}
+			
 		
-		<!-- One Page, Animated-HeadLin -->
-        <script src="./assets/js/wow.min.js"></script>
-		<script src="./assets/js/animated.headline.js"></script>
-		<script src="./assets/js/jquery.magnific-popup.js"></script>
-		
-		<!-- Scrollup, nice-select, sticky -->
-        <script src="./assets/js/jquery.scrollUp.min.js"></script>
-        <script src="./assets/js/jquery.nice-select.min.js"></script>
-		<script src="./assets/js/jquery.sticky.js"></script>
-        
-        <!-- contact js -->
-        <script src="./assets/js/contact.js"></script>
-        <script src="./assets/js/jquery.form.js"></script>
-        <script src="./assets/js/jquery.validate.min.js"></script>
-        <script src="./assets/js/mail-script.js"></script>
-        <script src="./assets/js/jquery.ajaxchimp.min.js"></script>
-        
-		<!-- Jquery Plugins, main Jquery -->	
-        <script src="./assets/js/plugins.js"></script>
-		<script src="./assets/js/main.js"></script>
-        
+			$("#maskTransactionVenue").html(htmlString);
+		}
+	</script>
 </body>
+
 </html>
