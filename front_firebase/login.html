@@ -165,11 +165,14 @@
             window.location.href = "../seller/seller_dashboard.html";
           }
           else if (doc.data().index == "manufacturer") {
-            window.location.href = "../manufacturer/manufacturer_dashboard.html"
+            window.location.href = "../manufacturer/manufacturer_dashboard.html";
           }
           else if(doc.data().index == "distributor"){
-            window.location.href = "../distributor/distributor_dashboard.html"
+            window.location.href = "../distributor/distributor_dashboard.html";
           }
+		  else if(doc.data().index == "admin"){
+			  window.location.href = "../administrator/administrator_dashboard.html";
+		  }
           else{
             alert("불가!")
           }

@@ -111,13 +111,13 @@
                     </div>
                     <div class="row">
                       <div class="col">
-                        <button type="button" class="btn btn-primary" id="checkSales" onclick="SendMask()">확인</button>
+                        <button type="button" class="btn btn-primary" id="checkSales" onclick="SellMask()">확인</button>
                       </div>
                   </form>
                 </div>
               </div>
             </div>
-        
+
           </div>
         </div>
       </div>
@@ -158,57 +158,6 @@
     userSessionCheck();
   </script>
   <script type="text/javascript">
-    //재고내역 테이블 만드는 함수
-    function MakeInventoryTable() {
-      var myTbody = document.getElementById("salesHistoryTbody");
-      var ourRequest = new XMLHttpRequest();
-      ourRequest.open('GET', 'https://us-central1-maskproject-6e385.cloudfunctions.net/maskSaver/getHistory/' +
-        userAddr);
-      ourRequest.onload = function () {
-        var ourData = JSON.parse(ourRequest.responseText);
-        console.log(ourData);
-        renderInventoryHTML(ourData);
-      };
-      ourRequest.send();
-    }
-
-    function renderInventoryHTML(data) {
-      var htmlString = "";
-      sortByDate(data.stockList);
-      for (i = 0; i < data.stockList.length; i++) {
-        htmlString += "<tr><td>" + new Date(data.stockList[i].time * 1000).toLocaleString() + "</td>";
-        htmlString += "<td>" + data.stockList[i].tokenId + "</td>";
-        htmlString += "<td>" + data.stockList[i].num + "</td></tr>";
-      }
-      $("#inventoryTbody").append(htmlString);
-    }
-    //입고내역 테이블 만드는 함수
-    function MakeReceiptHistoryTable() {
-      var myTbody = document.getElementById("receiptHistoryTbody");
-      var ourRequest = new XMLHttpRequest();
-
-      ourRequest.open('GET', 'https://us-central1-maskproject-6e385.cloudfunctions.net/maskSaver/getHistory/' +
-        userAddr);
-      ourRequest.onload = function () {
-        var ourData = JSON.parse(ourRequest.responseText);
-        console.log(ourData);
-        renderReceiptHistoryHTML(ourData);
-      };
-      ourRequest.send();
-    }
-
-    function renderReceiptHistoryHTML(data) {
-      var htmlString = "";
-      sortByDate(data.enteredHistory);
-      for (i = 0; i < data.enteredHistory.length; i++) {
-        htmlString += "<tr><td>" + new Date(data.enteredHistory[i].time * 1000).toLocaleString() + "</td>";
-        htmlString += "<td>" + data.enteredHistory[i].tokenId + "</td>";
-        htmlString += "<td>" + data.enteredHistory[i].from + "</td>";
-        htmlString += "<td>" + data.enteredHistory[i].to + "</td>";
-        htmlString += "<td>" + data.enteredHistory[i].num + "</td></tr>";
-      }
-      $("#receiptHistoryTbody").append(htmlString);
-    }
     //구매자 리스트 테이블 만드는 함수
     function MakeBuyerListTable() {
       //DB저장하는 함수
@@ -264,7 +213,10 @@
       var count = document.getElementById("count3").value;
       var civilNumber = document.getElementById("civilNumber").value;
 
-
+      if(updateTokenCount(serialNumber) == false){
+        alert('실패!');
+        return;
+      }
       //DB에 시리얼넘버, 이름, 개수, 주민번호 넣기
       var docRef = db.collection("users").doc(firebaseEmailAuth.currentUser.uid);
       var docRef2 = db.collection("users").doc(firebaseEmailAuth.currentUser.uid).collection("buyers");
@@ -319,6 +271,7 @@
               console.log("Document written with ID: ", docRef.id);
               alert("seller 저장 완료!");
               setTimeout(GetDataFromDB(), 3000);
+              updateTokenCount(serialNumber);
             })
             .catch(function (error) {
               console.error("Error adding document: ", error);
@@ -380,60 +333,118 @@
 
 
     }
+
     function getUidFromAddr(addr) {
-                var recv_uid = "";
-                console.log("getUidFromAddr(addr) 실행");
-               return db.collection("users").where("addr", "==", addr)
-                    .get()
-                    .then(function (querySnapshot) {
-                        querySnapshot.forEach(function (doc) {
-                            // doc.data() is never undefined for query doc snapshots
-                            console.log(doc.id, " => ", doc.data());
-                           
-                            recv_uid = doc.id;
-                            console.log(doc.id, recv_uid);
-                          
-                        });
-                        return recv_uid;
-                    })
-                    .catch(function (error) {
-                        console.log("Error getting documents: ", error);
-                        return recv_uid;
-                    });
-            }
-            //마스크 보내기 함수
-            function SendMask() {
-                var toDistributor = document.getElementById("toSeller").value;//바꿔야됨 burn 마스크로
-                var serialNumber = document.getElementById("serialNumber3").value;
+      var recv_uid = "";
+      console.log("getUidFromAddr(addr) 실행");
+      return db.collection("users").where("addr", "==", addr)
+        .get()
+        .then(function (querySnapshot) {
+          querySnapshot.forEach(function (doc) {
+            // doc.data() is never undefined for query doc snapshots
+            console.log(doc.id, " => ", doc.data());
 
-                console.log(serialNumber, toDistributor, "SendMask()실행");
-                //위의 변수를 가지고 web3를 통해 컨트랙트 함수 실행
-                var ourRequest = new XMLHttpRequest();
-                getUidFromAddr(toSeller).then(function(data){
-                    console.log("recv_uid : " + data);
-                    ourRequest.open('GET', 'https://us-central1-maskproject-6e385.cloudfunctions.net/maskSaver/dealMasks/' +
-                    firebaseEmailAuth.currentUser.uid + '/' +
-                    data +
-                    '/' + serialNumber);
-                
-                ourRequest.onload = function () {
-                    var ourData = JSON.parse(ourRequest.responseText);
-                    console.log(ourData);
-                    IsSuccessOrFail(ourData);
-                    if(ourData.status === 'Success'){
-                      SellMask();
-                    }
-                    else if(ourData.status === 'Fail'){
-                      alert('판매 절차 실패!');
-                      return;
-                    }
-                };
-                ourRequest.send();
-                })
-              
+            recv_uid = doc.id;
+            console.log(doc.id, recv_uid);
+
+          });
+          return recv_uid;
+        })
+        .catch(function (error) {
+          console.log("Error getting documents: ", error);
+          return recv_uid;
+        });
+    }
+    //마스크 보내기 함수
+    function burnMask() {
+      var serialNumber = document.getElementById("serialNumber3").value;
+      var name = document.getElementById("name").value;
+      var count = document.getElementById("count3").value;
+      var civilNumber = document.getElementById("civilNumber").value;
+
+      console.log("burnMask()실행");
+      //위의 변수를 가지고 web3를 통해 컨트랙트 함수 실행
+      var ourRequest = new XMLHttpRequest();
+      //burn 토큰을 보낼 주소 필요
+      ourRequest.open('GET', 'https://us-central1-maskproject-6e385.cloudfunctions.net/maskSaver/burnToken/' +
+        serialNumber);
+
+      ourRequest.onload = function () {
+        var ourData = JSON.parse(ourRequest.responseText);
+        console.log(ourData);
+        IsSuccessOrFail(ourData);
+        if (ourData.status === 'Success') {
+          alert('Token burning success!');
+        } else if (ourData.status === 'Fail') {
+          alert('Token burning failed!');
+          return;
+        }
+      };
+      ourRequest.send();
+    }
+
+    function canSell(tokenId) {
+      getTokenCount(tokenId).then(function () {
+
+      });
+    }
+
+    function updateTokenCount(tokenId) {
+      console.log('updateTokenCount 실행');
+      var serialNumber = document.getElementById("serialNumber3").value;
+      var name = document.getElementById("name").value;
+      var count1 = document.getElementById("count3").value;
+      var civilNumber = document.getElementById("civilNumber").value;
+      return getTokenCount(tokenId).then(function (data) {
+        console.log("data : " + data.count + " count : " + count1);
+        if (data.count - count1 >= 0) {
+          db.collection("users").doc(firebaseEmailAuth.currentUser.uid).collection("inventory").doc(serialNumber)
+            .set({
+              count: data.count - count1,
+            })
+            .then(function () {
+              getTokenCount(serialNumber).then(function (data) {
+                if (data <= 0) {
+                  burnMask(serialNumber);
+                  alert('재고가 없습니다.');
+                  return false;
+                } else {
+                  alert('성공!');
+                  return true;
+                }
+              });
+              console.log("Document successfully written!");
+            })
+            .catch(function (error) {
+              console.error("Error writing document: ", error);
+              return false;
+            });
+        } else {
+          burnMask(tokenId);
+          return false;
+        }
+      });
 
 
-            }
+    }
+
+    function getTokenCount(tokenId) {
+      var docRef = db.collection("users").doc(firebaseEmailAuth.currentUser.uid).collection('inventory').doc(tokenId);
+
+      return docRef.get().then(function (doc) {
+        if (doc.exists) {
+          return doc.data();
+        } else {
+          // doc.data() will be undefined in this case
+          console.log("No such document!");
+
+        }
+      }).catch(function (error) {
+        console.log("Error getting document:", error);
+      });
+
+    }
+
     function sleep(delay) {
       var start = new Date().getTime();
       while (new Date().getTime() < start + delay);
@@ -479,8 +490,7 @@
             userName = doc.data().name;
             userEmail = user.email;
             console.log(user.email + " 님이 로그인했습니다." + " 계좌 : " + userAddr + " 이름 :" + userName);
-            MakeReceiptHistoryTable();
-            MakeInventoryTable();
+
           } else {
             // doc.data() will be undefined in this case
             console.log("No such document!");
@@ -502,26 +512,13 @@
   </script>
 
   <script>
-    //마스크 토큰 없애는 함수. 판매완료됬을때 실행
-    function BurnMask() {
-      var serialNumber = document.getElementById("serialNumber2").value;
-      var toDistributor = document.getElementById("toDistributor").value;
-      console.log(serialNumber, toDistributor);
-      //위의 변수를 가지고 web3를 통해 컨트랙트 함수 실행
-      var ourRequest = new XMLHttpRequest();
-      ourRequest.open('GET', 'https://us-central1-maskproject-6e385.cloudfunctions.net/maskSaver/getHistory/' +
-        firebaseEmailAuth.currentUser.uid + '/' +
-        toDistributor +
-        '/' + serialNumber);
-      ourRequest.onload = function () {
-        var ourData = JSON.parse(ourRequest.responseText);
-        console.log(ourData);
-        IsSuccessOrFail(ourData);
-      };
-      ourRequest.send();
-
-    }
-  </script>
+    /*
+  1.일련번호, 개수, 이름, 주민번호 입력
+  2.현 판매사의 count가 입력된 개수 이상이면 판매, 이하이면 판매 불가
+  3.입력된 개수 이상이라면, 판매사, observer db에 저장. 이하라면 불가
+  4.판매된 뒤 판매사의 count를 다시한번 점검하고 count가 0이라면 burnMask 아니라면 그냥 놔둠
+  5.
+  */
   </script>
 </body>
 

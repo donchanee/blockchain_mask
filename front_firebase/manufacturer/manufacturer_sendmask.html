@@ -158,32 +158,12 @@
         <script>
             userSessionCheck();
         </script>
-        <script>
-          
-        </script>
-        <script>
-            //마스크 추가 함수
-            function AddMask() {
-                var ourRequest = new XMLHttpRequest();
 
-                //위의 변수를 가지고 web3를 통해 컨트랙트 함수 실행
-                ourRequest.open('GET',
-                    'https://us-central1-maskproject-6e385.cloudfunctions.net/maskSaver/maskMaking/' +
-                    firebaseEmailAuth.currentUser.uid);
-                ourRequest.onload = function () {
-                    var ourData = JSON.parse(ourRequest.responseText);
-                    console.log(ourData);
-                    IsSuccessOrFail(ourData);
-                };
-                ourRequest.send();
-
-            }
+        <script>
             function getUidFromAddr(addr) {
                 var recv_uid = "";
                 console.log("getUidFromAddr(addr) 실행");
-               return db.collection("users").where("addr", "==", addr)
-                    .get()
-                    .then(function (querySnapshot) {
+                return db.collection("users").where("addr", "==", addr).get().then(function (querySnapshot) {
                         querySnapshot.forEach(function (doc) {
                             // doc.data() is never undefined for query doc snapshots
                             console.log(doc.id, " => ", doc.data());
@@ -196,7 +176,7 @@
                     })
                     .catch(function (error) {
                         console.log("Error getting documents: ", error);
-                        return recv_uid;
+                        return recv_uid;    
                     });
             }
             //마스크 보내기 함수
@@ -225,114 +205,6 @@
 
 
             }
-
-            //마스크 생성내역 테이블 만드는 함수
-            function MakeAddedMaskListTable() {
-                var myTbody = document.getElementById("maskListTbody");
-                var ourRequest = new XMLHttpRequest();
-                var exampleInfo = document.getElementById("exampleInfo");
-
-                ourRequest.open('GET',
-                    'https://us-central1-maskproject-6e385.cloudfunctions.net/maskSaver/getHistory/' +
-                    userAddr);
-                ourRequest.onload = function () {
-                    var ourData = JSON.parse(ourRequest.responseText);
-                    console.log(ourData);
-                    renderMakeTransactionHTML(ourData);
-
-                    //테이블 행 클릭시 해당 정보 가져오는 JQuery  
-                    $("#inventoryTable tr").click(function () {
-
-                        var str = "";
-                        var tdArr = new Array(); // 배열 선언
-
-                        // 현재 클릭된 Row(<tr>)
-                        var tr = $(this);
-                        var td = tr.children();
-
-                        // tr.text()는 클릭된 Row 즉 tr에 있는 모든 값을 가져온다.
-                        console.log("클릭한 Row의 모든 데이터 : " + tr.text());
-
-                        // 반복문을 이용해서 배열에 값을 담아 사용할 수 도 있다.
-                        td.each(function (i) {
-                            tdArr.push(td.eq(i).text());
-                        });
-
-                        $('#serialNumber2').val(tdArr[1]);
-
-
-                    });
-                };
-                ourRequest.send();
-            }
-            //거래내역 테이블 만드는 함수
-            function MakeTransactionListTable() {
-                var myTbody = document.getElementById("maskListTbody");
-                var ourRequest = new XMLHttpRequest();
-                var exampleInfo = document.getElementById("exampleInfo");
-
-                ourRequest.open('GET',
-                    'https://us-central1-maskproject-6e385.cloudfunctions.net/maskSaver/getHistory/' +
-                    userAddr);
-                ourRequest.onload = function () {
-                    var ourData = JSON.parse(ourRequest.responseText);
-                    console.log(ourData);
-                    renderMakeAddedMaskHTML(ourData);
-                };
-                ourRequest.send();
-            }
-            //재고내역 테이블 만드는 함수
-            function MakeInventoryTable() {
-                var myTbody = document.getElementById("salesHistoryTbody");
-                var ourRequest = new XMLHttpRequest();
-                ourRequest.open('GET',
-                    'https://us-central1-maskproject-6e385.cloudfunctions.net/maskSaver/getHistory/' +
-                    userAddr);
-                ourRequest.onload = function () {
-                    var ourData = JSON.parse(ourRequest.responseText);
-                    console.log(ourData);
-                    renderInventoryHTML(ourData);
-                    getTokenIdFromStock(ourData);
-                };
-                ourRequest.send();
-            }
-
-            function renderInventoryHTML(data) {
-                var htmlString = "";
-                sortByDate(data.stockList);
-                for (i = 0; i < data.stockList.length; i++) {
-                    console.log("renderInventoryHTML");
-                    htmlString += "<tr><td>" + new Date(data.stockList[i].time * 1000).toLocaleString() + "</td>";
-                    htmlString += "<td>" + data.stockList[i].tokenId + "</td>";
-                    htmlString += "<td>" + data.stockList[i].num + "</td></tr>";
-                }
-                $("#inventoryTbody").append(htmlString);
-            }
-
-            function renderMakeAddedMaskHTML(data) {
-                var htmlString = "";
-                sortByDate(data.enteredHistory);
-                for (i = 0; i < data.enteredHistory.length; i++) {
-                    htmlString += "<tr><td>" + new Date(data.enteredHistory[i].time * 1000).toLocaleString() + "</td>";
-                    htmlString += "<td>" + data.enteredHistory[i].tokenId + "</td>";
-                    htmlString += "<td>" + data.enteredHistory[i].num + "</td></tr>";
-                }
-                $("#maskListTbody").append(htmlString);
-            }
-
-
-            function renderMakeTransactionHTML(data) {
-                var htmlString = "";
-                sortByDate(data.releasedHistory);
-                for (i = 0; i < data.releasedHistory.length; i++) {
-                    htmlString += "<tr><td>" + new Date(data.releasedHistory[i].time * 1000).toLocaleString() + "</td>";
-                    htmlString += "<td>" + data.releasedHistory[i].tokenId + "</td>";
-                    htmlString += "<td>" + data.releasedHistory[i].num + "</td>";
-                    htmlString += "<td>" + data.releasedHistory[i].from + "</td>";
-                    htmlString += "<td>" + data.releasedHistory[i].to + "</td></tr>";
-                }
-                $("#transactionListTbody").append(htmlString);
-            }
         </script>
 
         <!-- httpRequest JSON parsing script -->
@@ -350,9 +222,6 @@
                             userEmail = user.email;
                             console.log(user.email + " 님이 로그인했습니다." + " 계좌 : " + userAddr + " 이름 :" +
                                 userName);
-                            MakeTransactionListTable();
-                            MakeAddedMaskListTable();
-                            MakeInventoryTable();
                         } else {
                             // doc.data() will be undefined in this case
                             console.log("No such document!");
@@ -360,43 +229,11 @@
                     }).catch(function (error) {
                         console.log("Error getting document:", error);
                     });
-
-
-
-                    //자바스크립트 dom 선택자를 통해서 네비게이션 메뉴의 엘리먼트 변경해주기
-
-
-                    //alert(userInfo.userid);  //uid는 db에서 user 테이블의 각 개체들의 pk 인데, 이 값은 인증에서 생성된 아이디의 pk 값과 같다. *중요!
-
                     return true;
                 }
             });
         </script>
-        <!-- <script>
-  //테이블 행 클릭시 해당 정보 가져오는 JQuery  
-    $("#addedMaskListTable tr").click(function(){     
- 
- var str = "";
- var tdArr = new Array();    // 배열 선언
-     
- // 현재 클릭된 Row(<tr>)
- var tr = $(this);
- var td = tr.children();
-
- // tr.text()는 클릭된 Row 즉 tr에 있는 모든 값을 가져온다.
- console.log("클릭한 Row의 모든 데이터 : "+tr.text());
-            
-            // 반복문을 이용해서 배열에 값을 담아 사용할 수 도 있다.
-            td.each(function(i){
-                tdArr.push(td.eq(i).text());
-            });
-                    
-            $('#serialNumber2').val(tdArr[1]);
-        
-      
- });
- 
-</script> -->
+    
 </body>
 
 </html>

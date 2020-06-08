@@ -152,7 +152,7 @@
 						<form action="#">
 							<div class="col-12">
 								<div class="form-group">
-								   <input class="form-control" name="name" id="name" type="text" placeholder="마스크 ID">
+								   <input class="form-control" name="name" id="tokenId" type="text" placeholder="마스크 ID">
 								</div>
 							 </div>
 						</form>
@@ -160,7 +160,7 @@
 				</div>
 
 				<div class="button-group-area mt-40 text-center">
-					<a href="https://ropsten.etherscan.io/token/0x2727b026edb116b20196a1abf32e0ca8311e93e2?a=" class="genric-btn info radius">이더스캔에서 조회하기</a>
+					<a onclick="scanInEtherscan()" class="genric-btn info radius">이더스캔에서 조회하기</a>
 					<a href="#" class="genric-btn primary radius">아래 테이블에서 조회하기</a>
 				</div>
 			</p>
@@ -444,6 +444,14 @@
 		
 		});
 		</script>
-        
+        <script>
+			function scanInEtherscan(){
+				var tokenId = document.getElementById('tokenId').value;
+				
+				console.log("tokenId : " +tokenId);
+				
+				window.open('https://ropsten.etherscan.io/token/0x2727b026edb116b20196a1abf32e0ca8311e93e2?a='+tokenId, '_blank'); 
+			}
+		</script>
 </body>
 </html>

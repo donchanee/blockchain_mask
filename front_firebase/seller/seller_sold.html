@@ -153,55 +153,7 @@
     userSessionCheck();
   </script>
   <script type="text/javascript">
-    //재고내역 테이블 만드는 함수
-  function MakeInventoryTable() {
-      var myTbody = document.getElementById("salesHistoryTbody");
-      var ourRequest = new XMLHttpRequest();
-      ourRequest.open('GET', 'https://us-central1-maskproject-6e385.cloudfunctions.net/maskSaver/getHistory/' +
-      userAddr);
-      ourRequest.onload = function () {
-        var ourData = JSON.parse(ourRequest.responseText);
-        console.log(ourData);
-        renderInventoryHTML(ourData);
-      };
-      ourRequest.send();
-    }
-    function renderInventoryHTML(data) {
-      var htmlString = "";
-      sortByDate(data.stockList);
-      for (i = 0; i < data.stockList.length; i++) {
-        htmlString += "<tr><td>" + new Date(data.stockList[i].time * 1000).toLocaleString() + "</td>";
-        htmlString += "<td>" + data.stockList[i].tokenId + "</td>";
-        htmlString += "<td>" + data.stockList[i].num + "</td></tr>";
-      }
-      $("#inventoryTbody").append(htmlString);
-    }
-    //입고내역 테이블 만드는 함수
-    function MakeReceiptHistoryTable() {
-      var myTbody = document.getElementById("receiptHistoryTbody");
-      var ourRequest = new XMLHttpRequest();
-
-      ourRequest.open('GET', 'https://us-central1-maskproject-6e385.cloudfunctions.net/maskSaver/getHistory/' + userAddr);
-      ourRequest.onload = function () {
-        var ourData = JSON.parse(ourRequest.responseText);
-        console.log(ourData);
-        renderReceiptHistoryHTML(ourData);
-      };
-      ourRequest.send();
-    }
     
-    function renderReceiptHistoryHTML(data) {
-      var htmlString = "";
-      sortByDate(data.enteredHistory);
-      for (i = 0; i < data.enteredHistory.length; i++) {
-        htmlString += "<tr><td>" + new Date(data.enteredHistory[i].time * 1000).toLocaleString() + "</td>";
-        htmlString += "<td>" + data.enteredHistory[i].tokenId + "</td>";
-        htmlString += "<td>" + data.enteredHistory[i].from + "</td>";
-        htmlString += "<td>" + data.enteredHistory[i].to + "</td>";
-        htmlString += "<td>" + data.enteredHistory[i].num + "</td></tr>";
-      }
-      $("#receiptHistoryTbody").append(htmlString);
-    }
     //구매자 리스트 테이블 만드는 함수
     function MakeBuyerListTable() {
       //DB저장하는 함수
