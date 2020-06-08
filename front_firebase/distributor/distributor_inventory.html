@@ -47,7 +47,7 @@
           <li class="nav-item ">
             <a class="nav-link" href="../distributor/distributor_sold.html">
               <i class="material-icons">bubble_chart</i>
-              <p>판매 내역</p>
+              <p>출고 내역</p>
             </a>
           </li>
           <li class="nav-item ">
@@ -71,8 +71,10 @@
       <nav class="navbar navbar-expand-lg navbar-transparent navbar-absolute fixed-top ">
         <div class="container-fluid">
           <div class="navbar-wrapper">
-            <a class="navbar-brand" href="javascript:;">Dashboard</a>
-            <p id="id">여기는 유저 정보가 표시될 공간입니다.</p>
+          </div>
+
+          <div class="alert alert-primary" role="alert">
+              <a id="id">로그인시 유저 정보가 보입니다.</a>
           </div>
         </div>
       </nav>
@@ -80,6 +82,30 @@
       <div class="content">
         <div class="container-fluid">
           <!-- your content here -->
+
+          <div class="card text-center">
+            <div class="card-body">
+                <h4 class="card-title">마스크 보내기</h4>
+                <p class="card-text">
+                    <form>
+                        <div class="row">
+                            <div class="col">
+                                <input type="text" class="form-control" id="serialNumber2"
+                                    placeholder="일련번호">
+                            </div>
+                            <div class="col">
+                                <input type="text" class="form-control" id="toDistributor"
+                                    placeholder="대상업체">
+                            </div>
+                        </div>
+                    </form>
+
+
+                </p>
+                <button class="btn btn-primary" id="sendMask" onclick="SendMask()">보내기</button>
+            </div>
+          </div>
+
           <div class="row">
             <div class="col-md-12">
               <div class="card">

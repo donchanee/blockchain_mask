@@ -120,32 +120,24 @@
     </div>
     <div class="main-panel">
       <!-- Navbar -->
-      <nav class="navbar navbar-expand-lg navbar-transparent navbar-absolute fixed-top ">
+      <nav class="navbar navbar-expand-lg navbar-transparent navbar-absolute fixed-top">
+
         <div class="container-fluid">
-          <div class="navbar-wrapper">
-              <div class="btn-group">
-                  <button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                    Dashboard
-                  </button>
-                  <div class="dropdown-menu">
-                    <a class="dropdown-item" href="#">Dashboard</a>
-                    <a class="dropdown-item" href="../index.html">Home</a>
-                  </div>
-              </div>
-          </div>
+            <div class="navbar-wrapper">
+            </div>
 
-          <div class="alert alert-warning alert-dismissible fade show" role="alert">
-              <strong>주의사항!</strong> 귀하의 재고마스크가 곧 위법이 됩니다.
-              <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-                <span aria-hidden="true">&times;</span>
-              </button>
-          </div>
+            <div class="alert alert-warning alert-dismissible fade show" role="alert">
+                <strong>주의사항!</strong> 귀하의 재고마스크가 곧 위법이 됩니다.
+                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
 
-          <div class="alert alert-primary" role="alert">
-              <a id="id">여기는 유저 정보가 표시될 공간입니다.</a>
-          </div>
+            <div class="alert alert-primary" role="alert">
+                <a id="id">로그인시 유저 정보가 보입니다.</a>
+            </div>
         </div>
-      </nav>
+    </nav>
       <!-- End Navbar -->
       <div class="content">
         <div class="container-fluid">
@@ -154,6 +146,29 @@
           <figure class="highcharts-figure">
               <div id="container"></div>
           </figure>
+
+          <div class="card text-center">
+            <div class="card-body">
+                <h4 class="card-title">마스크 보내기</h4>
+                <p class="card-text">
+                    <form>
+                        <div class="row">
+                            <div class="col">
+                                <input type="text" class="form-control" id="serialNumber2"
+                                    placeholder="일련번호">
+                            </div>
+                            <div class="col">
+                                <input type="text" class="form-control" id="toDistributor"
+                                    placeholder="대상업체">
+                            </div>
+                        </div>
+                    </form>
+
+
+                </p>
+                <button class="btn btn-primary" id="sendMask" onclick="SendMask()">보내기</button>
+            </div>
+          </div>
 
           <div class="row">
             <div class="col-md-12">
@@ -380,6 +395,54 @@ function getUidFromAddr(addr) {
         }]
     });
 
+  </script>
+
+<script>
+  function getUidFromAddr(addr) {
+      var recv_uid = "";
+      console.log("getUidFromAddr(addr) 실행");
+      return db.collection("users").where("addr", "==", addr).get().then(function (querySnapshot) {
+              querySnapshot.forEach(function (doc) {
+                  // doc.data() is never undefined for query doc snapshots
+                  console.log(doc.id, " => ", doc.data());
+                 
+                  recv_uid = doc.id;
+                  console.log(doc.id, recv_uid);
+                
+              });
+              return recv_uid;
+          })
+          .catch(function (error) {
+              console.log("Error getting documents: ", error);
+              return recv_uid;    
+          });
+  }
+  //마스크 보내기 함수
+  function SendMask() {
+      var toDistributor = document.getElementById("toDistributor").value;
+      var serialNumber = document.getElementById("serialNumber2").value;
+
+      console.log(serialNumber, toDistributor, "SendMask()실행");
+      //위의 변수를 가지고 web3를 통해 컨트랙트 함수 실행
+      var ourRequest = new XMLHttpRequest();
+      getUidFromAddr(toDistributor).then(function(data){
+          console.log("recv_uid : " + data);
+          ourRequest.open('GET', 'https://us-central1-maskproject-6e385.cloudfunctions.net/maskSaver/dealMasks/' +
+          firebaseEmailAuth.currentUser.uid + '/' +
+          data +
+          '/' + serialNumber);
+      
+      ourRequest.onload = function () {
+          var ourData = JSON.parse(ourRequest.responseText);
+          console.log(ourData);
+          IsSuccessOrFail(ourData);
+      };
+      ourRequest.send();
+      })
+    
+
+
+  }
   </script>
 </body>
 
