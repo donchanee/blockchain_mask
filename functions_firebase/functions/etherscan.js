@@ -216,6 +216,61 @@ async function getHistory(req, res){ //제조사 생성내역, 거래내역 조�
     });
 }
 
+function getTokenHistory(req, res){ //관리자가 조회할때 쓸 함수 
+    let tokenId = req.params.tokenId;
+    let url = util.format('https://api-ropsten.etherscan.io/api?module=account&action=tokennfttx&contractaddress=%s&page=1&offset=1000&sort=asc&apikey=%s', contractaddress, myApi);
+
+    request(url, (err, response, body) => {
+        let result = new Object();
+        if(!err && response.statusCode === 200){
+            result = JSON.parse(body);
+            result = result['result'];
+
+            let tokenTxArr = new Array();
+            for(let e_idx in result){ //result 중 tokenId에 해당하는 값만 리턴
+                if(tokenId === result[e_idx]['tokenID']){
+                    let fromName = "";
+                    let toName = "";
+                    for(tmp2 in nameList){
+                        if(nameList[tmp2]['addr'] === result[e_idx]['from']){
+                            fromName = nameList[tmp2]['name'];
+                        }
+                        if(nameList[tmp2]['addr'] === result[e_idx]['to']){
+                            toName = nameList[tmp2]['name'];
+                        }
+                    }
+                    txInfo = {
+                        time: result[e_idx]['timeStamp'],
+                        tokenId: result[e_idx]['tokenID'],
+                        num: '500',
+                        from: fromName,
+                        to: toName
+                    }
+                    tokenTxArr.push(txInfo);
+                }
+                //console.log(e_idx + " : " + result[e_idx]['tokenID']);
+            }
+            result = {
+                status: "Success",
+                tokenTx: tokenTxArr
+            }
+        }else{
+            result = {
+                status: "Fail",
+                errMsg: "Fail to getTx in getTokenHistory",
+                errDetail: err
+            }
+        }
+        res.send(JSON.stringify(result));
+    });
+}
+
+module.exports.getTokenHistory = getTokenHistory;
+module.exports.getHistory = getHistory;
+//module.exports.searchHistory = searchHistory;
+
+
+/*
 async function searchHistory(req, res){ //제조사 생성내역, 거래내역 조회
     let address;
     let userRef = db.collection("users").doc(req.params.uid);
@@ -334,46 +389,4 @@ async function searchHistory(req, res){ //제조사 생성내역, 거래내역 �
         
     });
 }
-
-function getTokenHistory(req, res){ //관리자가 조회할때 쓸 함수 
-    let tokenId = req.params.tokenId;
-    let url = util.format('https://api-ropsten.etherscan.io/api?module=account&action=tokennfttx&contractaddress=%s&page=1&offset=1000&sort=asc&apikey=%s', contractaddress, myApi);
-
-    request(url, (err, response, body) => {
-        let result = new Object();
-        if(!err && response.statusCode === 200){
-            result = JSON.parse(body);
-            result = result['result'];
-
-            let tokenTxArr = new Array();
-            for(let e_idx in result){ //result 중 tokenId에 해당하는 값만 리턴
-                if(tokenId === result[e_idx]['tokenID']){
-                    let txInfo = {
-                        time: result[e_idx]['timeStamp'],
-                        tokenId: result[e_idx]['tokenID'],
-                        num: '1',
-                        from: result[e_idx]['from'],
-                        to: result[e_idx]['to']
-                    }
-                    tokenTxArr.push(txInfo);
-                }
-                //console.log(e_idx + " : " + result[e_idx]['tokenID']);
-            }
-            result = {
-                status: "Success",
-                tokenTx: tokenTxArr
-            }
-        }else{
-            result = {
-                status: "Fail",
-                errMsg: "Fail to getTx in getTokenHistory",
-                errDetail: err
-            }
-        }
-        res.send(JSON.stringify(result));
-    });
-}
-
-module.exports.getTokenHistory = getTokenHistory;
-module.exports.getHistory = getHistory;
-module.exports.searchHistory = searchHistory;
+*/

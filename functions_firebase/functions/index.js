@@ -37,7 +37,7 @@ app.get('/burnToken/:tokenId', contract_api.burnToken);
 app.get('/normalTx/:address', etherscan_api.normalTx); //트랜잭션조회
 app.get('/tokenInfo/:address', etherscan_api.getTokenInfofromWallet);//지갑주소의 토큰거래내역 조회
 app.get('/getHistory/:uid', etherscan_api.getHistory); // 업체 재고, 입고, 판매, 경고 내역 조회
-app.get('/searchHistory/:uid/:time', etherscan_api.searchHistory);
+//app.get('/searchHistory/:uid/:time', etherscan_api.searchHistory);
 app.get('/getTokenHistory/:tokenId', etherscan_api.getTokenHistory); // 토큰 아이디 모든 거래내역 조회, 일반적으로 00=> 제조, 제조 => 유통, 유통=> 판매 
 
 exports.maskSaver = functions.https.onRequest(app);
