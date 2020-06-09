@@ -162,7 +162,8 @@
 						<form action="#">
 							<div class="col-12">
 								<div class="form-group">
-									<input class="form-control" name="name" id="tokenId" type="text" placeholder="마스크 ID">
+									<input class="form-control" name="name" id="tokenId" type="text"
+										placeholder="마스크 ID">
 								</div>
 							</div>
 						</form>
@@ -180,10 +181,10 @@
 
 	<!-- Start Align Area -->
 	<div class="whole-wrap">
-		<div class="container box_1170" style="text-align: center;">
+		<div class="container box_1170" style="text-align: center; align-items: center;">
 			<div class="section-top-border">
 				<h3 class="mb-30">마스크 이동 내역</h3>
-				<div class="row" id="maskTransactionVenue">
+				<div id="maskTransactionVenue">
 					<!-- 마스크 이동 경로 -->
 
 				</div>
@@ -311,62 +312,84 @@
 			};
 			ourRequest.send();
 		}
+		function makeMaskVenueById(tokenNumber){
+			var ourRequest = new XMLHttpRequest();
 
+			console.log('makeMaskVenue 실행', tokenNumber);
+			ourRequest.open('GET',
+				'https://us-central1-maskproject-6e385.cloudfunctions.net/maskSaver/getTokenHistory/' +
+				tokenNumber);
+			ourRequest.onload = function () {
+				var ourData = JSON.parse(ourRequest.responseText);
+				console.log(ourData);
+				renderMaskVenue(ourData);
+			};
+			ourRequest.send();
+		}
 		function renderMaskVenue(data) {
 			console.log('renderMaskVenue 실행');
 			var length = data.tokenTx.length;
 			console.log(length);
-			var htmlString = 
-				'<div class="col">' +
-					'<div class="row">'+
-					'<img src="./assets/img/box.png">' +
-					'</div>'+
-					'<div class="row">'+
-				'' +
-				data.tokenTx[0].to+
-				'</div>'+
+			var htmlString =
+				'<div class="align-self-center" >' +
+				'<img src="./assets/img/box.png">' +
+
+				data.tokenTx[0].to +
 				'</div>';
-				if(data.tokenTx.length <= 1){
-					$("#maskTransactionVenue").html(htmlString);
-						return;
-					}
-				htmlString +='<div class="col">' +
-					'<img src="./assets/img/arrow.png">' +
-					'</div>';
-					
+			if (data.tokenTx.length <= 1) {
+				$("#maskTransactionVenue").html(htmlString);
+				return;
+			}
+			htmlString += '<div class="align-self-center">' +
+				'<img src="./assets/img/arrow.png">' +
+				'</div>';
+
 			for (i = 1; i < data.tokenTx.length; i++) {
-				if(i == data.tokenTx.length -1 && i != 1){
+				if (i == data.tokenTx.length - 1 && i != 1) {
 					console.log('if 실행');
-					htmlString += 	'<div class="col">' +
-					'<div class="row">'+
-					'<img src="./assets/img/box.png">' +
-					'</div>'+
-					'<div class="row">'+
-				'' +
-				data.tokenTx[i].to+
-				'</div>'+
-				'</div>';
+					htmlString += '<div>' +
+						'<img src="./assets/img/box.png">' +
+
+						'' +
+						data.tokenTx[i].to +
+
+						'</div>';
 					continue;
 				}
 
-				htmlString += 	'<div class="col">' +
-					'<div class="row">'+
+				htmlString += '<div class="align-self-center">' +
 					'<img src="./assets/img/box.png">' +
-					'</div>'+
-					'<div class="row">'+
-				'' +
-				data.tokenTx[i].to+
-				'</div>'+
-				'</div>';
-				htmlString +='<div class="col">' +
+
+					'' +
+					data.tokenTx[i].to +
+
+					'</div>';
+				htmlString += '<div class="align-self-center">' +
 					'<img src="./assets/img/arrow.png">' +
 					'</div>';
-				
+
 			}
-			
-		
+
+
 			$("#maskTransactionVenue").html(htmlString);
 		}
+	</script>
+	<script>
+		// url 에서 parameter 추출
+		function getParam(sname) {
+			var params = location.search.substr(location.search.indexOf("?") + 1);
+			var sval = "";
+			params = params.split("&");
+			for (var i = 0; i < params.length; i++) {
+				temp = params[i].split("=");
+				if ([temp[0]] == sname) {
+					sval = temp[1];
+				}
+			}
+			return sval;
+		}
+		
+		window.onload = makeMaskVenueById(getParam("id"));
 	</script>
 </body>
 
