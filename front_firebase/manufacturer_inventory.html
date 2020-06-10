@@ -126,8 +126,15 @@
             <div class="navbar-wrapper">
             </div>
 
+            <div class="alert alert-warning alert-dismissible fade show" role="alert">
+                <strong>주의사항!</strong> 귀하의 재고마스크가 곧 위법이 됩니다.
+                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+
             <div class="alert alert-primary" role="alert">
-                <a id="userInfo">로그인시 유저 정보가 보입니다.</a>
+                <a id="id">로그인시 유저 정보가 보입니다.</a>
             </div>
         </div>
     </nav>
@@ -135,6 +142,11 @@
       <div class="content">
         <div class="container-fluid">
           <!-- your content here -->
+
+          <!-- <figure class="highcharts-figure">
+              <div id="container"></div>
+          </figure> -->
+
           <div class="card text-center">
             <div class="card-body">
                 <h4 class="card-title">마스크 보내기</h4>
@@ -146,39 +158,39 @@
                                     placeholder="일련번호">
                             </div>
                             <div class="col">
-                              <input type="text" class="form-control" id="toDistributor"
-                                  placeholder="대상업체">
+                                <input type="text" class="form-control" id="toDistributor"
+                                    placeholder="대상업체">
+                                    <div class="dropdown">
+                                      <a class="btn btn-secondary dropdown-toggle" href="#" role="button"
+                                          id="dropdownMenuLink1" data-toggle="dropdown" aria-haspopup="true"
+                                          aria-expanded="false">
+                                          업종 선택
+                                      </a>
+          
+                                      <div class="dropdown-menu index" aria-labelledby="dropdownMenuLink1"
+                                          id="name_indexDrops">
+                                          <a class="dropdown-item" href="#" id="manufacturer_indexDrop"
+                                              value="manufacturer">제조사</a>
+                                          <a class="dropdown-item" href="#" id="distributor_indexDrop"
+                                              value="distributor">유통사</a>
+                                          <a class="dropdown-item" href="#" id="seller_indexDrop"
+                                              value="seller">판매사</a>
+                                      </div>
+                                  </div>
+          
                                   <div class="dropdown">
-                                    <a class="btn btn-secondary dropdown-toggle" href="#" role="button"
-                                        id="dropdownMenuLink1" data-toggle="dropdown" aria-haspopup="true"
-                                        aria-expanded="false">
-                                        업종 선택
-                                    </a>
-        
-                                    <div class="dropdown-menu index" aria-labelledby="dropdownMenuLink1"
-                                        id="name_indexDrops">
-                                        <a class="dropdown-item" href="#" id="manufacturer_indexDrop"
-                                            value="manufacturer">제조사</a>
-                                        <a class="dropdown-item" href="#" id="distributor_indexDrop"
-                                            value="distributor">유통사</a>
-                                        <a class="dropdown-item" href="#" id="seller_indexDrop"
-                                            value="seller">판매사</a>
-                                    </div>
-                                </div>
-        
-                                <div class="dropdown">
-                                    <a class="btn btn-secondary dropdown-toggle" href="#" role="button"
-                                        id="dropdownMenuLink2" data-toggle="dropdown" aria-haspopup="true"
-                                        aria-expanded="false">
-                                        업체 선택
-                                    </a>
-        
-                                    <div class="dropdown-menu name" aria-labelledby="dropdownMenuLink"
-                                        id="nameDrops">
-                                    </div>
-                                </div>
+                                      <a class="btn btn-secondary dropdown-toggle" href="#" role="button"
+                                          id="dropdownMenuLink2" data-toggle="dropdown" aria-haspopup="true"
+                                          aria-expanded="false">
+                                          업체 선택
+                                      </a>
+          
+                                      <div class="dropdown-menu name" aria-labelledby="dropdownMenuLink"
+                                          id="nameDrops">
+                                      </div>
+                                  </div>
+                              </div>
                             </div>
-                          </div>
                         </div>
                     </form>
 
@@ -207,9 +219,6 @@
                         </th>
                         <th>
                           개수
-                        </th>
-                        <th>
-                          경고
                         </th>
                        
                       </thead>
@@ -251,14 +260,15 @@
   <script src="https://www.gstatic.com/firebasejs/7.14.0/firebase-database.js"></script>
   <script src="https://www.gstatic.com/firebasejs/7.14.0/firebase-firestore.js"></script>
   <script src="../assets/js/firebaseInit.js"></script>
+  <script src="../assets/js/firebaseUserCheck.js"></script>
   <script src="../assets/js/myfunctions.js"></script>
 <script src="../assets/js/material-dashboard.js"></script>
 <script src="../assets/js/material-dashboard.js.map"></script>
 <script src="../assets/js/material-dashboard.min.js"></script>
+<script>
+  userSessionCheck();
 </script>
 <script>
-
-  
   //재고내역 테이블 만드는 함수
   function MakeInventoryTable() {
     var myTbody = document.getElementById("salesHistoryTbody");
@@ -273,35 +283,16 @@
   }
   
   function renderInventoryHTML(data) {
-    console.log("renderInventoryHTML 실행");
     var htmlString = "";
-    var chk;
     sortByDate(data.stockList);
     for (i = 0; i < data.stockList.length; i++) {
+      console.log("renderInventoryHTML");
       htmlString += "<tr><td>" + new Date(data.stockList[i].time * 1000).toLocaleString() + "</td>";
       htmlString += "<td>" + data.stockList[i].tokenId + "</td>";
-      htmlString += "<td>" + data.stockList[i].num + "</td>";
-      chk = 0;
-      for(j=0; j <data.warning.length; j++){
-        if(data.stockList[i].tokenId === data.warning[j].tokenId){
-          htmlString += "<td><i class=\"material-icons text-danger\">warning</i>    7일이상 경과</td></tr>";
-          chk = 1;
-        }
-      }
-      if(chk === 0){
-        htmlString += "<td></td></tr>";
-      }
+      htmlString += "<td>" + data.stockList[i].num + "</td></tr>";
     }
     $("#inventoryTbody").append(htmlString);
   }
-
-  function sortByDate(data) {
-    data.sort((a,b) =>  {
-      return a.time - b.time;
-    });
-  }
-
-
 function getUidFromAddr(addr) {
     var recv_uid = "";
     console.log("getUidFromAddr(addr) 실행");
@@ -327,8 +318,6 @@ function getUidFromAddr(addr) {
 
 <!-- httpRequest JSON parsing script -->
 <script type="text/javascript">
-  var firebaseEmailAuth = firebase.auth(); //파이어베이스 인증 객체
-  var db = firebase.firestore();
   firebaseEmailAuth.onAuthStateChanged(function (user) {
 
     if (user) {
@@ -339,7 +328,8 @@ function getUidFromAddr(addr) {
         if (doc.exists) {
           userAddr = doc.data().addr;
           userName = doc.data().name;
-          document.getElementById("userInfo").innerHTML = userName + "님 환영합니다."+ "<br> 계좌 : "+userAddr;
+          userEmail = user.email;
+          console.log(user.email + " 님이 로그인했습니다." + " 계좌 : " + userAddr + " 이름 :" + userName);
           MakeInventoryTable();
           getStockOnlyForSeller();
         } else {
@@ -354,6 +344,89 @@ function getUidFromAddr(addr) {
     }
   });
 </script>
+<script>
+  
+  function getStockOnlyForSeller(){
+    console.log("getStockOnlyForSeller() 호출");
+  var ourRequest = new XMLHttpRequest();
+  ourRequest.open('GET',
+      'https://us-central1-maskproject-6e385.cloudfunctions.net/maskSaver/stockList/' +
+      firebaseEmailAuth.currentUser.uid);
+  ourRequest.onload = function () {
+      var ourData = JSON.parse(ourRequest.responseText);
+      console.log(ourData);
+      setInventoryCardbody(ourData);
+  };
+  ourRequest.send();
+  }
+</script>
+  <script>
+    Highcharts.chart('container', {
+        credits: {
+            enabled: false
+        }, 
+        chart: {
+            type: 'column'
+        },
+        title: {
+            text: '생산량, 재고량, 거래량 추이'
+        },
+        subtitle: {
+            text: 'from MaskSaver'
+        },
+        xAxis: {
+            categories: [
+                '2020-05-29',
+                '2020-05-30',
+                '2020-05-31',
+                '2020-06-01',
+                '2020-06-02',
+                '2020-06-03',
+                '2020-06-04',
+                '2020-06-05',
+                '2020-06-06',
+                '2020-06-07',
+                '2020-06-08',
+                '2020-06-09'
+            ],
+            crosshair: true
+        },
+        yAxis: {
+            min: 0,
+            title: {
+                text: 'Quantity (piece)'
+            }
+        },
+        tooltip: {
+            headerFormat: '<span style="font-size:10px">{point.key}</span><table>',
+            pointFormat: '<tr><td style="color:{series.color};padding:0">{series.name}: </td>' +
+                '<td style="padding:0"><b>{point.y:.1f} piece</b></td></tr>',
+            footerFormat: '</table>',
+            shared: true,
+            useHTML: true
+        },
+        plotOptions: {
+            column: {
+                pointPadding: 0.2,
+                borderWidth: 0
+            }
+        },
+        series: [{
+            name: '재고량',
+            data: [20000, 36000, 41000, 28000, 33000, 48000, 42000, 37000, 29000, 27000, 36000, 45000]
+    
+        }, {
+            name: '생산량',
+            data: [16000, 10000, 13000, 18000, 22000, 15000, 14000, 17000, 25000, 24000, 26000, 28000]
+    
+        }, {
+            name: '거래량',
+            data: [15000, 30000, 28000, 18000, 15000, 30000, 28000, 18000, 15000, 30000, 28000, 18000]
+    
+        }]
+    });
+
+  </script>
 
 <script>
   function getUidFromAddr(addr) {
@@ -375,6 +448,32 @@ function getUidFromAddr(addr) {
               return recv_uid;    
           });
   }
+  //마스크 보내기 함수
+  // function SendMask() {
+  //     var toDistributor = document.getElementById("toDistributor").value;
+  //     var serialNumber = document.getElementById("serialNumber2").value;
+
+  //     console.log(serialNumber, toDistributor, "SendMask()실행");
+  //     //위의 변수를 가지고 web3를 통해 컨트랙트 함수 실행
+  //     var ourRequest = new XMLHttpRequest();
+  //     getUidFromAddr(toDistributor).then(function(data){
+  //         console.log("recv_uid : " + data);
+  //         ourRequest.open('GET', 'https://us-central1-maskproject-6e385.cloudfunctions.net/maskSaver/dealMasks/' +
+  //         firebaseEmailAuth.currentUser.uid + '/' +
+  //         data +
+  //         '/' + serialNumber);
+      
+  //     ourRequest.onload = function () {
+  //         var ourData = JSON.parse(ourRequest.responseText);
+  //         console.log(ourData);
+  //         IsSuccessOrFail(ourData);
+  //     };
+  //     ourRequest.send();
+  //     })
+    
+
+
+  // }
 
   function SendMask() {
       var toDistributor = document.getElementById("toDistributor").value;
@@ -470,7 +569,6 @@ function getUidFromAddr(addr) {
       return renderSelectIndexButton(dataArr, 0);
   });
 </script>
-  </script>
 </body>
 
 </html>
