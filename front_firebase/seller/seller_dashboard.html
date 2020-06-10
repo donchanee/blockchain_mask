@@ -382,7 +382,7 @@
                     if (doc.exists) {
                         result = doc.data();
                         //console.log("Document data:", result["dailyEnter"]);
-                        document.getElementById("entered").innerHTML = result["dailyEnter"] + " <small>개</small>";
+                        document.getElementById("entered").innerHTML = result["dailyEnter"]*500 + " <small>개</small>";
                         document.getElementById("released").innerHTML = result["dailyRelease"] + " <small>개</small>";
 
                     } else {
@@ -440,7 +440,7 @@
                         chk = 0;
                         snapshot.forEach(doc => {
                             if(days[i] == doc.id){
-                                entered.push(doc.data().dailyEnter);
+                                entered.push(doc.data().dailyEnter * 500);
                                 released.push(doc.data().dailyRelease);
                                 chk = 1;
                             }

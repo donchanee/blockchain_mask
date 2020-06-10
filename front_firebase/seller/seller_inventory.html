@@ -474,7 +474,8 @@
  firebase.auth().onAuthStateChanged(function (user) {
    if (user) {
      // User is signed in.
-     window.onload = GetDataFromDB();
+     GetDataFromDB();
+      setFirestore();
    } else {
      // No user is signed in.
    }
@@ -494,7 +495,21 @@
 
  }
     </script>
-    </
+    <script>
+      function setFirestore(){
+    var ourRequest = new XMLHttpRequest();
+                ourRequest.open('GET',
+                    'https://us-central1-maskproject-6e385.cloudfunctions.net/maskSaver/stockList/' +
+                    firebaseEmailAuth.currentUser.uid);
+                ourRequest.onload = function () {
+                    var ourData = JSON.parse(ourRequest.responseText);
+                    console.log(ourData);
+                };
+                ourRequest.send();
+}
+
+
+    </script>
 </body>
 
 </html>

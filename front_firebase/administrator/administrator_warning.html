@@ -39,7 +39,7 @@
                             <p>Dashboard</p>
                         </a>
                     </li>
-                    <li class="nav-item active">
+                    <li class="nav-item">
                         <a class="nav-link" href="../administrator/administrator_inventory.html">
                             <i class="material-icons">content_paste</i>
                             <p>업체별 재고 내역</p>
@@ -63,7 +63,7 @@
                             <p>토큰별 유통 내역</p>
                         </a>
                     </li>
-                    <li class="nav-item">
+                    <li class="nav-item active">
                         <a class="nav-link" href="../administrator/administrator_warning.html">
                             <i class="material-icons">content_paste</i>
                             <p>업체별 경고 내역</p>
@@ -86,13 +86,12 @@
             <div class="content">
                 <div class="container-fluid">
                     <!-- your content here -->
-                    <div class="row">
-                        <div class="col-md-12">
-                            <div class="card">
-                                <div class="card-header card-header-primary">
-                                    <h4 class="card-title ">업체별 재고내역</h4>
-                                    <p class="card-category"> 현재 업체 가지고 있는 재고입니다.</p>
 
+                    <div class="row">
+                        <div class="col-md-11">
+                            <div class="card">
+                                <div class="card-header card-header-warning">
+                                    <h4 class="card-title">Notification</h4>
                                     <div class="dropdown">
                                         <a class="btn btn-secondary dropdown-toggle" href="#" role="button"
                                             id="dropdownMenuLink1" data-toggle="dropdown" aria-haspopup="true"
@@ -124,29 +123,33 @@
                                     </div>
                                 </div>
 
-                                <div class="card-body">
-                                    <div class="table-responsive">
-                                        <table class="table">
-                                            <thead class=" text-primary">
-                                                <th>
-                                                    입고 시간
-                                                </th>
-                                                <th>
-                                                    일련번호
-                                                </th>
-                                                <th>
-                                                    개수
-                                                </th>
+                                <div class="card-body" id="notification_cardbody">
+                                    <div class="card-body">
+                                        <div class="table-responsive">
+                                            <table class="table">
+                                                <thead class=" text-primary">
+                                                    <th>
+                                                        일련번호
+                                                    </th>
+                                                    <th>
+                                                        입고시간
+                                                    </th>
+                                                    <th>
+                                                        경과시간
+                                                    </th>
 
-                                            </thead>
-                                            <tbody id="inventoryTbody">
+                                                </thead>
+                                                <tbody id="warning_cardbody">
 
-                                            </tbody>
-                                        </table>
+                                                </tbody>
+                                            </table>
+                                        </div>
+
                                     </div>
                                 </div>
                             </div>
                         </div>
+
                     </div>
                 </div>
                 <footer class="footer">
@@ -228,19 +231,8 @@
                 }
             });
         </script>
+        
         <script>
-function setFirestore(){
-    var ourRequest = new XMLHttpRequest();
-                ourRequest.open('GET',
-                    'https://us-central1-maskproject-6e385.cloudfunctions.net/maskSaver/stockList/' +
-                    uid);
-                ourRequest.onload = function () {
-                    var ourData = JSON.parse(ourRequest.responseText);
-                    console.log(ourData);
-                };
-                ourRequest.send();
-}
-
             function renderInventoryHTML(data) {
                 console.log("renderInventoryHTML 실행");
                 var htmlString = "";
@@ -253,80 +245,77 @@ function setFirestore(){
                 $("#inventoryTbody").html(htmlString);
             }
         </script>
-        <script>
-            function renderSelectIndexButton(data, index) {
+<script>
+    function renderSelectIndexButton(data, index) {
 
-                console.log("renderSelectIndexButton 실행");
-                console.log(data);
-                console.log(data[0].name);
-                var htmlString = "";
-                var tmp = index;
-                if(index === 0 ){
-                    for (i = 0; i < data.length; i++) {
-                    htmlString += '<a class="dropdown-item" href="#" id="nameDrop"' + ' value=' + '"' + data[i].uid +
-                        '">' + data[i].name + ' - ' + data[i].addr + '</a>';
-                }
-                }
-                else{
-                    for (i = 0; i < data.length; i++) {
-                    if (data[i].index === tmp) {
-                    htmlString += '<a class="dropdown-item" href="#" id="nameDrop"' + ' value=' + '"' + data[i].uid +
-                        '">' + data[i].name + ' - ' + data[i].addr + '</a>';
-                    }
-                }
-                }
-               
-                console.log("htmlString = " + htmlString);
-                $("#nameDrops").html(htmlString);
-
-                $('#nameDrops > a').on('click', function () {
-                    // 버튼에 선택된 항목 텍스트 넣기 
-                    $('#dropdownMenuLink2').text($(this).text());
-                    name_drop = $(this).attr('value');
-                    console.log(name_drop);
-
-                    MakeInventoryTable(name_drop);
-                    // // 선택된 항목 값(value) 얻기
-                    // alert($(this).attr('value'));
-                });
+        console.log("renderSelectIndexButton 실행");
+        console.log(data);
+        console.log(data[0].name);
+        var htmlString = "";
+        var tmp = index;
+        if(index === 0 ){
+            for (i = 0; i < data.length; i++) {
+            htmlString += '<a class="dropdown-item" href="#" id="nameDrop"' + ' value=' + '"' + data[i].uid +
+                '">' + data[i].name + ' - ' + data[i].addr + '</a>';
+        }
+        }
+        else{
+            for (i = 0; i < data.length; i++) {
+            if (data[i].index === tmp) {
+            htmlString += '<a class="dropdown-item" href="#" id="nameDrop"' + ' value=' + '"' + data[i].uid +
+                '">' + data[i].name + ' - ' + data[i].addr + '</a>';
             }
+        }
+        }
+       
+        console.log("htmlString = " + htmlString);
+        $("#nameDrops").html(htmlString);
 
-        
-        </script>
-        <script>
-            let index_drop = "";
-            let name_drop = "";
-            var dataArr = new Array();
-            $('#name_indexDrops > a').on('click', function () {
-                // 버튼에 선택된 항목 텍스트 넣기 
-                $('#dropdownMenuLink1').text($(this).text());
-                index_drop = $(this).attr('value');
-                console.log(index_drop);
+        $('#nameDrops > a').on('click', function () {
+            // 버튼에 선택된 항목 텍스트 넣기 
+            $('#dropdownMenuLink2').text($(this).text());
+            name_drop = $(this).attr('value');
+            console.log("name_drop : ",     name_drop);
 
-                renderSelectIndexButton(dataArr, index_drop);
-            });
+            getWarningList(name_drop);
+            // // 선택된 항목 값(value) 얻기
+            // alert($(this).attr('value'));
+        });
+    }
 
 
+</script>
+<script>
+    let index_drop = "";
+    let name_drop = "";
+    var dataArr = new Array();
+    $('#name_indexDrops > a').on('click', function () {
+        // 버튼에 선택된 항목 텍스트 넣기 
+        $('#dropdownMenuLink1').text($(this).text());
+        index_drop = $(this).attr('value');
+        console.log(index_drop);
+
+        renderSelectIndexButton(dataArr, index_drop);
+    });
 
 
-            //allUsers안에 모든 유저들의 정보를 가지고있음.
-            var allUsersDb = db.collectionGroup('users');
-            let allUsers = "";
-            allUsersDb.get().then(function (querySnapshot) {
-                querySnapshot.forEach(function (doc) {
-                    tmp = doc.data();
-                    tmp.uid = doc.id;
-                    // console.log(doc.id, ' => ', doc.data());
-                    if (doc.data().index !== "admin") {
-                        dataArr.push(tmp);
-                    }
-                })
-                return renderSelectIndexButton(dataArr, 0);
-            });
 
-windows.onload = setFirestore
 
-        </script>
+    //allUsers안에 모든 유저들의 정보를 가지고있음.
+    var allUsersDb = db.collectionGroup('users');
+    let allUsers = "";
+    allUsersDb.get().then(function (querySnapshot) {
+        querySnapshot.forEach(function (doc) {
+            tmp = doc.data();
+            tmp.uid = doc.id;
+            // console.log(doc.id, ' => ', doc.data());
+            if (doc.data().index !== "admin") {
+                dataArr.push(tmp);
+            }
+        })
+        return renderSelectIndexButton(dataArr, 0);
+    });
+</script>
 
 </body>
 

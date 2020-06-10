@@ -75,7 +75,7 @@
           </div>
 
           <div class="alert alert-primary" role="alert">
-              <a id="id">로그인시 유저 정보가 보입니다.</a>
+              <a id="userInfo">로그인시 유저 정보가 보입니다.</a>
           </div>
         </div>
       </nav>
@@ -87,8 +87,8 @@
             <div class="col-md-12">
               <div class="card">
                 <div class="card-header card-header-primary">
-                  <h4 class="card-title ">판매내역</h4>
-                  <p class="card-category"> 현재 귀하의 판매내역 입니다.</p>
+                  <h4 class="card-title ">출고내역</h4>
+                  <p class="card-category"> 현재 귀하의 출고내역 입니다.</p>
                 </div>
                 <div class="card-body">
                   <div class="table-responsive">
@@ -149,12 +149,9 @@
     <script src="https://www.gstatic.com/firebasejs/7.14.0/firebase-database.js"></script>
     <script src="https://www.gstatic.com/firebasejs/7.14.0/firebase-firestore.js"></script>
     <script src="../assets/js/firebaseInit.js"></script>
-    <script src="../assets/js/firebaseUserCheck.js"></script>
     <script src="../assets/js/myfunctions.js"></script>
 
-    <script>
-      userSessionCheck();
-    </script>
+
     <script type="text/javascript">
       //거래내역 - 판매 테이블 만드는 함수
       function MakeSalesHistoryTable() {
@@ -190,6 +187,8 @@
 
     <!-- httpRequest JSON parsing script -->
     <script type="text/javascript">
+      var firebaseEmailAuth = firebase.auth(); //파이어베이스 인증 객체
+      var db = firebase.firestore();
       firebaseEmailAuth.onAuthStateChanged(function (user) {
 
         if (user) {
@@ -201,7 +200,7 @@
               userAddr = doc.data().addr;
               userName = doc.data().name;
               userEmail = user.email;
-              console.log(user.email + " 님이 로그인했습니다." + " 계좌 : " + userAddr + " 이름 :" + userName);
+              document.getElementById("userInfo").innerHTML = userName + "님 환영합니다."+ "<br> 계좌 : "+userAddr;
               MakeSalesHistoryTable();
 
             } else {

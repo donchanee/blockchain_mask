@@ -74,7 +74,7 @@
           </div>
 
           <div class="alert alert-primary" role="alert">
-              <a id="id">로그인시 유저 정보가 보입니다.</a>
+              <a id="userInfo">로그인시 유저 정보가 보입니다.</a>
           </div>
         </div>
       </nav>
@@ -364,6 +364,8 @@
   </script>
   <!-- httpRequest JSON parsing script -->
   <script type="text/javascript">
+    var firebaseEmailAuth = firebase.auth(); //파이어베이스 인증 객체
+    var db = firebase.firestore();
     firebaseEmailAuth.onAuthStateChanged(function (user) {
 
       if (user) {
@@ -375,7 +377,7 @@
             userAddr = doc.data().addr;
             userName = doc.data().name;
             userEmail = user.email;
-            console.log(user.email + " 님이 로그인했습니다." + " 계좌 : " + userAddr + " 이름 :" + userName);
+            document.getElementById("userInfo").innerHTML = userName + "님 환영합니다."+ "<br> 계좌 : "+userAddr;
             MakeReceiptHistoryTable();
             MakeInventoryTable();
           } else {

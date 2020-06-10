@@ -296,6 +296,25 @@
     });
   </script>
   <script>
+      function getUidFromAddr(addr) {
+                var recv_uid = "";
+                console.log("getUidFromAddr(addr) 실행");
+                return db.collection("users").where("addr", "==", addr).get().then(function (querySnapshot) {
+                        querySnapshot.forEach(function (doc) {
+                            // doc.data() is never undefined for query doc snapshots
+                            console.log(doc.id, " => ", doc.data());
+                           
+                            recv_uid = doc.id;
+                            console.log(doc.id, recv_uid);
+                          
+                        });
+                        return recv_uid;
+                    })
+                    .catch(function (error) {
+                        console.log("Error getting documents: ", error);
+                        return recv_uid;    
+                    });
+            }
   function SendMask() {
     var toDistributor = document.getElementById("toDistributor").value;
     var serialNumber = document.getElementById("serialNumber2").value;

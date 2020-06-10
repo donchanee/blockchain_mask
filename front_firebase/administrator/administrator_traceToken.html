@@ -63,6 +63,12 @@
                             <p>토큰별 유통 내역</p>
                         </a>
                     </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="../administrator/administrator_warning.html">
+                            <i class="material-icons">content_paste</i>
+                            <p>업체별 경고 내역</p>
+                        </a>
+                    </li>
                     <!-- your sidebar here -->
                 </ul>
             </div>
@@ -71,9 +77,8 @@
             <!-- Navbar -->
             <nav class="navbar navbar-expand-lg navbar-transparent navbar-absolute fixed-top ">
                 <div class="container-fluid">
-                    <div class="navbar-wrapper">
-                        <a class="navbar-brand" href="javascript:;">Dashboard</a>
-                        <p id="id">여기는 유저 정보가 표시될 공간입니다.</p>
+                    <div class="alert alert-info hr" role="alert">
+                        <a id="userInfo">로그인시 유저 정보가 보입니다.</a>
                     </div>
                 </div>
             </nav>
@@ -154,15 +159,12 @@
         <script src="https://www.gstatic.com/firebasejs/7.14.0/firebase-database.js"></script>
         <script src="https://www.gstatic.com/firebasejs/7.14.0/firebase-firestore.js"></script>
         <script src="../assets/js/firebaseInit.js"></script>
-        <script src="../assets/js/firebaseUserCheck.js"></script>
         <script src="../assets/js/myfunctions.js"></script>
-
-        <script>
-            userSessionCheck();
-        </script>
 
         <!-- httpRequest JSON parsing script -->
         <script type="text/javascript">
+            var firebaseEmailAuth = firebase.auth(); //파이어베이스 인증 객체
+            var db = firebase.firestore();
             firebaseEmailAuth.onAuthStateChanged(function (user) {
 
                 if (user) {
@@ -174,10 +176,7 @@
                             userAddr = doc.data().addr;
                             userName = doc.data().name;
                             userEmail = user.email;
-                            console.log(user.email + " 님이 로그인했습니다." + " 계좌 : " + userAddr + " 이름 :" +
-                                userName);
-                            //MakeReceiptHistoryTable();
-
+                            document.getElementById("userInfo").innerHTML = userName + "님 환영합니다.";
                         } else {
                             // doc.data() will be undefined in this case
                             console.log("No such document!");
