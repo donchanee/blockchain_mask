@@ -20,7 +20,9 @@ function getName(){ //회사 이름 가져오는 함수 지갑주소기준으로
                 let result = doc.data();
                 let tmp = {
                     addr : result['addr'].toLowerCase(),
-                    name : result['name']
+                    name : result['name'],
+                    phone : result['phone'],
+                    phyAddr : result['phyAddr']
                 }
                 arr.push(tmp);
             }); 
@@ -141,7 +143,7 @@ async function getHistory(req, res){ //제조사 생성내역, 거래내역 조�
                 txInfo = {
                     time: result[tmp]['timeStamp'],
                     tokenId: result[tmp]['tokenID'],
-                    num: '500',
+                    num: '1',
                     from: fromName,
                     to: toName
                 }
@@ -226,25 +228,38 @@ function getTokenHistory(req, res){ //관리자가 조회할때 쓸 함수
             result = JSON.parse(body);
             result = result['result'];
 
+
             let tokenTxArr = new Array();
             for(let e_idx in result){ //result 중 tokenId에 해당하는 값만 리턴
                 if(tokenId === result[e_idx]['tokenID']){
                     let fromName = "";
+                    let fromPhone = "";
+                    let fromAddr = "";
                     let toName = "";
+                    let toPhone = "";
+                    let toAddr = "";
                     for(tmp2 in nameList){
                         if(nameList[tmp2]['addr'] === result[e_idx]['from']){
                             fromName = nameList[tmp2]['name'];
+                            fromPhone = nameList[tmp2]['phone'];
+                            fromAddr = nameList[tmp2]['phyAddr'];
                         }
                         if(nameList[tmp2]['addr'] === result[e_idx]['to']){
                             toName = nameList[tmp2]['name'];
+                            toPhone = nameList[tmp2]['phone'];
+                            toAddr = nameList[tmp2]['phyAddr'];
                         }
                     }
                     txInfo = {
                         time: result[e_idx]['timeStamp'],
                         tokenId: result[e_idx]['tokenID'],
-                        num: '500',
+                        num: '1',
                         from: fromName,
-                        to: toName
+                        fromPhone : fromPhone,
+                        fromAddr : fromAddr,
+                        to: toName,
+                        toPhone : toPhone,
+                        toAddr : toAddr
                     }
                     tokenTxArr.push(txInfo);
                 }
