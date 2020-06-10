@@ -74,7 +74,7 @@
           </div>
 
           <div class="alert alert-primary" role="alert">
-              <a id="id">로그인시 유저 정보가 보입니다.</a>
+              <a id="userInfo">로그인시 유저 정보가 보입니다.</a>
           </div>
         </div>
       </nav>
@@ -94,9 +94,38 @@
                                     placeholder="일련번호">
                             </div>
                             <div class="col">
-                                <input type="text" class="form-control" id="toDistributor"
-                                    placeholder="대상업체">
-                            </div>
+                              <input type="text" class="form-control" id="toDistributor"
+                                  placeholder="대상업체">
+                                  <div class="dropdown">
+                                    <a class="btn btn-secondary dropdown-toggle" href="#" role="button"
+                                        id="dropdownMenuLink1" data-toggle="dropdown" aria-haspopup="true"
+                                        aria-expanded="false">
+                                        업종 선택
+                                    </a>
+        
+                                    <div class="dropdown-menu index" aria-labelledby="dropdownMenuLink1"
+                                        id="name_indexDrops">
+                                        <a class="dropdown-item" href="#" id="manufacturer_indexDrop"
+                                            value="manufacturer">제조사</a>
+                                        <a class="dropdown-item" href="#" id="distributor_indexDrop"
+                                            value="distributor">유통사</a>
+                                        <a class="dropdown-item" href="#" id="seller_indexDrop"
+                                            value="seller">판매사</a>
+                                    </div>
+                                </div>
+        
+                                <div class="dropdown">
+                                    <a class="btn btn-secondary dropdown-toggle" href="#" role="button"
+                                        id="dropdownMenuLink2" data-toggle="dropdown" aria-haspopup="true"
+                                        aria-expanded="false">
+                                        업체 선택
+                                    </a>
+        
+                                    <div class="dropdown-menu name" aria-labelledby="dropdownMenuLink"
+                                        id="nameDrops">
+                                    </div>
+                                </div>
+                          </div>
                         </div>
                     </form>
 
@@ -125,6 +154,9 @@
                         </th>
                         <th>
                           개수
+                        </th>
+                        <th>
+                          경고
                         </th>
                      
                       </thead>
@@ -166,12 +198,8 @@
   <script src="https://www.gstatic.com/firebasejs/7.14.0/firebase-database.js"></script>
   <script src="https://www.gstatic.com/firebasejs/7.14.0/firebase-firestore.js"></script>
   <script src="../assets/js/firebaseInit.js"></script>
-  <script src="../assets/js/firebaseUserCheck.js"></script>
   <script src="../assets/js/myfunctions.js"></script>
 
-  <script>
-    userSessionCheck();
-  </script>
   <script type="text/javascript">
     //재고내역 테이블 만드는 함수
     function MakeInventoryTable() {
@@ -211,20 +239,38 @@
     function renderInventoryHTML(data) {
       console.log("renderInventoryHTML 실행");
       var htmlString = "";
+      var chk;
       sortByDate(data.stockList);
       for (i = 0; i < data.stockList.length; i++) {
         htmlString += "<tr><td>" + new Date(data.stockList[i].time * 1000).toLocaleString() + "</td>";
         htmlString += "<td>" + data.stockList[i].tokenId + "</td>";
-        htmlString += "<td>" + data.stockList[i].num + "</td></tr>";
+        htmlString += "<td>" + data.stockList[i].num + "</td>";
+        chk = 0;
+        for(j=0; j <data.warning.length; j++){
+          if(data.stockList[i].tokenId === data.warning[j].tokenId){
+            htmlString += "<td><i class=\"material-icons text-danger\">warning</i>    7일이상 경과</td></tr>";
+            chk = 1;
+          }
+        }
+        if(chk === 0){
+          htmlString += "<td></td></tr>";
+        }
       }
       $("#inventoryTbody").append(htmlString);
     }
 
+    function sortByDate(data) {
+      data.sort((a,b) =>  {
+        return a.time - b.time;
+      });
+    }
   </script>
 
 
   <!-- httpRequest JSON parsing script -->
   <script type="text/javascript">
+    var firebaseEmailAuth = firebase.auth(); //파이어베이스 인증 객체
+    var db = firebase.firestore();
     firebaseEmailAuth.onAuthStateChanged(function (user) {
 
       if (user) {
@@ -236,7 +282,7 @@
             userAddr = doc.data().addr;
             userName = doc.data().name;
             userEmail = user.email;
-            console.log(user.email + " 님이 로그인했습니다." + " 계좌 : " + userAddr + " 이름 :" + userName);
+            document.getElementById("userInfo").innerHTML = userName + "님 환영합니다."+ "<br> 계좌 : "+userAddr;
             MakeInventoryTable();
           } else {
             // doc.data() will be undefined in this case
@@ -249,6 +295,100 @@
       }
     });
   </script>
+  <script>
+  function SendMask() {
+    var toDistributor = document.getElementById("toDistributor").value;
+    var serialNumber = document.getElementById("serialNumber2").value;
+
+    console.log(serialNumber, toDistributor, "SendMask()실행");
+    //위의 변수를 가지고 web3를 통해 컨트랙트 함수 실행
+    var ourRequest = new XMLHttpRequest();
+    getUidFromAddr(toDistributor).then(function(data){
+        console.log("recv_uid : " + data);
+        ourRequest.open('GET', 'https://us-central1-maskproject-6e385.cloudfunctions.net/maskSaver/dealMasks/' +
+        firebaseEmailAuth.currentUser.uid + '/' +
+        data +
+        '/' + serialNumber);
+    
+    ourRequest.onload = function () {
+        var ourData = JSON.parse(ourRequest.responseText);
+        console.log(ourData);
+        IsSuccessOrFail(ourData);
+    };
+    ourRequest.send();
+    })
+  
+
+
+}
+
+function renderSelectIndexButton(data, index) {
+      
+  console.log("renderSelectIndexButton 실행");
+  console.log(data);
+  console.log(data[0].name);
+  var htmlString = "";
+  var tmp = index;
+  if(index === 0 ){
+      for (i = 0; i < data.length; i++) {
+      htmlString += '<a class="dropdown-item" href="#" id="nameDrop"' + ' value=' + '"' + data[i].addr +
+          '">' + data[i].name + '-' + data[i].addr + '</a>';
+  }
+  }
+  else{
+      for (i = 0; i < data.length; i++) {
+      if (data[i].index === tmp) {
+      htmlString += '<a class="dropdown-item" href="#" id="nameDrop"' + ' value=' + '"' + data[i].addr +
+          '">' + data[i].name + '-' + data[i].addr + '</a>';
+      }
+  }
+  }
+ 
+  console.log("htmlString = " + htmlString);
+  $("#nameDrops").html(htmlString);
+
+  $('#nameDrops > a').on('click', function () {
+      // 버튼에 선택된 항목 텍스트 넣기 
+      $('#dropdownMenuLink2').text($(this).text());
+      name_drop = $(this).attr('value');
+      console.log("name_drop : "+name_drop);
+      document.getElementById("toDistributor").value = name_drop;
+      // // 선택된 항목 값(value) 얻기
+      // alert($(this).attr('value'));
+  });
+}
+</script>
+<script>
+let index_drop = "";
+let name_drop = "";
+var dataArr = new Array();
+$('#name_indexDrops > a').on('click', function () {
+// 버튼에 선택된 항목 텍스트 넣기 
+$('#dropdownMenuLink1').text($(this).text());
+index_drop = $(this).attr('value');
+console.log(index_drop);
+
+renderSelectIndexButton(dataArr, index_drop);
+});
+
+
+
+
+//allUsers안에 모든 유저들의 정보를 가지고있음.
+var allUsersDb = db.collectionGroup('users');
+let allUsers = "";
+allUsersDb.get().then(function (querySnapshot) {
+querySnapshot.forEach(function (doc) {
+    tmp = doc.data();
+    tmp.uid = doc.id;
+    // console.log(doc.id, ' => ', doc.data());
+    if (doc.data().index !== "admin") {
+        dataArr.push(tmp);
+    }
+})
+return renderSelectIndexButton(dataArr, 0);
+});
+</script>
 </body>
 
 </html>

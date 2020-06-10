@@ -7,7 +7,7 @@
     <script src="https://code.highcharts.com/modules/data.js"></script>
     <script src="https://code.highcharts.com/modules/exporting.js"></script>
     <script src="https://code.highcharts.com/modules/accessibility.js"></script>
-    <script src="https://code.highcharts.com/js/themes/dark-unica.js"></script>
+    <script src="https://code.highcharts.com/js/themes/grid-light.js"></script> <!-- chrom 탭-->
 
     <!-- Required meta tags -->
     <meta charset="utf-8">
@@ -20,9 +20,12 @@
         href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700|Roboto+Slab:400,700|Material+Icons" />
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/latest/css/font-awesome.min.css">
     <!-- Material Kit CSS -->
-    <link href="../assets/css/material-dashboard.css?v=2.1.2" rel="stylesheet" />
+    <link href="../assets/css/material-dashboard.css" rel="stylesheet" />
     <!-- Material Dashboard CSS -->
-    <link rel="stylesheet" href="../assets/css/material-dashboard?v=2.1.2.css">
+    <link rel="stylesheet" href="../assets/css/material-dashboard.css">
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery.perfect-scrollbar/0.6.7/js/min/perfect-scrollbar.jquery.min.js"></script>
+    <!-- 이 위에 두줄은 material-dashboard.min.js 랑 material-dashboard.js에서 찾을수없다고 해서 추가 -->
     <style>
         .highcharts-figure,
         .highcharts-data-table table {
@@ -132,102 +135,115 @@
 
                     <div class="container-fluid">
                         <div class="navbar-wrapper">
-                        </div>
-
+                        
+                    <!--
                         <div class="alert alert-warning alert-dismissible fade show" role="alert">
-                            <strong>주의사항!</strong> 귀하의 재고마스크가 곧 위법이 됩니다.
+                            <strong>경고!</strong> 마스크 재고의 잔여 가능 보유일을 확인하세요.
                             <button type="button" class="close" data-dismiss="alert" aria-label="Close">
                                 <span aria-hidden="true">&times;</span>
                             </button>
                         </div>
-
-                        <div class="alert alert-primary" role="alert">
-                            <a id="id">로그인시 유저 정보가 보입니다.</a>
+                    -->
+                        <div class="alert alert-info hr" role="alert">
+                            <a id="userInfo">로그인시 유저 정보가 보입니다.</a>
                         </div>
                     </div>
                 </nav>
                 <!-- End Navbar -->
                 <div class="content">
+                    <div class="row"> <!-- 상단 카드부분 -->
+                        <div class="col-md-4 col-sm-4">
+                            <div class="card card-stats">
+                                <div class="card-header card-header-primary card-header-icon">
+                                  <div class="card-icon">
+                                      <i class="material-icons">table_rows</i>
+                                  </div>
+                                  <p class="card-category">현재 재고량</p>
+                                  <h3 class="card-title" id="stock"> 가져오는중 ..</h3>
+                                </div>
+                                <div class="card-footer">
+                                    <div class="stats">
+                                        <i class="material-icons text-danger">warning</i>
+                                        <a href="http://localhost:5000/manufacturer/manufacturer_inventory.html">보관 기간이 7일 근처인 재고가 있습니다...</a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="col-md-4 col-sm-4">
+                            <div class="card card-stats">
+                                <div class="card-header card-header-success card-header-icon">
+                                  <div class="card-icon">
+                                    <i class="material-icons">engineering</i>
+                                  </div>
+                                  <p class="card-category">오늘의 생산량</p>
+                                  <h3 class="card-title" id="entered"> 가져오는중 ..</h3>
+                                </div>
+                                <div class="card-footer">
+                                    <div class="stats">
+                                        
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="col-md-4 col-sm-4">
+                            <div class="card card-stats">
+                                <div class="card-header card-header-info card-header-icon">
+                                  <div class="card-icon">
+                                    <i class="material-icons">local_shipping</i>
+                                  </div>
+                                  <p class="card-category">오늘의 출고량</p>
+                                  <h3 class="card-title" id="released"> 가져오는중 ..</h3>
+                                </div>
+                                <div class="card-footer">
+                                    <div class="stats">
+                                        
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                      
+                    </div>
                     <div class="container-fluid">
                         <!-- your content here -->
+                        
+
                         <figure class="highcharts-figure">
                             <div id="container"></div>
                         </figure>
 
-                        <div class="row">
-                            <div class="col-md-4">
-                                <div class="card card-chart">
-                                    <div class="card-header card-header-success">
-                                        <div class="ct-chart" id="dailySalesChart"></div>
-                                    </div>
-                                    <div class="card-body">
-                                        <h4 class="card-title">일별 재고량</h4>
-                                        <p class="card-category"> 매일 생산된 재고량을 나타냅니다.</p>
-                                    </div>
-                                    <div class="card-footer">
-                                        <div class="stats">
-                                            <i class="material-icons">access_time</i> updated 4 minutes ago
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="col-md-4">
-                                <div class="card card-chart">
-                                    <div class="card-header card-header-warning">
-                                        <div class="ct-chart" id="websiteViewsChart"></div>
-                                    </div>
-                                    <div class="card-body">
-                                        <h4 class="card-title">일별 생산량</h4>
-                                        <p class="card-category">매일 생산된 생산량을 나타냅니다.</p>
-                                    </div>
-                                    <div class="card-footer">
-                                        <div class="stats">
-                                            <i class="material-icons">access_time</i> updated 4 minutes ago
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="col-md-4">
-                                <div class="card card-chart">
-                                    <div class="card-header card-header-danger">
-                                        <div class="ct-chart" id="completedTasksChart"></div>
-                                    </div>
-                                    <div class="card-body">
-                                        <h4 class="card-title">일별 거래량</h4>
-                                        <p class="card-category">매일 거래된 거래량을 나타냅니다.</p>
-                                    </div>
-                                    <div class="card-footer">
-                                        <div class="stats">
-                                            <i class="material-icons">access_time</i> updated 4 minutes ago
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="row">
-                        <div class="col-lg-3 col-md-6 col-sm-6">
-                            <div class="card">
-                                <div class="card-header card-header-text card-header-primary">
-                                    <div class="card-text">
-                                        <h4 class="card-title">오늘의 재고량</h4>
-                                    </div>
-                                </div>
-                                <div class="card-body" id="inventory_cardbody"
-                                    style="font-weight: bold; font-size: 40sp;">
-
-                                </div>
-                            </div>
-                        </div>
-
-                        <div class="col-md-6">
+                        <div class="col-md-11">
                             <div class="card">
                                 <div class="card-header card-header-danger">
-                                    <h4 class="card-title">위법 알람</h4>
-                                    <p class="category" id="notification_subtitle">아래의 마스크들이 위법입니다.</p>
+                                    <h4 class="card-title">
+                                        <i class="material-icons">warning</i>
+                                        위험 재고 </h4>
+                                    <p class="category" id="notification_subtitle">보건용 마스크, 손소독제 매점매석 행위 금지 고시에 위반될 가능성이 높은 마스크들 입니다.
+                                        <br>자세한 사항은 <a href="http://www.moef.go.kr/nw/nes/detailNesDtaView.do?menuNo=4010100&searchNttId=MOSF_000000000031834&searchBbsId=MOSFBBS_000000000028">여기</a>를 확인하세요.
+                                        <br>(현재 위반기준은 10일 이며, 경고는 7일 이상부터 표시)
+                                    </p>
                                 </div>
-                                <div class="card-body" id="notification_cardbody">
+                                <div class="card-body">
+                                    <div class="table-responsive">
+                                        <table class="table">
+                                          <thead class=" text-primary">
+                                            <th>
+                                              일련번호
+                                            </th>
+                                            <th>
+                                              입고시간
+                                            </th>
+                                            <th>
+                                              경과시간
+                                            </th>
+                                           
+                                          </thead>
+                                          <tbody id="warning_cardbody">
+                                           
+                                          </tbody>
+                                        </table>
+                                      </div>
 
                                 </div>
                             </div>
@@ -322,14 +338,14 @@
         <script src="../assets/js/plugins/nouislider.min.js"></script>
 
         <!-- Include a polyfill for ES6 Promises (optional) for IE11, UC Browser and Android browser support SweetAlert -->
-        <script src="../https://cdnjs.cloudflare.com/ajax/libs/core-js/2.4.1/core.js"></script>
-
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/core-js/2.4.1/core.js"></script>
+        <!-- 링크인데 ../되어있어서 뺌-->
         <!-- Library for adding dinamically elements -->
         <script src="../assets/js/plugins/arrive.min.js"></script>
 
-        <!--  Google Maps Plugin    -->
+        <!--  Google Maps Plugin   안써서 지움
         <script src="../https://maps.googleapis.com/maps/api/js?key=YOUR_KEY_HERE"></script>
-
+        -->
         <!-- Chartist JS -->
         <script src="../assets/js/plugins/chartist.min.js"></script>
 
@@ -352,57 +368,62 @@
         <script src="https://www.gstatic.com/firebasejs/7.14.0/firebase-database.js"></script>
         <script src="https://www.gstatic.com/firebasejs/7.14.0/firebase-firestore.js"></script>
         <script src="../assets/js/firebaseInit.js"></script>
-        <script src="../assets/js/firebaseUserCheck.js"></script>
         <script src="../assets/js/myfunctions.js"></script>
         <script src="../assets/js/material-dashboard.js"></script>
         <script src="../assets/js/material-dashboard.js.map"></script>
         <script src="../assets/js/material-dashboard.min.js"></script>
-        <script>
-            userSessionCheck();
-        </script>
+        <script src="../assets/js/drawchart.js"></script>
 
         <!-- httpRequest JSON parsing script -->
         <script type="text/javascript">
-            firebaseEmailAuth.onAuthStateChanged(function (user) {
+        var firebaseEmailAuth = firebase.auth(); //파이어베이스 인증 객체
+        var db = firebase.firestore();    
+            firebaseEmailAuth.onAuthStateChanged(user =>{
+                var uid = firebaseEmailAuth.currentUser.uid;
+                
+                getDaily(uid); //일일 입고, 출고량 표시
+                getWarningList(uid); //위법 사항 표시
+                drawWeekDailyChart(uid); //최근 7일 생산, 거래량 그래프
+                getStockNum(uid); //현재 재고량 표시
+                md.initDashboardPageCharts(uid);
 
-                if (user) {
-                    //로그인 성공한 유저 id 확인해 보기 - firebase database에 접근해서 데이터 조회 하는 함수
-                    var docRef = db.collection("users").doc(firebaseEmailAuth.currentUser.uid);
+                var docRef = db.collection("users").doc(firebaseEmailAuth.currentUser.uid);
+                docRef.get().then(function(doc) {
+                    if (doc.exists) {
+                        userAddr= doc.data().addr;
+                        userName = doc.data().name;
+                        document.getElementById("userInfo").innerHTML = userName + "님 환영합니다."+ "<br> 계좌 : "+userAddr;
+                        //alert(doc.data().addr+" 입니다.");
 
-                    docRef.get().then(function (doc) {
-                        if (doc.exists) {
-                            userAddr = doc.data().addr;
-                            userName = doc.data().name;
-                            userEmail = user.email;
-                            console.log(user.email + " 님이 로그인했습니다." + " 계좌 : " + userAddr +
-                                " 이름 :" + userName);
-                            getInventorySize();
-                            getDaily();
-                            getWarningList();
-                            md.initDashboardPageCharts(firebaseEmailAuth.currentUser.uid);
-                        } else {
-                            // doc.data() will be undefined in this case
-                            console.log("No such document!");
-                        }
-                    }).catch(function (error) {
-                        console.log("Error getting document:", error);
-                    });
-                    return true;
-                }
+                    } else {
+                        // doc.data() will be undefined in this case
+                        console.log("No such document!");
+                    }
+                //getInventorySize();
+            }).catch(err => {
+                document.getElementById("userInfo").innerHTML = "로그인 실패  ERR: " + err;
             });
+        });
+            
+      
             //일일 입고량 판매량 가져오는 함수
-            function getDaily() {
+            function getDaily(uid) {
                 var today = new Date();
+                //today = today.getTime() + (9 * 60 * 60 * 1000);
                 today = moment(today).format('YYYY-MM-DD');
-                var docRef4 = db.collection("users").doc(firebaseEmailAuth.currentUser.uid).collection('daily').doc(
+                //console.log(today);
+                var docRef4 = db.collection("users").doc(uid).collection('daily').doc(
                     today);
 
-                console.log("today = ", today);
+                //console.log("today = ", today);
                 var result = "";
                 docRef4.get().then(function (doc) {
                     if (doc.exists) {
-                        result = doc.data()
-                        console.log("Document data:", doc.data());
+                        result = doc.data();
+                        //console.log("Document data:", result["dailyEnter"]);
+                        document.getElementById("entered").innerHTML = result["dailyEnter"] + " <small>BOX</small>";
+                        document.getElementById("released").innerHTML = result["dailyRelease"] + " <small>BOX</small>";
+
                     } else {
                         // doc.data() will be undefined in this case
                         console.log("No such document!");
@@ -413,99 +434,118 @@
                     console.log("Error getting document:", error);
                 });
             }
-        </script>
-        <script>
-            getInventorySize();
-        </script>
-        <script>
-            $(document).ready(function () {
-                // Javascript method's body can be found in assets/js/demos.js
 
+            function getStockNum(uid) {
+                var ourRequest = new XMLHttpRequest();
+                ourRequest.open('GET', 'https://us-central1-maskproject-6e385.cloudfunctions.net/maskSaver/getHistory/'+  uid);
+                ourRequest.onload = function () {
+                    var ourData = JSON.parse(ourRequest.responseText);
+                    document.getElementById("stock").innerHTML = ourData["stockList"].length + " <small>BOX</small>";
+                    //console.log(ourData["stockList"].length);
+                };
+                ourRequest.send();
+            }
 
-            });
-        </script>
+            function lastWeekDays() { //최근 7일 날짜 가져옴
+                var days = new Array();
+                
+                for(var i=5; i>=0; i--){
+                    var date = new Date();
+                    //console.log(date);
+                    var tmp = date.getTime() - (i * 24 * 60 * 60 * 1000)// + (9 * 60 * 60 * 1000);
+                    date.setTime(tmp)
+                    days.push(moment(date).format('YYYY-MM-DD'));
+                }
+                console.log(days);
+                return days;
+            }
 
-        <script>
-            Highcharts.chart('container', {
-                credits: {
-                    enabled: false
-                },
-                chart: {
-                    type: 'column'
-                },
-                title: {
-                    text: '생산량, 재고량, 거래량 추이'
-                },
-                subtitle: {
-                    text: 'from MaskSaver'
-                },
-                xAxis: {
-                    categories: [
-                        '2020-05-29',
-                        '2020-05-30',
-                        '2020-05-31',
-                        '2020-06-01',
-                        '2020-06-02',
-                        '2020-06-03',
-                        '2020-06-04',
-                        '2020-06-05',
-                        '2020-06-06',
-                        '2020-06-07',
-                        '2020-06-08',
-                        '2020-06-09'
-                    ],
-                    crosshair: true
-                },
-                yAxis: {
-                    min: 0,
+            function drawWeekDailyChart(uid){ // 7일간의 재고량 데이터 리턴
+                var days = lastWeekDays();
+                var docRef4 = db.collection("users").doc(uid).collection('daily');
+                var entered = new Array(); //입고량
+                var released = new Array(); //재고량
+                //console.log(days);
+                var chk;
+                docRef4.get().then(snapshot => {
+                    for(i in days){
+                        chk = 0;
+                        snapshot.forEach(doc => {
+                            if(days[i] == doc.id){
+                                entered.push(doc.data().dailyEnter);
+                                released.push(doc.data().dailyRelease);
+                                chk = 1;
+                            }
+                        })
+                        if(chk === 0){
+                            entered.push(0);
+                            released.push(0);
+                        }
+                    }
+                    drawChart(days, entered, released);
+                }).catch(err => {
+                    console.log("Err : " + err);
+                });
+            }
+
+            function drawChart(days, entered, released) {// 차트그리기
+                Highcharts.chart('container', {
+                    credits: {
+                        enabled: false
+                    },
+                    chart: {
+                        type: 'column'
+                    },
                     title: {
-                        text: 'Quantity (piece)'
-                    }
-                },
-                tooltip: {
-                    headerFormat: '<span style="font-size:10px">{point.key}</span><table>',
-                    pointFormat: '<tr><td style="color:{series.color};padding:0">{series.name}: </td>' +
-                        '<td style="padding:0"><b>{point.y:.1f} piece</b></td></tr>',
-                    footerFormat: '</table>',
-                    shared: true,
-                    useHTML: true
-                },
-                plotOptions: {
-                    column: {
-                        pointPadding: 0.2,
-                        borderWidth: 0
-                    }
-                },
-                series: [{
-                    name: '재고량',
-                    data: [20000, 36000, 41000, 28000, 33000, 48000, 42000, 37000, 29000, 27000, 36000,
-                        45000
-                    ]
+                        text: '생산량, 출고량 추이'
+                    },
+                    subtitle: {
+                        text: 'from MaskSaver'
+                    },
+                    xAxis: {
+                        categories: days,
+                        crosshair: true
+                    },
+                    yAxis: {
+                        min: 0,
+                        title: {
+                            text: 'Quantity (BOX)'
+                        }
+                    },
+                    tooltip: {
+                        headerFormat: '<span style="font-size:10px">{point.key}</span><table>',
+                        pointFormat: '<tr><td style="color:{series.color};padding:0">{series.name}: </td>' +
+                            '<td style="padding:0"><b>{point.y:.f} BOX</b></td></tr>',
+                        footerFormat: '</table>',
+                        shared: true,
+                        useHTML: true
+                    },
+                    plotOptions: {
+                        column: {
+                            pointPadding: 0.2,
+                            borderWidth: 0
+                        }
+                    },
+                    series: [
+                        {
+                        name: '생산량',
+                        data: entered
 
-                }, {
-                    name: '생산량',
-                    data: [16000, 10000, 13000, 18000, 22000, 15000, 14000, 17000, 25000, 24000, 26000,
-                        28000
-                    ]
+                    }, {
+                        name: '거래량',
+                        data: released
 
-                }, {
-                    name: '거래량',
-                    data: [15000, 30000, 28000, 18000, 15000, 30000, 28000, 18000, 15000, 30000, 28000,
-                        18000
-                    ]
-
-                }]
-            });
-        </script>
-        <script>
+                    }]
+                });
+            }
+/*
             $(document).ready(function () {
                 // Javascript method's body can be found in assets/js/demos.js
-                md.initDashboardPageCharts();
+
 
             });
+            */
         </script>
-
-
     </body>
 
 </html>
