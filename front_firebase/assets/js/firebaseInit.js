@@ -8,13 +8,9 @@ var firebaseConfig = {
     appId: "1:759315784284:web:f7c963bac46cd7798cbc99",
     measurementId: "G-B4436TDC82"
   };
-  firebase.initializeApp(firebaseConfig);
-  firebase.analytics();
 
-    var firebaseEmailAuth; //파이어베이스 email 인증 모듈 전역변수
-  var firebaseDatabase; //파이어베이스 db 모듈 전역변수
-  var userInfo; //가입한 유저의 정보. object 타입
+firebase.initializeApp(firebaseConfig);
+firebase.analytics();
 
-
-  firebaseEmailAuth = firebase.auth(); //파이어베이스 인증 객체
-  firebaseDatabase = firebase.database(); //파이어베이스 데이터베이스 객체
+//var firebaseEmailAuth = firebase.auth(); //파이어베이스 인증 객체
+//var db = firebase.firestore();
