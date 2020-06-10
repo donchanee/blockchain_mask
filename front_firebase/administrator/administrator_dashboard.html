@@ -110,8 +110,7 @@
                     <div class="container-fluid">
                         <!-- your content here -->
                         <div class="row">
-
-                            <div class="col-md-6">
+                            <div class="col-md-11">
                                 <div class="card">
                                     <div class="card-header card-header-warning">
                                         <h4 class="card-title">Notification</h4>
@@ -145,8 +144,30 @@
                                             </div>
                                         </div>
                                     </div>
+                                    
                                     <div class="card-body" id="notification_cardbody">
-
+                                        <div class="card-body">
+                                            <div class="table-responsive">
+                                                <table class="table">
+                                                  <thead class=" text-primary">
+                                                    <th>
+                                                      일련번호
+                                                    </th>
+                                                    <th>
+                                                      입고시간
+                                                    </th>
+                                                    <th>
+                                                      경과시간
+                                                    </th>
+                                                   
+                                                  </thead>
+                                                  <tbody id="warning_cardbody">
+                                                   
+                                                  </tbody>
+                                                </table>
+                                              </div>
+        
+                                        </div>
                                     </div>
                                 </div>
                             </div>
@@ -338,9 +359,9 @@
                         // 버튼에 선택된 항목 텍스트 넣기 
                         $('#dropdownMenuLink2').text($(this).text());
                         name_drop = $(this).attr('value');
-                        console.log(name_drop);
+                        console.log("name_drop : ",     name_drop);
         
-                        getWarningListByUID(name_drop);
+                        getWarningList(name_drop);
                         // // 선택된 항목 값(value) 얻기
                         // alert($(this).attr('value'));
                     });
