@@ -62,6 +62,12 @@
 		#datatable tr:hover {
 			background: #f1f7ff;
 		}
+
+		#tokenId{
+		display : block;
+		margin : 0 auto;
+		width: 230px;
+		}
 	</style>
 	<!-- CSS here -->
 	<link rel="stylesheet" href="assets/css/bootstrap.min.css">
@@ -157,12 +163,12 @@
 				마스크ID를 입력한 뒤 당신의 <b>마스크</b> 이력을 조회하세요! <p></p>
 
 
-				<div class="content">
-					<div class="col-lg-4 col-md-4">
+				<div class="content ">
+					<div class="col-lg-4 col-md-4 ">
 						<form action="#">
-							<div class="col-12">
-								<div class="form-group">
-									<input class="form-control" name="name" id="tokenId" type="text"
+							<div class="col-12 ">
+								<div class="form-group ">
+									<input class="form-control " name="name" id="tokenId" type="text"
 										placeholder="마스크 ID">
 								</div>
 							</div>
@@ -171,9 +177,7 @@
 				</div>
 
 				<div class="button-group-area mt-40 text-center">
-					<a href="https://ropsten.etherscan.io/token/0x2727b026edb116b20196a1abf32e0ca8311e93e2?a="
-						class="genric-btn info radius">이더스캔에서 조회하기</a>
-					<a onclick="makeMaskVenue()" href="#" class="genric-btn primary radius">아래 테이블에서 조회하기</a>
+					<a onclick="makeMaskVenue()" href="#" class="genric-btn primary radius">마스크 조회하기</a>
 				</div>
 			</p>
 		</div>
@@ -183,7 +187,7 @@
 	<div class="whole-wrap">
 		<div class="container box_1170" style="text-align: center; align-items: center;">
 			<div class="section-top-border">
-				<h3 class="mb-30">마스크 이동 내역</h3>
+				<h3 class="mb-30">마스크 유통 내역</h3>
 				<div id="maskTransactionVenue">
 					<!-- 마스크 이동 경로 -->
 
@@ -308,7 +312,7 @@
 			ourRequest.onload = function () {
 				var ourData = JSON.parse(ourRequest.responseText);
 				console.log(ourData);
-				renderMaskVenue(ourData);
+				renderMaskVenue(ourData, tokenNumber);
 			};
 			ourRequest.send();
 		}
@@ -322,15 +326,16 @@
 			ourRequest.onload = function () {
 				var ourData = JSON.parse(ourRequest.responseText);
 				console.log(ourData);
-				renderMaskVenue(ourData);
+				renderMaskVenue(ourData,tokenNumber);
 			};
 			ourRequest.send();
 		}
-		function renderMaskVenue(data) {
+		function renderMaskVenue(data, tokenId) {
 			console.log('renderMaskVenue 실행');
 			var length = data.tokenTx.length;
 			console.log(length);
-			var htmlString =
+			var htmlString = '<p class="text-center"> 당신의 마스크 ID는 <b>' + tokenId + '</b> 입니다. </p>'
+			htmlString +=
 				'<div class="align-self-center" >' +
 				'<img src="./assets/img/box.png">' +
 				'<p>업체명 : '+data.tokenTx[0].to +'</p>' +
@@ -350,9 +355,9 @@
 					console.log('if 실행');
 					htmlString += '<div>' +
 						'<img src="./assets/img/box.png">' +
-						'<p>업체명 : '+data.tokenTx[0].to +'</p>' +
-				'<p>전화번호 : '+data.tokenTx[0].toPhone+ '</p>' +
-				'<p>주소 : '+data.tokenTx[0].toAddr+ '</p>' +
+						'<p>업체명 : '+data.tokenTx[i].to +'</p>' +
+				'<p>전화번호 : '+data.tokenTx[i].toPhone+ '</p>' +
+				'<p>주소 : '+data.tokenTx[i].toAddr+ '</p>' +
 
 						'</div>';
 					continue;
@@ -360,9 +365,9 @@
 
 				htmlString += '<div class="align-self-center">' +
 					'<img src="./assets/img/box.png">' +
-					'<p>업체명 : '+data.tokenTx[0].to +'</p>' +
-				'<p>전화번호 : '+data.tokenTx[0].toPhone+ '</p>' +
-				'<p>주소 : '+data.tokenTx[0].toAddr+ '</p>' +
+					'<p>업체명 : '+data.tokenTx[i].to +'</p>' +
+				'<p>전화번호 : '+data.tokenTx[i].toPhone+ '</p>' +
+				'<p>주소 : '+data.tokenTx[i].toAddr+ '</p>' +
 					'</div>';
 				htmlString += '<div class="align-self-center">' +
 					'<img src="./assets/img/arrow.png">' +

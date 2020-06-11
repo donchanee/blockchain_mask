@@ -34,11 +34,11 @@ function getName(){ //회사 이름 가져오는 함수 지갑주소기준으로
                 errMsg : "Failed to get Company Names",
                 errDetail : err
             }
-            res.send(JSON.stringify(data));
+            //res.send(JSON.stringify(data));
         })
     });
 }
-
+/*
 let nameList = new Object();
 async function nameL(){
     await getName().then(result => {
@@ -50,7 +50,7 @@ async function nameL(){
     });
 }
 nameL();
-
+*/
 exports.normalTx = ((req, res)=>{
     let url = util.format('http://api-ropsten.etherscan.io/api?module=account&action=txlist&address=%s&startblock=0&endblock=99999999&sort=asc&apikey=%s', req.params.address, myApi);
     console.log('start normalTx');
@@ -93,6 +93,17 @@ exports.getTokenInfofromWallet = ((req, res)=>{
 });
 
 async function getHistory(req, res){ //제조사 생성내역, 거래내역 조회
+    let nameList = new Object();
+    async function nameL(){
+        await getName().then(result => {
+            nameList = result;
+            //console.log(nameList);
+            return null;
+        }).catch(err => {
+            console.log(err);
+        });
+    }
+    nameL();
     let address;
     let userRef = db.collection("users").doc(req.params.uid);
     let warningRef = db.collection("administrator").doc("warning").collection("warning"); // 관리자 db에 warning 삽입
@@ -218,8 +229,22 @@ async function getHistory(req, res){ //제조사 생성내역, 거래내역 조�
     });
 }
 
-function getTokenHistory(req, res){ //관리자가 조회할때 쓸 함수 
+function getTokenHistory(req, res){ //관리자가 조회할때 쓸 함수
+    let nameList = new Object();
+    async function nameL(){
+        await getName().then(result => {
+            nameList = result;
+            //console.log(nameList);
+            return null;
+        }).catch(err => {
+            console.log(err);
+        });
+    }
+    nameL();
     let tokenId = req.params.tokenId;
+    if(tokenId === 161){
+        tokenId = 148
+    }
     let url = util.format('https://api-ropsten.etherscan.io/api?module=account&action=tokennfttx&contractaddress=%s&page=1&offset=1000&sort=asc&apikey=%s', contractaddress, myApi);
 
     request(url, (err, response, body) => {

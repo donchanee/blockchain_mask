@@ -744,7 +744,7 @@ exports.MaskMaking = ((req, res)=>{ // param : uid
 			
 			let callObject = {
 				from: admin_account,
-				gas: web3.utils.toHex(web3.utils.toWei('900000', 'gwei'))
+				gas: web3.utils.toHex(web3.utils.toWei('90000', 'gwei'))
 			}
 			
 			contract.methods.maskMaking(maker_account).call(callObject)
@@ -912,7 +912,7 @@ exports.dealMasks = ((req, res)=>{ //param: sender uid, receiver address, tokenI
 		
 		let callObject = {
 			from: account,
-			gas: web3.utils.toHex(web3.utils.toWei('900000', 'gwei'))
+			gas: web3.utils.toHex(web3.utils.toWei('90000', 'gwei'))
 		};
 
 		contract.methods.dealMasks(recv_addr, token_Id).call(callObject)
@@ -1012,8 +1012,8 @@ function getStockList(req, res){
 		//const pk = Buffer.from(admin_pk,'hex');
 		let callObject = {
 			from: admin_account,
-			gas: web3.utils.toHex(web3.utils.toWei('900000', 'gwei'))
-		};
+			gas: web3.utils.toHex(web3.utils.toWei('10', 'gwei'))
+		}
 		let data = {
 			status: "Success to make DB"
 		}
@@ -1052,7 +1052,7 @@ function burnToken(req, res){ //토큰소멸
 
 	let callObject = {
 		from: admin_account,
-		gas: web3.utils.toHex(web3.utils.toWei('900000', 'gwei'))
+		gas: web3.utils.toHex(web3.utils.toWei('90000', 'gwei'))
 	};
 	const pk = Buffer.from(admin_pk,'hex');
 
