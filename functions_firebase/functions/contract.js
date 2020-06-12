@@ -869,7 +869,7 @@ exports.dealMasks = ((req, res)=>{ //param: sender uid, receiver address, tokenI
             }else{
                 let result = doc.data();
                 dailyRef1.set({
-                    dailyEnter : result['dailyEnter'] +1,  
+                    dailyRelease : result['dailyRelease'] +1,  
                 }, {merge: true});
 			}
 			return null;
@@ -894,7 +894,7 @@ exports.dealMasks = ((req, res)=>{ //param: sender uid, receiver address, tokenI
 			}else{
 				let result = doc.data();
 				dailyRef2.set({
-					dailyRelease : result['dailyRelease'] +1
+					dailyEnter : result['dailyEnter'] +1
 				}, {merge: true});
 			}
 			return null;
