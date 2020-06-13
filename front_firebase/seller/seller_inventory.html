@@ -229,10 +229,10 @@
           });
           if (result) {
             console.log("canPurchase", false);
-            alert("판매를 실패했습니다. 구매가능갯수를 확인하세요.");
+            alert(false);
             return false;
           } else {
-            alert("판매를 완료했습니다.");
+            alert(true);
             console.log("canPurchase", true);
             return true;
           }
@@ -247,17 +247,16 @@
 
     }
 
-
     function StoreBuyerListInDB() {
       var serialNumber = document.getElementById("serialNumber3").value;
       var name = document.getElementById("name").value;
       var count = document.getElementById("count3").value;
       var civilNumber = document.getElementById("civilNumber").value;
 
-      if(updateTokenCount(serialNumber) == false){
-        alert('실패!');
-        return;
-      }
+      // if (updateTokenCount(serialNumber) == false) {
+      //   alert('실패!');
+      //   return;
+      // }
       //DB에 시리얼넘버, 이름, 개수, 주민번호 넣기
       var docRef = db.collection("users").doc(firebaseEmailAuth.currentUser.uid);
       var docRef2 = db.collection("users").doc(firebaseEmailAuth.currentUser.uid).collection("buyers");
@@ -298,8 +297,11 @@
       CanPurchase().then(function (result) {
         if (!result) {
           alert('이번주에 이미 구매하셨습니다.');
+          //console.log('if구문 실행');
           return;
         } else {
+          //console.log("else구문 실행");
+          updateDailyRelease(count);
           //해당seller의 db에 저장
           docRef2.add({
               name: name,
@@ -310,13 +312,13 @@
             })
             .then(function (docRef) {
               console.log("Document written with ID: ", docRef.id);
-              //alert("seller 저장 완료!");
+              alert("seller 저장 완료!");
               setTimeout(GetDataFromDB(), 3000);
-              //updateTokenCount(serialNumber);
+              updateTokenCount(serialNumber);
             })
             .catch(function (error) {
               console.error("Error adding document: ", error);
-              //alert("seller 저장 실패!");
+              alert("seller 저장 실패!");
             });
           //감사자인 observer db에 저장
           docRef3.add({
@@ -328,12 +330,12 @@
             })
             .then(function (docRef) {
               console.log("Document written with ID: ", docRef.id);
-              //alert("observer 저장 완료!");
+              alert("observer 저장 완료!");
               setTimeout(GetDataFromDB(), 3000);
             })
             .catch(function (error) {
               console.error("Error adding document: ", error);
-              //alert("observer 저장 실패!");
+              alert("observer 저장 실패!");
             });
 
         }
@@ -381,10 +383,10 @@
       //트랜잭션 결과를 리턴받아 result에 저장해야함. 현재는 ok로 놔둠.
       var result = "ok";
       if (result == "ok") {
-        //alert('트랜잭션 성공');
+        alert('트랜잭션 성공');
         MakeBuyerListTable();
       } else {
-        //alert('트랜잭션 실패');
+        alert('트랜잭션 실패');
       }
     }
     //DB로부터 데이터를 가지고옴
