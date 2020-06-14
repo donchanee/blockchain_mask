@@ -1,0 +1,260 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+    <title>MaskSaver Dashboard</title>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta content="width=device-width, initial-scale=1.0" name="viewport" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+    <!--     Fonts and icons     -->
+    <link rel="stylesheet" type="text/css"
+        href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700|Roboto+Slab:400,700|Material+Icons" />
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/latest/css/font-awesome.min.css">
+    <!-- Material Kit CSS -->
+    <link href="../assets/css/material-dashboard.css?v=2.1.2" rel="stylesheet" />
+</head>
+
+<body>
+    <div class="wrapper ">
+        <div class="sidebar" data-color="purple" data-background-color="white">
+            <!--
+      Tip 1: You can change the color of the sidebar using: data-color="purple | azure | green | orange | danger"
+
+      Tip 2: you can also add an image using data-image tag
+  -->
+            <div class="logo">
+                <a href="../index.html" class="simple-text logo-mini">
+                    <img src="../assets/img/logo/logo.png" alt="">
+                </a>
+                <a class="simple-text logo-normal">
+                    MaskSaver
+                </a>
+            </div>
+            <div class="sidebar-wrapper">
+                <ul class="nav">
+                    <li class="nav-item">
+                        <a class="nav-link" href="../administrator/administrator_dashboard.html">
+                            <i class="material-icons">dashboard</i>
+                            <p>Dashboard</p>
+                        </a>
+                    </li>
+                    <li class="nav-item ">
+                        <a class="nav-link" href="../administrator/administrator_inventory.html">
+                            <i class="material-icons">content_paste</i>
+                            <p>업체별 재고 내역</p>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="../administrator/administrator_receipt.html">
+                            <i class="material-icons">bubble_chart</i>
+                            <p>업체별 입고 내역</p>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="../administrator/administrator_sold.html">
+                            <i class="material-icons">library_books</i>
+                            <p>업체별 판매 내역</p>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link " href="../administrator/administrator_traceToken.html">
+                            <i class="material-icons">trip_origin</i>
+                            <p>토큰별 유통 내역</p>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="../administrator/administrator_warning.html">
+                            <i class="material-icons">warning</i>
+                            <p>업체별 경고 내역</p>
+                        </a>
+                    </li>
+                    <li class="nav-item active">
+                        <a class="nav-link" href="../administrator/administrator_report.html">
+                            <i class="material-icons">report</i>
+                            <p>신고 내역</p>
+                        </a>
+                    </li>
+                    <!-- your sidebar here -->
+                </ul>
+            </div>
+        </div>
+        <div class="main-panel">
+            <!-- Navbar -->
+            <nav class="navbar navbar-expand-lg navbar-transparent navbar-absolute fixed-top ">
+                <div class="container-fluid">
+                    <div class="alert alert-info hr" role="alert">
+                        <a id="userInfo">로그인시 유저 정보가 보입니다.</a>
+                    </div>
+                </div>
+            </nav>
+            <!-- End Navbar -->
+            <div class="content">
+                <div class="container-fluid">
+                    <!-- your content here -->
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div class="card">
+                                <div class="card-header card-header-danger">
+                                    <h4 class="card-title ">전체 신고내역</h4>
+                                    <p class="card-category">유통과정 중 발생한 마스크들의 이상 상태들을 업체들이 신고한 내역입니다.</p>
+
+                                    
+                                </div>
+
+                                <div class="card-body">
+                                    <div class="table-responsive">
+                                        <table class="table">
+                                            <thead class=" text-primary">
+                                                <th>
+                                                    신고업체
+                                                </th>
+                                                <th>
+                                                    일련번호
+                                                </th>
+                                                <th>
+                                                    피신고업체
+                                                </th>
+                                                <th>
+                                                    사유 및 사진
+                                                </th>
+
+                                            </thead>
+                                            <tbody id="inventoryTbody">
+
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
+                                <div class="card" id="report_card">
+                                    <!--
+                                    <div class="card-body">
+                                      <h5 class="card-title">신고 사유</h5>
+                                      <p class="card-text" id="reason">This is a wider card with supporting text below as a natural lead-in to additional content. This content is a little bit longer.</p>
+                                    </div>
+                                    <img src="..." class="card-img-top" alt="...">
+                                -->
+                                  </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <footer class="footer">
+                    <div class="container-fluid">
+                        <nav class="float-left">
+                            <ul>
+                                <li>
+                                    <a href="../index.html">
+                                        MaskSaver
+                                    </a>
+                                </li>
+                            </ul>
+                        </nav>
+                    </div>
+                </footer>
+            </div>
+        </div>
+        <script src="../assets/vendor/jquery/jquery-3.2.1.min.js"></script>
+        <!-- 합쳐지고 최소화된 최신 자바스크립트 -->
+        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/js/bootstrap.min.js"></script>
+        <!-- The core Firebase JS SDK is always required and must be listed first -->
+        <script src="https://www.gstatic.com/firebasejs/7.14.0/firebase-app.js"></script>
+
+        <!-- TODO: Add SDKs for Firebase products that you want to use
+           https://firebase.google.com/docs/web/setup#available-libraries -->
+        <script src="https://www.gstatic.com/firebasejs/7.14.0/firebase-analytics.js"></script>
+        <script src="https://www.gstatic.com/firebasejs/7.14.0/firebase-auth.js"></script>
+        <script src="https://www.gstatic.com/firebasejs/7.14.0/firebase-database.js"></script>
+        <script src="https://www.gstatic.com/firebasejs/7.14.0/firebase-firestore.js"></script>
+        <script src="https://www.gstatic.com/firebasejs/7.14.0/firebase-storage.js"></script>
+        <script src="../assets/js/firebaseInit.js"></script>
+        <script src="../assets/js/myfunctions.js"></script>
+
+
+        <script type="text/javascript">
+            var firebaseEmailAuth = firebase.auth(); //파이어베이스 인증 객체
+            var db = firebase.firestore();
+            var storage = firebase.storage();
+
+            firebaseEmailAuth.onAuthStateChanged(function (user) {
+
+                if (user) {
+                    //로그인 성공한 유저 id 확인해 보기 - firebase database에 접근해서 데이터 조회 하는 함수
+                    var docRef = db.collection("users").doc(firebaseEmailAuth.currentUser.uid);
+
+                    docRef.get().then(function (doc) {
+                        if (doc.exists) {
+                            userAddr = doc.data().addr;
+                            userName = doc.data().name;
+                            userEmail = user.email;
+                            document.getElementById("userInfo").innerHTML = userName + "님 환영합니다.";
+                        } else {
+                            // doc.data() will be undefined in this case
+                            //console.log("No such document!");
+                        }
+                    }).catch(function (error) {
+                        //console.log("Error getting document:", error);
+                    });
+                    return true;
+                }
+            });
+
+            function renderReport(data) {
+                var reportDistributorRef = db.collection("administrator").doc("report").collection("distributor");
+                var reportSellerRef = db.collection("administrator").doc("report").collection("seller");
+                var htmlString = "";
+                reportDistributorRef.get().then(snapshot => {
+                    snapshot.forEach(doc => {
+                        var data = doc.data();
+                        htmlString += "<tr><td>" + data.from + "</td>";
+                        htmlString += "<td>" + data.tokenId + "</td>";
+                        htmlString += "<td>" + data.to + "</td>";
+                        htmlString += '<td><button class="btn btn-primary" id=' + data.tokenId + ' onclick="renderReason(this.id);">사유 및 사진 확인</button</td></tr>';
+                    })
+                    //$("#inventoryTbody").html(htmlString);
+                })
+                reportSellerRef.get().then(snapshot => {
+                    snapshot.forEach(doc => {
+                        var data = doc.data();
+                        htmlString += "<tr><td>" + data.from + "</td>";
+                        htmlString += "<td>" + data.tokenId + "</td>";
+                        htmlString += "<td>" + data.to + "</td>";
+                        htmlString += '<td><button class="btn btn-primary" id=' + data.tokenId + ' onclick="renderReason(this.id);">사유 및 사진 확인</button</td></tr>';
+                    })
+                    $("#inventoryTbody").append(htmlString);
+                })
+                console.log("hi");
+            }
+
+            renderReport();
+
+        
+            function renderReason(id){
+                var pathRef = storage.ref('report_image/12_찢어진박스.jpg');
+                pathRef.getDownloadURL().then(url => {
+                    var xhr = new XMLHttpRequest();
+                    xhr.responseType = 'blob';
+                    xhr.onload = (event) => {
+                        var blob = xhr.response;
+                    };
+                    xhr.open('GET', url);
+                    xhr.send();
+                    
+                    var htmlString = '<div class="card-body">';
+                    htmlString += '<th>신고 사유</th>';
+                    htmlString += '<p class="card-text">' + '하이요</p></div>';
+                    htmlString += '<img src="' + url + '" alt="신고 이미지" width="500" height="500" />'
+                    /*
+                    var img = document.getElementById('myimg');
+                    img.src = url;
+                    */
+                    $("#report_card").html(htmlString);
+                });
+            }
+        
+        </script>
+
+
+</body>
+
+</html>

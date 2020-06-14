@@ -53,7 +53,7 @@ function sortByDate(data) {
   });
 }
 function getWarningList(uid) {
-  console.log(uid);
+  //console.log(uid);
   var ourRequest = new XMLHttpRequest();
   ourRequest.open('GET',
       'https://us-central1-maskproject-6e385.cloudfunctions.net/maskSaver/getHistory/' + uid);//여기 warning리스트 받아오는 주소 필요
@@ -67,7 +67,7 @@ function getWarningList(uid) {
       htmlString += "<td>" + new Date(ourData.warning[i].enteredTime * 1000).toLocaleString() + "</td>";
       htmlString += "<td>" + stampTotime(ourData.warning[i].passedTime) + "</td></tr>";
     }
-    $("#warning_cardbody").append(htmlString);
+    $("#warning_cardbody").html(htmlString);
   };
   ourRequest.send();
 }

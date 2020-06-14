@@ -33,40 +33,46 @@
             </div>
             <div class="sidebar-wrapper">
                 <ul class="nav">
-                    <li class="nav-item ">
+                    <li class="nav-item">
                         <a class="nav-link" href="../administrator/administrator_dashboard.html">
                             <i class="material-icons">dashboard</i>
                             <p>Dashboard</p>
                         </a>
                     </li>
-                    <li class="nav-item">
+                    <li class="nav-item ">
                         <a class="nav-link" href="../administrator/administrator_inventory.html">
                             <i class="material-icons">content_paste</i>
                             <p>업체별 재고 내역</p>
                         </a>
                     </li>
-                    <li class="nav-item ">
+                    <li class="nav-item">
                         <a class="nav-link" href="../administrator/administrator_receipt.html">
-                            <i class="material-icons">content_paste</i>
+                            <i class="material-icons">bubble_chart</i>
                             <p>업체별 입고 내역</p>
                         </a>
                     </li>
                     <li class="nav-item">
                         <a class="nav-link" href="../administrator/administrator_sold.html">
-                            <i class="material-icons">content_paste</i>
+                            <i class="material-icons">library_books</i>
                             <p>업체별 판매 내역</p>
                         </a>
                     </li>
                     <li class="nav-item">
                         <a class="nav-link " href="../administrator/administrator_traceToken.html">
-                            <i class="material-icons">content_paste</i>
+                            <i class="material-icons">trip_origin</i>
                             <p>토큰별 유통 내역</p>
                         </a>
                     </li>
                     <li class="nav-item active">
                         <a class="nav-link" href="../administrator/administrator_warning.html">
-                            <i class="material-icons">content_paste</i>
+                            <i class="material-icons">warning</i>
                             <p>업체별 경고 내역</p>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="../administrator/administrator_report.html">
+                            <i class="material-icons">report</i>
+                            <p>신고 내역</p>
                         </a>
                     </li>
                     <!-- your sidebar here -->
@@ -182,27 +188,6 @@
         <script src="../assets/js/firebaseInit.js"></script>
         <script src="../assets/js/myfunctions.js"></script>
 
-
-        <script type="text/javascript">
-            //재고내역 테이블 만드는 함수
-            function MakeInventoryTable(uid) {
-                var myTbody = document.getElementById("salesHistoryTbody");
-                var ourRequest = new XMLHttpRequest();
-                ourRequest.open('GET',
-                    'https://us-central1-maskproject-6e385.cloudfunctions.net/maskSaver/getHistory/' +
-                    uid);
-                ourRequest.onload = function () {
-                    var ourData = JSON.parse(ourRequest.responseText);
-                    console.log(ourData);
-                    renderInventoryHTML(ourData);
-
-
-                };
-                ourRequest.send();
-            }
-        </script>
-
-
         <!-- httpRequest JSON parsing script -->
 
         <script type="text/javascript">
@@ -232,25 +217,12 @@
             });
         </script>
         
-        <script>
-            function renderInventoryHTML(data) {
-                console.log("renderInventoryHTML 실행");
-                var htmlString = "";
-                sortByDate(data.stockList);
-                for (i = 0; i < data.stockList.length; i++) {
-                    htmlString += "<tr><td>" + new Date(data.stockList[i].time * 1000).toLocaleString() + "</td>";
-                    htmlString += "<td>" + data.stockList[i].tokenId + "</td>";
-                    htmlString += "<td>" + data.stockList[i].num + "</td></tr>";
-                }
-                $("#inventoryTbody").html(htmlString);
-            }
-        </script>
 <script>
     function renderSelectIndexButton(data, index) {
 
-        console.log("renderSelectIndexButton 실행");
-        console.log(data);
-        console.log(data[0].name);
+        //console.log("renderSelectIndexButton 실행");
+        //console.log(data);
+        //console.log(data[0].name);  
         var htmlString = "";
         var tmp = index;
         if(index === 0 ){
@@ -268,14 +240,14 @@
         }
         }
        
-        console.log("htmlString = " + htmlString);
+        //console.log("htmlString = " + htmlString);
         $("#nameDrops").html(htmlString);
 
         $('#nameDrops > a').on('click', function () {
             // 버튼에 선택된 항목 텍스트 넣기 
             $('#dropdownMenuLink2').text($(this).text());
             name_drop = $(this).attr('value');
-            console.log("name_drop : ",     name_drop);
+            //console.log("name_drop : ",     name_drop);
 
             getWarningList(name_drop);
             // // 선택된 항목 값(value) 얻기
@@ -293,7 +265,7 @@
         // 버튼에 선택된 항목 텍스트 넣기 
         $('#dropdownMenuLink1').text($(this).text());
         index_drop = $(this).attr('value');
-        console.log(index_drop);
+        //console.log(index_drop);
 
         renderSelectIndexButton(dataArr, index_drop);
     });

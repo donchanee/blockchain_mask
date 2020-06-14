@@ -140,6 +140,9 @@
                         <th>
                           개수
                         </th>
+                        <th>
+                          신고하기
+                        </th>
                       </thead>
                       <tbody id="inventoryTbody">
 
@@ -189,10 +192,10 @@
               MakeInventoryTable(firebaseEmailAuth.currentUser.uid);
             } else {
               // doc.data() will be undefined in this case
-              console.log("No such document!");
+              //console.log("No such document!");
             }
           }).catch(function (error) {
-            console.log("Error getting document:", error);
+            //console.log("Error getting document:", error);
           });
 
 
@@ -228,18 +231,18 @@
             result += doc.data().time;
           });
           if (result) {
-            console.log("canPurchase", false);
+            //console.log("canPurchase", false);
             alert(false);
             return false;
           } else {
             alert(true);
-            console.log("canPurchase", true);
+            //console.log("canPurchase", true);
             return true;
           }
         })
         .catch(function (error) {
           alert(false);
-          console.log("Error getting documents: ", error);
+          //console.log("Error getting documents: ", error);
           return false;
         });
 
@@ -268,14 +271,14 @@
             alert('seller가 아니라면 등록할 수 없습니다! 돌아가세요!');
             return;
           }
-          console.log("Document data:", doc.data());
+          //console.log("Document data:", doc.data());
         } else {
           // doc.data() will be undefined in this case
-          console.log("No such document!");
+          //console.log("No such document!");
           return;
         }
       }).catch(function (error) {
-        console.log("Error getting document:", error);
+        //console.log("Error getting document:", error);
       });
 
       //어느 칸이라도 비어있으면 안됨
@@ -311,7 +314,7 @@
               time: firebase.firestore.FieldValue.serverTimestamp()
             })
             .then(function (docRef) {
-              console.log("Document written with ID: ", docRef.id);
+              //console.log("Document written with ID: ", docRef.id);
               alert("seller 저장 완료!");
               setTimeout(GetDataFromDB(), 3000);
               updateTokenCount(serialNumber);
@@ -329,12 +332,12 @@
               time: firebase.firestore.FieldValue.serverTimestamp()
             })
             .then(function (docRef) {
-              console.log("Document written with ID: ", docRef.id);
+              //console.log("Document written with ID: ", docRef.id);
               alert("observer 저장 완료!");
               setTimeout(GetDataFromDB(), 3000);
             })
             .catch(function (error) {
-              console.error("Error adding document: ", error);
+              //console.error("Error adding document: ", error);
               alert("observer 저장 실패!");
             });
 
@@ -349,7 +352,7 @@
         ourRequest.open('GET', 'https://us-central1-maskproject-6e385.cloudfunctions.net/maskSaver/getHistory/' + uid);
         ourRequest.onload = function () {
           var ourData = JSON.parse(ourRequest.responseText);
-          console.log(ourData);
+          //console.log(ourData);
           renderInventoryHTML(ourData, uid);
         };
         ourRequest.send();
@@ -363,7 +366,7 @@
               if(doc.exists){
                 count[doc.id] = doc.data().count;
               }else{
-                console.log("No tokenId in stock");
+                //console.log("No tokenId in stock");
               }
             });
         });
@@ -373,10 +376,12 @@
 
           htmlString += "<tr><td>" + new Date(data.stockList[i].time * 1000).toLocaleString() + "</td>";
           htmlString += "<td>" + data.stockList[i].tokenId + "</td>";
-          htmlString += "<td>" + count[data.stockList[i].tokenId] + "</td></tr>";
+          htmlString += "<td>" + count[data.stockList[i].tokenId] + "</td>";
+          htmlString += "<td>" + '<button class="btn btn-warning"  + " onclick="location.href=\'seller_report.html?tokenId=' + data.stockList[i].tokenId + '&toCompany=' + data.stockList[i].from +'\'">신고하기</button></td></tr>'
         }
         $("#inventoryTbody").append(htmlString);
       }
+
    //마스크 판매
    function SellMask() {
       //결과가 ok라면 alert('ok') MakeBuyerListTable(serialNumber,  count,name,civilNumber) else alert('false') return
@@ -389,34 +394,15 @@
         alert('트랜잭션 실패');
       }
     }
-    //DB로부터 데이터를 가지고옴
-    function GetDataFromDB() {
-      var docRef = db.collection("users").doc(firebaseEmailAuth.currentUser.uid).collection("buyers");
-      docRef.orderBy("time", "desc").get().then(function (querySnapshot) {
-        var rowItem = "";
-        $('#buyerListTableTBody').empty();
-        querySnapshot.forEach(function (doc) {
-          //console.log(doc.id, " => ", doc.data());
-          // doc.data() is never undefined for query doc snapshots
-          rowItem += "<tr><td>" + doc.data().time.toDate().toLocaleString() + "</td>"; /**/
-          rowItem += "<td>" + doc.data().serialNumber + "</td>";
-          rowItem += "<td>" + doc.data().name + "</td>";
-          rowItem += "<td>" + civilNumberEncode(doc.data().civilNumber + "") + "</td>";
-          rowItem += "<td>" + doc.data().count + "</td></tr>";
-
-        });
-        $('#buyerListTableTBody').append(rowItem);
-      });
-    }
 
  function updateTokenCount(tokenId) {
-   console.log('updateTokenCount 실행');
+   //console.log('updateTokenCount 실행');
    var serialNumber = document.getElementById("serialNumber3").value;
    var name = document.getElementById("name").value;
    var count1 = document.getElementById("count3").value;
    var civilNumber = document.getElementById("civilNumber").value;
    return getTokenCount(tokenId).then(function (data) {
-     console.log("data : " + data.count + " count : " + count1);
+     //console.log("data : " + data.count + " count : " + count1);
      if (data.count - count1 >= 0) {
        db.collection("users").doc(firebaseEmailAuth.currentUser.uid).collection("inventory").doc(serialNumber)
          .set({
@@ -433,10 +419,10 @@
                return true;
              }
            });
-           console.log("Document successfully written!");
+           //console.log("Document successfully written!");
          })
          .catch(function (error) {
-           console.error("Error writing document: ", error);
+           //console.error("Error writing document: ", error);
            return false;
          });
      } else {
@@ -456,11 +442,11 @@
        return doc.data();
      } else {
        // doc.data() will be undefined in this case
-       console.log("No such document!");
+       //console.log("No such document!");
 
      }
    }).catch(function (error) {
-     console.log("Error getting document:", error);
+     //console.log("Error getting document:", error);
    });
 
  }
@@ -476,7 +462,6 @@
  firebase.auth().onAuthStateChanged(function (user) {
    if (user) {
      // User is signed in.
-     GetDataFromDB();
       setFirestore();
    } else {
      // No user is signed in.
@@ -505,7 +490,7 @@
                     firebaseEmailAuth.currentUser.uid);
                 ourRequest.onload = function () {
                     var ourData = JSON.parse(ourRequest.responseText);
-                    console.log(ourData);
+                    //console.log(ourData);
                 };
                 ourRequest.send();
 }

@@ -359,7 +359,7 @@
 
                     } else {
                         // doc.data() will be undefined in this case
-                        console.log("No such document!");
+                        //console.log("No such document!");
                     }
                 //getInventorySize();
             }).catch(err => {
@@ -387,12 +387,12 @@
 
                     } else {
                         // doc.data() will be undefined in this case
-                        console.log("No such document!");
+                        //console.log("No such document!");
                         result = 0;
                         return;
                     }
                 }).catch(function (error) {
-                    console.log("Error getting document:", error);
+                    //console.log("Error getting document:", error);
                 });
           
               
@@ -407,7 +407,7 @@
                     if(doc.exists){
                       count+= doc.data().count;
                     }else{
-                      console.log("No tokenId in stock");
+                      //console.log("No tokenId in stock");
                     }
                   document.getElementById("stock").innerHTML = count + " <small>개</small>";
                   });
@@ -424,7 +424,7 @@
                     date.setTime(tmp)
                     days.push(moment(date).format('YYYY-MM-DD'));
                 }
-                console.log(days);
+                //console.log(days);
                 return days;
             }
 
@@ -452,7 +452,7 @@
                     }
                     drawChart(days, entered, released);
                 }).catch(err => {
-                    console.log("Err : " + err);
+                    //console.log("Err : " + err);
                 });
             }
 
