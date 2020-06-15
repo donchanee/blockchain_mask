@@ -200,38 +200,38 @@
             });
 
             function renderReport(data) {
-                var reportDistributorRef = db.collection("administrator").doc("report").collection("distributor");
-                var reportSellerRef = db.collection("administrator").doc("report").collection("seller");
+                var reportRef = db.collection("administrator").doc("report").collection("report");
                 var htmlString = "";
-                reportDistributorRef.get().then(snapshot => {
+                reportRef.get().then(snapshot => {
                     snapshot.forEach(doc => {
                         var data = doc.data();
                         htmlString += "<tr><td>" + data.from + "</td>";
-                        htmlString += "<td>" + data.tokenId + "</td>";
+                        htmlString += "<td>" + doc.id + "</td>";
                         htmlString += "<td>" + data.to + "</td>";
-                        htmlString += '<td><button class="btn btn-primary" id=' + data.tokenId + ' onclick="renderReason(this.id);">사유 및 사진 확인</button</td></tr>';
+                        htmlString += '<td><button class="btn btn-primary" id=' + doc.id + ' onclick="renderReason(this.id);">사유 및 사진 확인</button</td></tr>';
                     })
-                    //$("#inventoryTbody").html(htmlString);
+                    $("#inventoryTbody").html(htmlString);
                 })
-                reportSellerRef.get().then(snapshot => {
-                    snapshot.forEach(doc => {
-                        var data = doc.data();
-                        htmlString += "<tr><td>" + data.from + "</td>";
-                        htmlString += "<td>" + data.tokenId + "</td>";
-                        htmlString += "<td>" + data.to + "</td>";
-                        htmlString += '<td><button class="btn btn-primary" id=' + data.tokenId + ' onclick="renderReason(this.id);">사유 및 사진 확인</button</td></tr>';
-                    })
-                    $("#inventoryTbody").append(htmlString);
-                })
-                console.log("hi");
             }
 
             renderReport();
 
         
             function renderReason(id){
-                var pathRef = storage.ref('report_image/12_찢어진박스.jpg');
-                pathRef.getDownloadURL().then(url => {
+                console.log(typeof(id));
+                var pathRef = storage.ref('report_image/' + id + '.jpg');
+                var reportRef = db.collection("administrator").doc("report").collection("report");
+                var htmlString;
+                reportRef.doc(id).get().then(doc => {
+                    var data = doc.data();
+                    htmlString = "";
+                    htmlString += '<div class="card-body">';
+                    htmlString += '<th>신고 사유</th>';
+                    htmlString += '<p class="card-text">' +  data.reason +'</p></div>';
+                    
+                    return pathRef.getDownloadURL();
+                }).then(url => {
+                
                     var xhr = new XMLHttpRequest();
                     xhr.responseType = 'blob';
                     xhr.onload = (event) => {
@@ -239,16 +239,16 @@
                     };
                     xhr.open('GET', url);
                     xhr.send();
-                    
-                    var htmlString = '<div class="card-body">';
-                    htmlString += '<th>신고 사유</th>';
-                    htmlString += '<p class="card-text">' + '하이요</p></div>';
+    
                     htmlString += '<img src="' + url + '" alt="신고 이미지" width="500" height="500" />'
                     /*
                     var img = document.getElementById('myimg');
                     img.src = url;
                     */
+                   
                     $("#report_card").html(htmlString);
+                }).catch(err => {
+                    console.log(err);
                 });
             }
         
