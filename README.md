@@ -1,6 +1,6 @@
 
 
-:raising_hand:&nbsp; 이더리움 스마트컨트랙트를 활용한 신뢰받는 마스크 관리 시스템 구축
+:raising_hand:&nbsp;&nbsp; 이더리움 스마트컨트랙트를 활용한 신뢰받는 마스크 관리 시스템 구축
 ===============================================================================
 
 https://maskproject-6e385.web.app/
@@ -9,7 +9,7 @@ https://maskproject-6e385.web.app/
 https://ropsten.etherscan.io/address/0x2727b026edb116b20196a1abf32e0ca8311e93e2
 컨트랙트 주소
 
-> :raising_hand:&nbsp; :trophy:&nbsp; 2020 캡스톤디자인 - 창의설계경진대회 2등
+> :raising_hand:&nbsp;&nbsp; :trophy:&nbsp;&nbsp; 2020 캡스톤디자인 - 창의설계경진대회 2등
 
 
   
