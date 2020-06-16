@@ -12,10 +12,8 @@ https://ropsten.etherscan.io/address/0x2727b026edb116b20196a1abf32e0ca8311e93e2
 > :raising_hand:&nbsp;&nbsp; :trophy:&nbsp;&nbsp;&nbsp;&nbsp; 2020 캡스톤디자인 - 창의설계경진대회 2등
 
 
-  
-  
-  
-  
+<br><br><br>
+
 ![image](https://user-images.githubusercontent.com/42461455/78424581-96d03700-76a9-11ea-9445-64885f93d197.png)
 
 ### 한재희 개발일정
