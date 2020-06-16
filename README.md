@@ -4,7 +4,7 @@
 ![issue_badge](https://img.shields.io/badge/ethereum-ropsten-blue?logo=ethereum)
 ![issue_badge](/github/languages/count/:user/:repo)
 ![issue_badge](/symfony/i/stars/:projectUuid)
-![issue_badge](/david/:kind?/:user/:repo)
+![issue_badge](https://img.shields.io/david/dev/donchanee/blockchain_mask)
 
 https://maskproject-6e385.web.app/
 ----------------------------------
