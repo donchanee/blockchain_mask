@@ -2,9 +2,9 @@
 <h1 align="center">:raising_hand:&nbsp;&nbsp; 신뢰받는 마스크 관리 시스템 구축 <br> by 이더리움 스마트컨트랙트 :mask:</h1>
 
 ![issue_badge](https://img.shields.io/badge/ethereum-ropsten-blue?logo=ethereum)
-![issue_badge](/github/languages/count/:user/:repo)
-![issue_badge](/symfony/i/stars/:projectUuid)
-![issue_badge](https://img.shields.io/david/dev/donchanee/blockchain_mask)
+![issue_badge](https://img.shields.io/badge/server-firebase-orange)
+![issue_badge](https://img.shields.io/badge/web-js-yellowgreen)
+![issue_badge](https://img.shields.io/badge/contract-solidity-blue)
 
 https://maskproject-6e385.web.app/
 ----------------------------------
