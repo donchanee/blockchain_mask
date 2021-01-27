@@ -12,9 +12,7 @@ https://maskproject-6e385.web.app/
 https://ropsten.etherscan.io/address/0x2727b026edb116b20196a1abf32e0ca8311e93e2
 컨트랙트 주소
 <br>
-> :trophy:&nbsp;&nbsp;&nbsp;&nbsp; 2020 캡스톤디자인 - 창의설계경진대회 2등
-<br>
-> :raising_hand:&nbsp;&nbsp; 특허 출원 완료 [출원번호 : 10-2020-0118331]
+> :trophy:&nbsp;&nbsp;&nbsp;&nbsp; 2020 캡스톤디자인 - 창의설계경진대회 2등 :raising_hand:&nbsp;&nbsp; 특허 출원 완료 [출원번호 : 10-2020-0118331]
 
 <br><br>
 ![image](https://user-images.githubusercontent.com/42461455/84719167-94496200-afb5-11ea-88e7-1e4541c40317.png)
